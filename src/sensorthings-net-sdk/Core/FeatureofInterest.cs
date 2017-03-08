@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace SensorThings.Core.Core
+namespace SensorThings.Core
 {
     public class FeatureOfInterest : AbstractEntity
     {
