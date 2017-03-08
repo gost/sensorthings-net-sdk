@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace SensorThings.Core
 {
@@ -6,20 +7,16 @@ namespace SensorThings.Core
     {
         public Location() { }
 
-        public Location(string SelfLink,
-            string Name,
-            string Description,
-            string EncodingType)
-        {
-            this.SelfLink = SelfLink;
-            this.Name = Name;
-            this.Description = Description;
-            this.EncodingType = EncodingType;
-        }
-
         public List<Thing> Things { get; set; }
         public string EncodingType { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        [JsonProperty("location")]
+        public object Feature { get; set; }
+        [JsonProperty("Things@iot.navigationLink")]
+        public string ThingsNavigationLink { get; set; }
+        [JsonProperty("HistoricalLocations@iot.navigationLink")]
+        public string HistoricalLocationsNavigationLink { get; set; }
+
     }
 }

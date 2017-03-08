@@ -8,13 +8,9 @@ namespace SensorThings.Core
         {
         }
 
-        public Sensor(string SelfLink, string NavigationLink)
-        {
-            this.SelfLink = SelfLink;
-        }
         public List<Datastream> Datastreams { get; set; }
         public string Name { get; set; }
-        public string Descrpition { get; set; }
+        public string Description { get; set; }
         public object Metadata { get; set; }
     }
 }

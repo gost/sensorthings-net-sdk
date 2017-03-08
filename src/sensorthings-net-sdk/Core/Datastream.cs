@@ -5,9 +5,9 @@ namespace SensorThings.Core
 {
     public class Datastream:AbstractEntity
     {
-        public Datastream(string SelfLink)
+        public Datastream()
         {
-            this.SelfLink = SelfLink;
+
         }
 
         public string Name  {get;set;}

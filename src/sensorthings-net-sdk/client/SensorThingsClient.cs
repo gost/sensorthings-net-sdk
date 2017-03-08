@@ -44,6 +44,20 @@ namespace SensorThings.Client
             return observedProperties;
         }
 
+        public Location GetLocation(int id)
+        {
+            var url = Server + $"Locations({id})";
+            var location = GetJson<Location>(url);
+            return location;
+        }
+
+        public SensorThingsCollection<Location> GetLocationCollection()
+        {
+            var url = Server + "Locations";
+            var locations = GetJson<SensorThingsCollection<Location>>(url);
+            return locations;
+        }
+
         private T GetJson<T>(string url)
         {
             var response = httpClient.GetAsync(url).Result;

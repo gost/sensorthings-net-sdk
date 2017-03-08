@@ -8,11 +8,6 @@ namespace SensorThings.Core
         {
         }
 
-        public Thing(string SelfLink)
-        {
-            this.SelfLink = SelfLink;
-        }
-
         public string Name { get; set; }
         public string Description { get; set; }
         public Dictionary<string,object> Properties { get; set; }

@@ -7,12 +7,6 @@ namespace SensorThings.Core
     {
         public HistoricalLocation()
         {
-
-        }
-
-        public HistoricalLocation(string SelfLink)
-        {
-            this.SelfLink = SelfLink;
         }
 
         public DateTime Time { get; set; }

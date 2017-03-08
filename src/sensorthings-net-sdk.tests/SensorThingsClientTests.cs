@@ -69,6 +69,34 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(observedProperties.Items[0].Id == 760803);
         }
 
+        [Test]
+        public void GetLocationTest()
+        {
+            // act
+            var location = client.GetLocation(760795);
 
+            // assert
+            Assert.IsTrue(location.Id == 760795);
+            Assert.IsTrue(location.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Locations(760795)");
+            Assert.IsTrue(location.Description == "The NYP location");
+            Assert.IsTrue(location.Name == "NYP_LOCATION_4321");
+            Assert.IsTrue(location.EncodingType == "application/vnd.get+json");
+            Assert.IsTrue(location.Feature != null);
+            Assert.IsTrue(location.ThingsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Locations(760795)/Things");
+            Assert.IsTrue(location.HistoricalLocationsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Locations(760795)/HistoricalLocations");
+        }
+
+        [Test]
+        public void GetLocationCollectionTest()
+        {
+            // act
+            var locations = client.GetLocationCollection();
+
+            // assert
+            Assert.IsTrue(locations.Count == 1166);
+            Assert.IsTrue(locations.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Locations?$top=100&$skip=100");
+            Assert.IsTrue(locations.Items.Count == 100);
+            Assert.IsTrue(locations.Items[0].Id == 760795);
+        }
     }
 }

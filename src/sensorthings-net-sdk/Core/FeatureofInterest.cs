@@ -9,11 +9,6 @@ namespace SensorThings.Core
         {
         }
 
-        public FeatureOfInterest(string SelfLink)
-        {
-            this.SelfLink = SelfLink;
-        }
-
         public string Name { get; set; }
         public string Description { get; set; }
         public object Feature { get; set; }

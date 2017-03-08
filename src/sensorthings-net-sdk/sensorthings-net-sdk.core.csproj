@@ -43,12 +43,11 @@
     <Compile Include="Core\AbstractEntity.cs" />
     <Compile Include="Core\Datastream.cs" />
     <Compile Include="Core\FeatureOfInterest.cs" />
-    <Compile Include="Core\FeatureOfInterestCollection.cs" />
+    <Compile Include="Core\SensorThingsCollection.cs" />
     <Compile Include="Core\HistoricalLocation.cs" />
     <Compile Include="Core\Location.cs" />
     <Compile Include="Core\Observation.cs" />
     <Compile Include="Core\ObservedProperty.cs" />
-    <Compile Include="Core\ObservedPropertyCollection.cs" />
     <Compile Include="Core\Sensor.cs" />
     <Compile Include="Core\Thing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
