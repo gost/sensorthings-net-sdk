@@ -30,3 +30,5 @@ Roadmap:
 - NuGet support
 
 - Sample apps (console, IOS, Android)
+
+- OData query support
