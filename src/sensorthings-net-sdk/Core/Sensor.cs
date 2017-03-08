@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 
 namespace SensorThings.Core
 {
@@ -8,9 +8,13 @@ namespace SensorThings.Core
         {
         }
 
-        public List<Datastream> Datastreams { get; set; }
+        [JsonProperty("Datastreams@iot.navigationLink")]
+        public string DatastreamsNavigationLink { get; set; }
+
         public string Name { get; set; }
         public string Description { get; set; }
-        public object Metadata { get; set; }
+        // todo: is metadata of type string?
+        public string Metadata { get; set; }
+        public string EncodingType { get; set; }
     }
 }

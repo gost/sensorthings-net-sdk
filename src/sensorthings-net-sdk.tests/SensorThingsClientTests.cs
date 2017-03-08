@@ -133,7 +133,7 @@ namespace sensorthings_net_sdk.tests
         }
 
         [Test]
-        public void GetHisotircalLocationTest()
+        public void GetHistoricalLocationTest()
         {
             // act
             var historicalLocation = client.GetHistoricalLocation(761098);
@@ -159,6 +159,22 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(historicalLocations.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/HistoricalLocations?$top=100&$skip=100");
             Assert.IsTrue(historicalLocations.Items.Count == 100);
             Assert.IsTrue(historicalLocations.Items[0].Id == 761098);
+        }
+
+        [Test]
+        public void GetSensorTest()
+        {
+            // act
+            var sensor = client.GetSensor(760645);
+
+            // assert
+            Assert.IsTrue(sensor.Id == 760645);
+            Assert.IsTrue(sensor.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Sensors(760645)");
+            Assert.IsTrue(sensor.Description == "SHT3x-DIS is the next generation of Sensirion’s temperature and humidity sensors. I");
+            Assert.IsTrue(sensor.Name == "SHT31_XX2");
+            Assert.IsTrue(sensor.EncodingType == "application/pdf");
+            Assert.IsTrue(sensor.Metadata == "http://cdn.sparkfun.com/datasheets/Sensors/Weather/RHT03.pdf");
+            Assert.IsTrue(sensor.DatastreamsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Sensors(760645)/Datastreams");
         }
     }
 }
