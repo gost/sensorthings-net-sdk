@@ -131,5 +131,34 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(observations.Items.Count == 100);
             Assert.IsTrue(observations.Items[0].Id == 760789);
         }
+
+        [Test]
+        public void GetHisotircalLocationTest()
+        {
+            // act
+            var historicalLocation = client.GetHistoricalLocation(761098);
+
+            // assert
+            Assert.IsTrue(historicalLocation.Id == 761098);
+            Assert.IsTrue(historicalLocation.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/HistoricalLocations(761098)");
+            // 2017-03-07T06:02:30.984Z
+            Assert.IsTrue(historicalLocation.Time == new DateTime(2017, 3, 7, 6, 2, 30, 984));
+            Assert.IsTrue(historicalLocation.LocationsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/HistoricalLocations(761098)/Locations");
+            Assert.IsTrue(historicalLocation.ThingNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/HistoricalLocations(761098)/Thing");
+        }
+
+        [Test]
+        public void GetHistoricalLocationCollectionTest()
+        {
+            // act
+            var historicalLocations = client.GetHistoricalLocationsCollection();
+
+            // assert
+            // If new observations are added this next test will fail....
+            Assert.IsTrue(historicalLocations.Count == 925);
+            Assert.IsTrue(historicalLocations.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/HistoricalLocations?$top=100&$skip=100");
+            Assert.IsTrue(historicalLocations.Items.Count == 100);
+            Assert.IsTrue(historicalLocations.Items[0].Id == 761098);
+        }
     }
 }

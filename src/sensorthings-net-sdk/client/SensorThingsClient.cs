@@ -72,6 +72,21 @@ namespace SensorThings.Client
             return observations;
         }
 
+        public HistoricalLocation GetHistoricalLocation(int id)
+        {
+            var url = Server + $"HistoricalLocations({id})";
+            var hisoticalLocation = GetJson<HistoricalLocation>(url);
+            return hisoticalLocation;
+        }
+
+        public SensorThingsCollection<HistoricalLocation> GetHistoricalLocationsCollection()
+        {
+            var url = Server + "HistoricalLocations";
+            var historicalLocations = GetJson<SensorThingsCollection<HistoricalLocation>>(url);
+            return historicalLocations;
+        }
+
+
         private T GetJson<T>(string url)
         {
             var response = httpClient.GetAsync(url).Result;
