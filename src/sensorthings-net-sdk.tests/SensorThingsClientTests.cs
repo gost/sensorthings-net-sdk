@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
 using SensorThings.Client;
+using System;
+
 namespace sensorthings_net_sdk.tests
 {
     public class SensorThingsClientTests
@@ -97,6 +99,37 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(locations.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Locations?$top=100&$skip=100");
             Assert.IsTrue(locations.Items.Count == 100);
             Assert.IsTrue(locations.Items[0].Id == 760795);
+        }
+
+        [Test]
+        public void GetObservationTest()
+        {
+            // act
+            var observation = client.GetObservation(760789);
+
+            // assert
+            Assert.IsTrue(observation.Id == 760789);
+            Assert.IsTrue(observation.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations(760789)");
+            // Phenomenon time should be 2020-01-25T19:00:00.000Z in Iso8601
+            Assert.IsTrue(observation.PhenomenonTime == new DateTime(2020, 1, 25, 19, 0, 0));
+            Assert.IsTrue((string)observation.Result == "99");
+            Assert.IsTrue(observation.ResultTime == null);
+            Assert.IsTrue(observation.DatastreamNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations(760789)/Datastream");
+            Assert.IsTrue(observation.FeatureOfInterestNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations(760789)/FeatureOfInterest");
+        }
+
+        [Test]
+        public void GetObservationCollectionTest()
+        {
+            // act
+            var observations = client.GetObservationCollection();
+
+            // assert
+            // If new observations are added this next test will fail....
+            Assert.IsTrue(observations.Count == 735595);
+            Assert.IsTrue(observations.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations?$top=100&$skip=100");
+            Assert.IsTrue(observations.Items.Count == 100);
+            Assert.IsTrue(observations.Items[0].Id == 760789);
         }
     }
 }

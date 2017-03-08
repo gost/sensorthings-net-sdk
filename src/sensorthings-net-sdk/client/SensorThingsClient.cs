@@ -58,6 +58,20 @@ namespace SensorThings.Client
             return locations;
         }
 
+        public Observation GetObservation(int id)
+        {
+            var url = Server + $"Observations({id})";
+            var observation = GetJson<Observation>(url);
+            return observation;
+        }
+
+        public SensorThingsCollection<Observation> GetObservationCollection()
+        {
+            var url = Server + "Observations";
+            var observations = GetJson<SensorThingsCollection<Observation>>(url);
+            return observations;
+        }
+
         private T GetJson<T>(string url)
         {
             var response = httpClient.GetAsync(url).Result;
@@ -65,5 +79,8 @@ namespace SensorThings.Client
             var fois = JsonConvert.DeserializeObject<T>(strJson);
             return fois;
         }
+
+
+
     }
 }

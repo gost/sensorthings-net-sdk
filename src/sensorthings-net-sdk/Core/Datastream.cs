@@ -7,7 +7,6 @@ namespace SensorThings.Core
     {
         public Datastream()
         {
-
         }
 
         public string Name  {get;set;}
