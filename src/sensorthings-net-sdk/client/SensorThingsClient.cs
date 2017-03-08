@@ -114,6 +114,20 @@ namespace SensorThings.Client
             return datastreams;
         }
 
+        public Thing GetThing(int id)
+        {
+            var url = Server + $"Things({id})";
+            var thing = GetJson<Thing>(url);
+            return thing;
+        }
+
+        public SensorThingsCollection<Thing> GetThingCollection()
+        {
+            var url = Server + "Things";
+            var things = GetJson<SensorThingsCollection<Thing>>(url);
+            return things;
+        }
+        
         private T GetJson<T>(string url)
         {
             var response = httpClient.GetAsync(url).Result;

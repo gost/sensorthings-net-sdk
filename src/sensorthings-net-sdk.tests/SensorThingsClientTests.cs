@@ -203,10 +203,10 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(datastream.Name == "NYP_DATASTREM_4321");
             Assert.IsTrue(datastream.ObservationType == "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement");
             Assert.IsTrue(datastream.UnitOfMeasurement.Symbol == "BPM");
-            Assert.IsTrue(datastream.UnitOfMeasurement.Name== "Beats Per Minute");
+            Assert.IsTrue(datastream.UnitOfMeasurement.Name == "Beats Per Minute");
             Assert.IsTrue(datastream.UnitOfMeasurement.Definition == "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html#BPM");
             Assert.IsTrue(datastream.ObservationsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams(760827)/Observations");
-            Assert.IsTrue(datastream.ObservedPropertyNavigationLink== "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams(760827)/ObservedProperty");
+            Assert.IsTrue(datastream.ObservedPropertyNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams(760827)/ObservedProperty");
             Assert.IsTrue(datastream.SensorNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams(760827)/Sensor");
             Assert.IsTrue(datastream.ThingNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams(760827)/Thing");
         }
@@ -222,6 +222,36 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(datastreams.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams?$top=100&$skip=100");
             Assert.IsTrue(datastreams.Items.Count == 100);
             Assert.IsTrue(datastreams.Items[0].Id == 760827);
+        }
+
+        [Test]
+        public void GetThingTest()
+        {
+            // act
+            var thing = client.GetThing(760792);
+
+            // assert
+            Assert.IsTrue(thing.Id == 760792);
+            Assert.IsTrue(thing.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)");
+            Assert.IsTrue(thing.Description == "This is a CCTV camera mounted at the Front Entrance from AMK Avenue 8");
+            Assert.IsTrue(thing.Name == "CCTV @ NYP Campus - Main Entrance");
+            Assert.IsTrue(thing.Properties.Count == 0);
+            Assert.IsTrue(thing.DatastreamsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)/Datastreams");
+            Assert.IsTrue(thing.HistoricalLocationsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)/HistoricalLocations");
+            Assert.IsTrue(thing.LocationsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)/Locations");
+        }
+
+        [Test]
+        public void GetThingsTest()
+        {
+            // act
+            var things = client.GetThingCollection();
+
+            // assert
+            Assert.IsTrue(things.Count == 825);
+            Assert.IsTrue(things.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things?$top=100&$skip=100");
+            Assert.IsTrue(things.Items.Count == 100);
+            Assert.IsTrue(things.Items[0].Id == 760792);
         }
 
     }
