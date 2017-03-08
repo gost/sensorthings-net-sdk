@@ -39,9 +39,10 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="client\SensorThingsClient.cs" />
     <Compile Include="Core\AbstractEntity.cs" />
     <Compile Include="Core\Datastream.cs" />
-    <Compile Include="Core\FeatureofInterest.cs" />
+    <Compile Include="Core\FeatureOfInterest.cs" />
     <Compile Include="Core\HistoricalLocation.cs" />
     <Compile Include="Core\Location.cs" />
     <Compile Include="Core\Observation.cs" />
