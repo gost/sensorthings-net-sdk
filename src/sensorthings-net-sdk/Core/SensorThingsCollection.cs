@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SensorThings.Client;
 using System.Collections.Generic;
 
 namespace SensorThings.Core
@@ -12,6 +13,11 @@ namespace SensorThings.Core
         public string NextLink { get; set; }
         [JsonProperty("value")]
         public List<T> Items { get; set; }
+
+        public SensorThingsCollection<T> GetNextPage()
+        {
+            return Http.GetJson<SensorThingsCollection<T>>(NextLink);
+        }
     }
 
 }

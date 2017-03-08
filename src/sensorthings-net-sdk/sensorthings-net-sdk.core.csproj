@@ -39,6 +39,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="client\Http.cs" />
     <Compile Include="client\SensorThingsClient.cs" />
     <Compile Include="Core\AbstractEntity.cs" />
     <Compile Include="Core\Datastream.cs" />

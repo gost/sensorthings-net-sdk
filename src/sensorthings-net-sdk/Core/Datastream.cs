@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
+using SensorThings.Client;
 
 namespace SensorThings.Core
 {
@@ -21,5 +21,25 @@ namespace SensorThings.Core
         public string SensorNavigationLink { get; set; }
         [JsonProperty("Thing@iot.navigationLink")]
         public string ThingNavigationLink { get; set; }
+
+        public SensorThingsCollection<Observation> GetObservations()
+        {
+            return Http.GetJson<SensorThingsCollection<Observation>>(ObservationsNavigationLink);
+        }
+
+        public ObservedProperty GetObservedProperty()
+        {
+            return Http.GetJson<ObservedProperty>(ObservedPropertyNavigationLink);
+        }
+
+        public Sensor GetSensor()
+        {
+            return Http.GetJson<Sensor>(SensorNavigationLink);
+        }
+
+        public Thing GetThing()
+        {
+            return Http.GetJson<Thing>(ThingNavigationLink);
+        }
     }
 }

@@ -4,7 +4,6 @@
     {
         public UnitOfMeasurement()
         {
-
         }
 
         public string Symbol { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SensorThings.Client;
 using System.Collections.Generic;
 
 namespace SensorThings.Core
@@ -18,5 +19,21 @@ namespace SensorThings.Core
         public string HistoricalLocationsNavigationLink { get; set; }
         [JsonProperty("Locations@iot.navigationLink")]
         public string LocationsNavigationLink { get; set; }
+
+        public SensorThingsCollection<Datastream> GetDatastreams()
+        {
+            return Http.GetJson<SensorThingsCollection<Datastream>>(DatastreamsNavigationLink);
+        }
+
+        public SensorThingsCollection<HistoricalLocation> GetHistoricalLocations()
+        {
+            return Http.GetJson<SensorThingsCollection<HistoricalLocation>>(HistoricalLocationsNavigationLink);
+        }
+
+        public SensorThingsCollection<Location> GetLocations()
+        {
+            return Http.GetJson<SensorThingsCollection<Location>>(LocationsNavigationLink);
+        }
+
     }
 }

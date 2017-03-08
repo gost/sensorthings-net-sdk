@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SensorThings.Client;
 
 namespace SensorThings.Core
 {
@@ -16,5 +17,10 @@ namespace SensorThings.Core
         // todo: is metadata of type string?
         public string Metadata { get; set; }
         public string EncodingType { get; set; }
+
+        public SensorThingsCollection<Datastream> GetDatastreams()
+        {
+            return Http.GetJson<SensorThingsCollection<Datastream>>(DatastreamsNavigationLink);
+        }
     }
 }

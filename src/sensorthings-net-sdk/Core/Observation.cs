@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SensorThings.Client;
 using System;
 
 namespace SensorThings.Core
@@ -12,5 +13,15 @@ namespace SensorThings.Core
         [JsonProperty("FeatureOfInterest@iot.navigationLink")]
         public string FeatureOfInterestNavigationLink { get; set; }
         public DateTime? ResultTime { get; set; }
+
+        public Datastream GetDatastream()
+        {
+            return Http.GetJson<Datastream>(DatastreamNavigationLink);
+        }
+
+        public FeatureOfInterest GetFeatureOfInterest()
+        {
+            return Http.GetJson<FeatureOfInterest>(FeatureOfInterestNavigationLink);
+        }
     }
 }
