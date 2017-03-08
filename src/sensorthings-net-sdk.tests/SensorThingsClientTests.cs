@@ -176,5 +176,18 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(sensor.Metadata == "http://cdn.sparkfun.com/datasheets/Sensors/Weather/RHT03.pdf");
             Assert.IsTrue(sensor.DatastreamsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Sensors(760645)/Datastreams");
         }
+
+        [Test]
+        public void GetSensorsTest()
+        {
+            // act
+            var sensors = client.GetSensorCollection();
+
+            // assert
+            Assert.IsTrue(sensors.Count == 1065);
+            Assert.IsTrue(sensors.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Sensors?$top=100&$skip=100");
+            Assert.IsTrue(sensors.Items.Count == 100);
+            Assert.IsTrue(sensors.Items[0].Id == 760645);
+        }
     }
 }

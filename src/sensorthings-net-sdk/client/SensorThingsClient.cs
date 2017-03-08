@@ -100,6 +100,7 @@ namespace SensorThings.Client
             return sensors;
         }
 
+
         private T GetJson<T>(string url)
         {
             var response = httpClient.GetAsync(url).Result;
