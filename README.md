@@ -15,9 +15,11 @@ var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
 var client = new SensorThingsClient(server);
 var datastream = client.GetDatastream(760827);
 var observations = datastream.GetObservations();
+var foi = observation.GetFeatureOfInterest();
 var observedProperty = datastream.GetObservedProperty();
 var sensor = datastream.GetSensor();
 var thing = datastream.GetThing();
+var locations = thing.GetLocations();
 
 ```
 
