@@ -8,10 +8,9 @@ namespace SensorThings.Core
         {
         }
 
-        public Thing(string SelfLink, string NavigationLink)
+        public Thing(string SelfLink)
         {
             this.SelfLink = SelfLink;
-            this.NavigationLink = NavigationLink;
         }
 
         public string Name { get; set; }

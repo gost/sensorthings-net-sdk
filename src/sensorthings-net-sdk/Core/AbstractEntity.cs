@@ -9,17 +9,15 @@ namespace SensorThings.Core
         {
         }
 
-        public AbstractEntity(int Id, string NavigationLink, string SelfLink)
+        public AbstractEntity(int Id, string SelfLink)
         {
             this.Id = Id;
-            this.NavigationLink = NavigationLink;
             this.SelfLink = SelfLink;
         }
 
 
         [JsonProperty("@iot.id")]
         public int Id { get; set; }
-        public string NavigationLink { get; set; }
         [JsonProperty("@iot.selfLink")]
         public string SelfLink { get; set; }
     }

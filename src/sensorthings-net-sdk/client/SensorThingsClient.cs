@@ -19,20 +19,36 @@ namespace SensorThings.Client
         public FeatureOfInterest GetFeatureOfInterest()
         {
             var url = Server + "FeatureOfInterest";
-
-            var response = httpClient.GetAsync(url).Result;
-            string strJson = response.Content.ReadAsStringAsync().Result;
-            var foi = JsonConvert.DeserializeObject<FeatureOfInterest>(strJson);
+            var foi = GetJson<FeatureOfInterest>(url);
             return foi;
         }
 
-        public FeatureOfInterestCollection GetFeatureOfInterestCollection()
+        public SensorThingsCollection<FeatureOfInterest> GetFeatureOfInterestCollection()
         {
             var url = Server + "FeaturesOfInterest";
+            var fois = GetJson<SensorThingsCollection<FeatureOfInterest>>(url);
+            return fois;
+        }
 
+        public ObservedProperty GetObservedProperty()
+        {
+            var url = Server + "ObservedProperty";
+            var observedProperty = GetJson<ObservedProperty>(url);
+            return observedProperty;
+        }
+
+        public SensorThingsCollection<ObservedProperty> GetObservedPropertyCollection()
+        {
+            var url = Server + "ObservedProperties";
+            var observedProperties = GetJson<SensorThingsCollection<ObservedProperty>>(url);
+            return observedProperties;
+        }
+
+        private T GetJson<T>(string url)
+        {
             var response = httpClient.GetAsync(url).Result;
             string strJson = response.Content.ReadAsStringAsync().Result;
-            var fois = JsonConvert.DeserializeObject<FeatureOfInterestCollection>(strJson);
+            var fois = JsonConvert.DeserializeObject<T>(strJson);
             return fois;
         }
     }

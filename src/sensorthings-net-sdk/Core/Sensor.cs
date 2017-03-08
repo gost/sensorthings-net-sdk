@@ -11,7 +11,6 @@ namespace SensorThings.Core
         public Sensor(string SelfLink, string NavigationLink)
         {
             this.SelfLink = SelfLink;
-            this.NavigationLink = NavigationLink;
         }
         public List<Datastream> Datastreams { get; set; }
         public string Name { get; set; }

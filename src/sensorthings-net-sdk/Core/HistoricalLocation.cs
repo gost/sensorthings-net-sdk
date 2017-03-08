@@ -10,10 +10,9 @@ namespace SensorThings.Core
 
         }
 
-        public HistoricalLocation(string SelfLink, string NavigationLink)
+        public HistoricalLocation(string SelfLink)
         {
             this.SelfLink = SelfLink;
-            this.NavigationLink = NavigationLink;
         }
 
         public DateTime Time { get; set; }

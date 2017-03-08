@@ -7,12 +7,10 @@ namespace SensorThings.Core
         public Location() { }
 
         public Location(string SelfLink,
-            string NavigationLink,
             string Name,
             string Description,
             string EncodingType)
         {
-            this.NavigationLink = NavigationLink;
             this.SelfLink = SelfLink;
             this.Name = Name;
             this.Description = Description;

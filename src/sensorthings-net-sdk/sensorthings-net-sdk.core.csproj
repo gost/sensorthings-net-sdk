@@ -48,6 +48,7 @@
     <Compile Include="Core\Location.cs" />
     <Compile Include="Core\Observation.cs" />
     <Compile Include="Core\ObservedProperty.cs" />
+    <Compile Include="Core\ObservedPropertyCollection.cs" />
     <Compile Include="Core\Sensor.cs" />
     <Compile Include="Core\Thing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
