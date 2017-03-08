@@ -189,5 +189,40 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(sensors.Items.Count == 100);
             Assert.IsTrue(sensors.Items[0].Id == 760645);
         }
+
+        [Test]
+        public void GetDatastreamTest()
+        {
+            // act
+            var datastream = client.GetDatastream(760827);
+
+            // assert
+            Assert.IsTrue(datastream.Id == 760827);
+            Assert.IsTrue(datastream.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams(760827)");
+            Assert.IsTrue(datastream.Description == "Data stream description");
+            Assert.IsTrue(datastream.Name == "NYP_DATASTREM_4321");
+            Assert.IsTrue(datastream.ObservationType == "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement");
+            Assert.IsTrue(datastream.UnitOfMeasurement.Symbol == "BPM");
+            Assert.IsTrue(datastream.UnitOfMeasurement.Name== "Beats Per Minute");
+            Assert.IsTrue(datastream.UnitOfMeasurement.Definition == "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html#BPM");
+            Assert.IsTrue(datastream.ObservationsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams(760827)/Observations");
+            Assert.IsTrue(datastream.ObservedPropertyNavigationLink== "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams(760827)/ObservedProperty");
+            Assert.IsTrue(datastream.SensorNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams(760827)/Sensor");
+            Assert.IsTrue(datastream.ThingNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams(760827)/Thing");
+        }
+
+        [Test]
+        public void GetDatastreamsTest()
+        {
+            // act
+            var datastreams = client.GetDatastreamCollection();
+
+            // assert
+            Assert.IsTrue(datastreams.Count == 859);
+            Assert.IsTrue(datastreams.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams?$top=100&$skip=100");
+            Assert.IsTrue(datastreams.Items.Count == 100);
+            Assert.IsTrue(datastreams.Items[0].Id == 760827);
+        }
+
     }
 }

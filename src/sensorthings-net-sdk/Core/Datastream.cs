@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace SensorThings.Core
 {
-    public class Datastream:AbstractEntity
+    public class Datastream : AbstractEntity
     {
         public Datastream()
         {
         }
 
-        public string Name  {get;set;}
+        public string Name { get; set; }
         public string Description { get; set; }
         public string ObservationType { get; set; }
-        public string UnitofMeasurement { get; set; }
-        public double ObservedArea { get; set; }
-        public List<Observation> Observations { get; set; }
-        public DateTime PhenomenonTime { get; set; }
-        public DateTime ResultTime { get; set; }
-        public Thing Thing { get; set; }
-        public Sensor Sensor { get; set; }
-        public ObservedProperty ObservedProperty { get; set; }
+        public UnitOfMeasurement UnitOfMeasurement {get;set;}
+        [JsonProperty("Observations@iot.navigationLink")]
+        public string ObservationsNavigationLink { get; set; }
+        [JsonProperty("ObservedProperty@iot.navigationLink")]
+        public string ObservedPropertyNavigationLink { get; set; }
+        [JsonProperty("Sensor@iot.navigationLink")]
+        public string SensorNavigationLink { get; set; }
+        [JsonProperty("Thing@iot.navigationLink")]
+        public string ThingNavigationLink { get; set; }
     }
 }

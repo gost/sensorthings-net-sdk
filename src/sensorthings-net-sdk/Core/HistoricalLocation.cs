@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 
 namespace SensorThings.Core
 {
@@ -11,8 +10,6 @@ namespace SensorThings.Core
         }
 
         public DateTime Time { get; set; }
-        public Thing Thing { get; set; }
-        public List<Location> Locations { get; set; }
         [JsonProperty("Locations@iot.navigationLink")]
         public string LocationsNavigationLink { get; set; }
         [JsonProperty("Thing@iot.navigationLink")]

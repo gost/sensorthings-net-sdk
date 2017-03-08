@@ -100,6 +100,19 @@ namespace SensorThings.Client
             return sensors;
         }
 
+        public Datastream GetDatastream(int id)
+        {
+            var url = Server + $"Datastreams({id})";
+            var datastream = GetJson<Datastream>(url);
+            return datastream;
+        }
+
+        public SensorThingsCollection<Datastream> GetDatastreamCollection()
+        {
+            var url = Server + "Datastreams";
+            var datastreams = GetJson<SensorThingsCollection<Datastream>>(url);
+            return datastreams;
+        }
 
         private T GetJson<T>(string url)
         {

@@ -50,6 +50,7 @@
     <Compile Include="Core\ObservedProperty.cs" />
     <Compile Include="Core\Sensor.cs" />
     <Compile Include="Core\Thing.cs" />
+    <Compile Include="Core\UnitOfMeasurement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

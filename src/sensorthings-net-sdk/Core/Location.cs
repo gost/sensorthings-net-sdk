@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace SensorThings.Core
 {
@@ -8,7 +6,6 @@ namespace SensorThings.Core
     {
         public Location() { }
 
-        public List<Thing> Things { get; set; }
         public string EncodingType { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
