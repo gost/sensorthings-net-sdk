@@ -5,10 +5,6 @@ namespace SensorThings.Core
 {
     public class Sensor:AbstractEntity
     {
-        public Sensor()
-        {
-        }
-
         [JsonProperty("Datastreams@iot.navigationLink")]
         public string DatastreamsNavigationLink { get; set; }
 

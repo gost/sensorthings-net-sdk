@@ -23,11 +23,7 @@ namespace sensorthings_net_sdk.tests
             var datastreams = observedProperty.GetDatastreams();
 
             // assert
-            Assert.IsTrue(observedProperty.Id == 760803);
-            Assert.IsTrue(observedProperty.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/ObservedProperties(760803)");
-            Assert.IsTrue(observedProperty.Description == "acceleration of sensor");
-            Assert.IsTrue(observedProperty.Name == "acceleration");
-            Assert.IsTrue(observedProperty.DatastreamsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/ObservedProperties(760803)/Datastreams");
+            Assert.IsTrue(observedProperty.Id > 0);
             Assert.IsTrue(datastreams.Count > 0);
         }
 
@@ -38,13 +34,9 @@ namespace sensorthings_net_sdk.tests
             var observedProperties = client.GetObservedPropertyCollection();
 
             // assert
-            Assert.IsTrue(observedProperties.Count == 1162);
+            Assert.IsTrue(observedProperties.Count>0);
             Assert.IsTrue(observedProperties.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/ObservedProperties?$top=100&$skip=100");
             Assert.IsTrue(observedProperties.Items.Count == 100);
-            Assert.IsTrue(observedProperties.Items[0].Id == 760803);
         }
-
-
-
     }
 }

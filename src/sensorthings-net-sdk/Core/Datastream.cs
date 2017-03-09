@@ -5,10 +5,6 @@ namespace SensorThings.Core
 {
     public class Datastream : AbstractEntity
     {
-        public Datastream()
-        {
-        }
-
         public string Name { get; set; }
         public string Description { get; set; }
         public string ObservationType { get; set; }

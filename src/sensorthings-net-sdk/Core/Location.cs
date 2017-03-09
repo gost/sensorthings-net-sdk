@@ -5,8 +5,6 @@ namespace SensorThings.Core
 {
     public class Location:AbstractEntity
     {
-        public Location() { }
-
         public string EncodingType { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

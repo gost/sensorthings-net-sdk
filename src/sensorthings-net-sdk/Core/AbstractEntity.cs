@@ -2,13 +2,8 @@
 
 namespace SensorThings.Core
 {
-    public class AbstractEntity
+    public abstract class AbstractEntity
     {
-
-        public AbstractEntity()
-        {
-        }
-
         [JsonProperty("@iot.id")]
         public int Id { get; set; }
         [JsonProperty("@iot.selfLink")]

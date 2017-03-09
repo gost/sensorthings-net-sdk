@@ -5,10 +5,6 @@ namespace SensorThings.Core
 {
     public class FeatureOfInterest : AbstractEntity
     {
-        public FeatureOfInterest()
-        {
-        }
-
         public string Name { get; set; }
         public string Description { get; set; }
         public object Feature { get; set; }

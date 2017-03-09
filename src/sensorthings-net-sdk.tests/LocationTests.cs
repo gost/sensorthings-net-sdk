@@ -39,10 +39,9 @@ namespace sensorthings_net_sdk.tests
             var locations = client.GetLocationCollection();
 
             // assert
-            Assert.IsTrue(locations.Count == 1166);
+            Assert.IsTrue(locations.Count > 0 );
             Assert.IsTrue(locations.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Locations?$top=100&$skip=100");
             Assert.IsTrue(locations.Items.Count == 100);
-            Assert.IsTrue(locations.Items[0].Id == 760795);
         }
 
         [Test]
