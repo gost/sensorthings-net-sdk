@@ -44,7 +44,7 @@ namespace SensorThings.Client
 
         public Location GetLocation(int id)
         {
-            var url = Server + $"Locations({id})";
+            var url = homedoc.GetUrlByEntityName("Locations") + $"({id})";
             var location = Http.GetJson<Location>(url);
             return location;
         }
