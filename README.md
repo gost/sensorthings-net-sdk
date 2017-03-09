@@ -10,6 +10,12 @@ Implemented:
 
 - HTTP GET methods
 
+## Install
+
+```
+package-install Geodan.SensorThings.SDK
+```
+
 ### Sample code
 
 ```
@@ -45,11 +51,5 @@ System.Net.Http: (>=4.1.0)
 ### Roadmap:
 
 - HTTP POST/PUT/DELETE
-
-- MQTT support
-
-- NuGet support
-
-- Sample apps (console, IOS, Android)
 
 - OData query support
