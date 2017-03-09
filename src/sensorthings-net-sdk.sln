@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sensorthings-net-sdk.core",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sensorthings-net-sdk.tests", "sensorthings-net-sdk.tests\sensorthings-net-sdk.tests.csproj", "{F4710D29-4E81-46F0-A407-DCD8B8210273}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{00D911BB-B7A1-4440-A4A0-1FABDFEFDA17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleSampleApplication", "samples\ConsoleSampleApplication\ConsoleSampleApplication.csproj", "{9FBEEC35-B89D-448A-A0D7-80C94A8376E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +25,15 @@ Global
 		{F4710D29-4E81-46F0-A407-DCD8B8210273}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4710D29-4E81-46F0-A407-DCD8B8210273}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4710D29-4E81-46F0-A407-DCD8B8210273}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FBEEC35-B89D-448A-A0D7-80C94A8376E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FBEEC35-B89D-448A-A0D7-80C94A8376E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FBEEC35-B89D-448A-A0D7-80C94A8376E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FBEEC35-B89D-448A-A0D7-80C94A8376E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9FBEEC35-B89D-448A-A0D7-80C94A8376E5} = {00D911BB-B7A1-4440-A4A0-1FABDFEFDA17}
 	EndGlobalSection
 EndGlobal
