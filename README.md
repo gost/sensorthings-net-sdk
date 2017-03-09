@@ -8,7 +8,7 @@ Implemented:
 
 - HTTP GET methods
 
-Sample code:
+### Sample code
 
 ```
 var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
@@ -24,7 +24,23 @@ var locations = thing.GetLocations();
 
 ```
 
-Roadmap:
+### Dependencies
+
+.NETStandard 1.1
+
+System.Collections (>= 4.3.0)
+
+System.Runtime.Extensions (>= 4.3.0)
+
+System.Resources.ResourceManager (>= 4.3.0)
+
+System.Runtime (>= 4.3.0)
+
+Newtonsoft.Json (>=9.0.1)
+
+System.Net.Http: (>=4.1.0)
+
+### Roadmap:
 
 - HTTP POST/PUT/DELETE
 
