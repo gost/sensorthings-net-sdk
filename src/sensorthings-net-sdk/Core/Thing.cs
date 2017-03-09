@@ -30,6 +30,5 @@ namespace SensorThings.Core
         {
             return Http.GetJson<SensorThingsCollection<Location>>(LocationsNavigationLink);
         }
-
     }
 }

@@ -19,5 +19,4 @@ namespace SensorThings.Core
             return Http.GetJson<SensorThingsCollection<T>>(NextLink);
         }
     }
-
 }

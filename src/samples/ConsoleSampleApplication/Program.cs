@@ -13,19 +13,17 @@ namespace ConsoleSampleApplication
             var client = new SensorThingsClient(server);
 
             Console.WriteLine("Retrieve all paged datastreams...");
-            var datastreams = client.GetDatastreamCollection();
-            WritePage(datastreams);
-            var nextpage = datastreams.GetNextPage();
-            var page = 1;
-            while (nextpage != null)
+            var page = client.GetDatastreamCollection();
+            var pagenumber = 1;
+            while (page != null)
             {
                 Console.WriteLine("---------------------------------------");
-                WritePage(nextpage);
-                nextpage = nextpage.NextLink != null ? nextpage.GetNextPage() : null;
-                page++;
+                WritePage(page);
+                page = page.NextLink != null ? page.GetNextPage() : null;
+                pagenumber++;
             }
             Console.WriteLine("End retrieving datastreams...");
-            Console.WriteLine("Number of pages: " + page);
+            Console.WriteLine("Number of pages: " + pagenumber);
             Console.ReadKey();
         }
 

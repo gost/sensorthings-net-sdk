@@ -8,6 +8,5 @@ namespace SensorThings.Core
         public int Id { get; set; }
         [JsonProperty("@iot.selfLink")]
         public string SelfLink { get; set; }
-
     }
 }
