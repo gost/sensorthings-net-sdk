@@ -1,16 +1,15 @@
 ﻿using SensorThings.Core;
-using System.Net.Http;
 
 namespace SensorThings.Client
 {
     public class SensorThingsClient
     {
-        private HttpClient httpClient;
+        private HomeDocument homedoc;
 
         public SensorThingsClient(string Server)
         {
             this.Server = Server;
-            httpClient = new HttpClient();
+            homedoc = Http.GetJson<HomeDocument>(Server);
         }
 
         public string Server { get; set; }
@@ -24,7 +23,7 @@ namespace SensorThings.Client
 
         public SensorThingsCollection<FeatureOfInterest> GetFeatureOfInterestCollection()
         {
-            var url = Server + "FeaturesOfInterest";
+            var url = homedoc.GetUrlByEntity("FeaturesOfInterest");
             var fois = Http.GetJson<SensorThingsCollection<FeatureOfInterest>>(url);
             return fois;
         }
@@ -38,7 +37,7 @@ namespace SensorThings.Client
 
         public SensorThingsCollection<ObservedProperty> GetObservedPropertyCollection()
         {
-            var url = Server + "ObservedProperties";
+            var url = homedoc.GetUrlByEntity("ObservedProperties");
             var observedProperties = Http.GetJson<SensorThingsCollection<ObservedProperty>>(url);
             return observedProperties;
         }
@@ -52,35 +51,35 @@ namespace SensorThings.Client
 
         public SensorThingsCollection<Location> GetLocationCollection()
         {
-            var url = Server + "Locations";
+            var url = homedoc.GetUrlByEntity("Locations");
             var locations = Http.GetJson<SensorThingsCollection<Location>>(url);
             return locations;
         }
 
         public Observation GetObservation(int id)
         {
-            var url = Server + $"Observations({id})";
+            var url = homedoc.GetUrlByEntity("Observations") + $"({id})";
             var observation = Http.GetJson<Observation>(url);
             return observation;
         }
 
         public SensorThingsCollection<Observation> GetObservationCollection()
         {
-            var url = Server + "Observations";
+            var url = homedoc.GetUrlByEntity("Observations");
             var observations = Http.GetJson<SensorThingsCollection<Observation>>(url);
             return observations;
         }
 
         public HistoricalLocation GetHistoricalLocation(int id)
         {
-            var url = Server + $"HistoricalLocations({id})";
+            var url = homedoc.GetUrlByEntity("HistoricalLocations") + $"({id})";
             var historicalLocation = Http.GetJson<HistoricalLocation>(url);
             return historicalLocation;
         }
 
         public SensorThingsCollection<HistoricalLocation> GetHistoricalLocationsCollection()
         {
-            var url = Server + "HistoricalLocations";
+            var url = homedoc.GetUrlByEntity("HistoricalLocations");
             var historicalLocations = Http.GetJson<SensorThingsCollection<HistoricalLocation>>(url);
             return historicalLocations;
         }
@@ -94,14 +93,14 @@ namespace SensorThings.Client
 
         public SensorThingsCollection<Sensor> GetSensorCollection()
         {
-            var url = Server + "Sensors";
+            var url = homedoc.GetUrlByEntity("Sensors");
             var sensors = Http.GetJson<SensorThingsCollection<Sensor>>(url);
             return sensors;
         }
 
         public Datastream GetDatastream(int id)
         {
-            var url = Server + $"Datastreams({id})";
+            var url = homedoc.GetUrlByEntity("Datastreams") + $"({id})";
             var datastream = Http.GetJson<Datastream>(url);
             return datastream;
         }
@@ -115,26 +114,22 @@ namespace SensorThings.Client
 
         public SensorThingsCollection<Datastream> GetDatastreamCollection()
         {
-            var url = Server + "Datastreams";
+            var url = homedoc.GetUrlByEntity("Datastreams");
             return GetDatastreamCollection(url);
         }
 
         public Thing GetThing(int id)
         {
-            var url = Server + $"Things({id})";
+            var url = homedoc.GetUrlByEntity("Things") + $"({id})";
             var thing = Http.GetJson<Thing>(url);
             return thing;
         }
 
         public SensorThingsCollection<Thing> GetThingCollection()
         {
-            var url = Server + "Things";
+            var url = homedoc.GetUrlByEntity("Things");
             var things = Http.GetJson<SensorThingsCollection<Thing>>(url);
             return things;
         }
-        
-
-
-
     }
 }

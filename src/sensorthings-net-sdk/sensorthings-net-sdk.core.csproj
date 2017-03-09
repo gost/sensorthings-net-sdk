@@ -44,6 +44,7 @@
     <Compile Include="Core\AbstractEntity.cs" />
     <Compile Include="Core\Datastream.cs" />
     <Compile Include="Core\FeatureOfInterest.cs" />
+    <Compile Include="Core\HomeDocument.cs" />
     <Compile Include="Core\SensorThingsCollection.cs" />
     <Compile Include="Core\HistoricalLocation.cs" />
     <Compile Include="Core\Location.cs" />
