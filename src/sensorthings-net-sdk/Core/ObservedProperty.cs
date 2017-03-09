@@ -15,6 +15,5 @@ namespace SensorThings.Core
         {
             return Http.GetJson<SensorThingsCollection<Datastream>>(DatastreamsNavigationLink);
         }
-
     }
 }

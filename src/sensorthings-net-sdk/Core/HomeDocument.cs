@@ -1,21 +1,23 @@
-﻿using System.Linq;
+﻿using Newtonsoft.Json;
+using System.Linq;
 
 namespace SensorThings.Core
 {
     public class HomeDocument
     {
-        public Value[] value { get; set; }
+        [JsonProperty("value")]
+        public Entity[] Entities { get; set; }
 
-        public string GetUrlByEntity(string Entity)
+        public string GetUrlByEntityName(string Name)
         {
-            var url = (from i in value where i.name == Entity select i.url).FirstOrDefault();
+            var url = (from i in Entities where i.Name == Name select i.Url).FirstOrDefault();
             return url;
         }
     }
 
-    public class Value
+    public class Entity
     {
-        public string name { get; set; }
-        public string url { get; set; }
+        public string Name { get; set; }
+        public string Url { get; set; }
     }
 }
