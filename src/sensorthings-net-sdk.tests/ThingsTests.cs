@@ -51,6 +51,5 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(things.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things?$top=100&$skip=100");
             Assert.IsTrue(things.Items.Count == 100);
         }
-
     }
 }

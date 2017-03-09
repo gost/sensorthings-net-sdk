@@ -10,9 +10,8 @@ namespace SensorThings.Client
             var client = new HttpClient();
             var response = client.GetAsync(url).Result;
             string strJson = response.Content.ReadAsStringAsync().Result;
-            var fois = JsonConvert.DeserializeObject<T>(strJson);
-            return fois;
+            var items = JsonConvert.DeserializeObject<T>(strJson);
+            return items;
         }
-
     }
 }

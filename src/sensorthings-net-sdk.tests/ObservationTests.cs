@@ -50,6 +50,5 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(observations.Items.Count == 100);
             Assert.IsTrue(observations.Items[0].Id == 760789);
         }
-
     }
 }
