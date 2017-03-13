@@ -24,7 +24,6 @@ namespace sensorthings_net_sdk.tests
 
             // assert
             Assert.IsTrue(observedProperty.Id > 0);
-            Assert.IsTrue(datastreams.Count > 0);
         }
 
         [Test]
