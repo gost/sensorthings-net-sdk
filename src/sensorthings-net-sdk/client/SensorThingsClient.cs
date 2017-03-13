@@ -105,7 +105,6 @@ namespace SensorThings.Client
             return datastream;
         }
 
-
         public SensorThingsCollection<Datastream> GetDatastreamCollection(string url)
         {
             var datastreams = Http.GetJson<SensorThingsCollection<Datastream>>(url);

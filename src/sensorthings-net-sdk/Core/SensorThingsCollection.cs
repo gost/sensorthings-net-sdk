@@ -12,7 +12,7 @@ namespace SensorThings.Core
         [JsonProperty("@iot.nextLink")]
         public string NextLink { get; set; }
         [JsonProperty("value")]
-        public List<T> Items { get; set; }
+        public IReadOnlyList<T> Items { get; set; }
 
         public SensorThingsCollection<T> GetNextPage()
         {
