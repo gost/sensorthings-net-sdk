@@ -1,6 +1,7 @@
 # sensorthings-net-sdk
 
 [![NuGet Status](http://img.shields.io/nuget/v/Geodan.SensorThings.SDK.svg?style=flat)](https://www.nuget.org/packages/Geodan.SensorThings.SDK/)
+[![Build status](https://ci.appveyor.com/api/projects/status/fwnnxu7dp4ffykag?svg=true)](https://ci.appveyor.com/project/bertt/sensorthings-net-sdk)
 
 The Geodan SensorThings .NET SDK makes it easy to add OGC SensorThings support to your .NET application.
 
@@ -52,6 +53,7 @@ Description:Display a realtime OxyPlot graph based on MQTT SensorThings messages
 
 Source: https://github.com/Geodan/sensorthings-net-sdk/tree/master/src/samples/RealtimeOxyPlotSampleApplication
 
+![alt tag](realtime.png)
 
 ### Dependencies
 
