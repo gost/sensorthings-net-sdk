@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleSampleApplication", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MqttSampleApplication", "samples\MqttSampleApplication\MqttSampleApplication.csproj", "{6CEA5806-938B-444B-9F32-7C5915F198D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensorThingsRealtimeOxyPlotSample", "samples\RealtimeOxyPlotSampleApplication\SensorThingsRealtimeOxyPlotSample.csproj", "{39F80A60-CF4A-401D-BD28-51E1781EB46B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{6CEA5806-938B-444B-9F32-7C5915F198D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CEA5806-938B-444B-9F32-7C5915F198D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CEA5806-938B-444B-9F32-7C5915F198D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39F80A60-CF4A-401D-BD28-51E1781EB46B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39F80A60-CF4A-401D-BD28-51E1781EB46B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39F80A60-CF4A-401D-BD28-51E1781EB46B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39F80A60-CF4A-401D-BD28-51E1781EB46B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,5 +48,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9FBEEC35-B89D-448A-A0D7-80C94A8376E5} = {00D911BB-B7A1-4440-A4A0-1FABDFEFDA17}
 		{6CEA5806-938B-444B-9F32-7C5915F198D1} = {00D911BB-B7A1-4440-A4A0-1FABDFEFDA17}
+		{39F80A60-CF4A-401D-BD28-51E1781EB46B} = {00D911BB-B7A1-4440-A4A0-1FABDFEFDA17}
 	EndGlobalSection
 EndGlobal

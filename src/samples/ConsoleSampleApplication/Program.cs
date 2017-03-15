@@ -9,7 +9,9 @@ namespace ConsoleSampleApplication
         static void Main(string[] args)
         {
             Console.WriteLine("Sample console app for SensorThings API client");
-            var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
+            // var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
+            var server = "http://gost.geodan.nl/v1.0/";
+
             var client = new SensorThingsClient(server);
 
             Console.WriteLine("Retrieve all paged datastreams...");
@@ -24,6 +26,11 @@ namespace ConsoleSampleApplication
             }
             Console.WriteLine("End retrieving datastreams...");
             Console.WriteLine("Number of pages: " + pagenumber);
+
+            var datastream = client.GetDatastream(58);
+            var observations = datastream.GetObservations();
+            Console.WriteLine("Number if observations: " + observations.Count);
+
             Console.ReadKey();
         }
 
