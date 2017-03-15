@@ -19,17 +19,6 @@ namespace OxyPlotDemo.ViewModels
         private static string serverurl = "http://gost.geodan.nl/v1.0";
         private static int datastreamid = 58;
         private static string server;
-
-
-        private readonly List<OxyColor> colors = new List<OxyColor>
-                                            {
-                                                OxyColors.Green,
-                                                OxyColors.IndianRed,
-                                                OxyColors.Coral,
-                                                OxyColors.Chartreuse,
-                                                OxyColors.Azure
-                                            };
-
         private PlotModel plotModel;
 
         public MainWindowModel()
@@ -69,10 +58,10 @@ namespace OxyPlotDemo.ViewModels
             {
                 StrokeThickness = 2,
                 MarkerSize = 3,
-                MarkerStroke = colors[0],
+                MarkerStroke = Colors.GetColors[0],
                 MarkerType = MarkerTypes.markerTypes[0],
                 CanTrackerInterpolatePoints = false,
-                Title = string.Format("Detector {0}", 0),
+                Title = datastream.Description,
                 Smooth = false,
             };
 
@@ -95,7 +84,7 @@ namespace OxyPlotDemo.ViewModels
             plotModel.Title = "SensorThings API Sample Graph";
             var dtaxis = new DateTimeAxis();
             dtaxis.Position = AxisPosition.Bottom;
-            dtaxis.Title = "Data";
+            dtaxis.Title = "Date";
             dtaxis.TitleFormatString = "yy/mm/dd HH:mm";
             plotModel.Axes.Add(dtaxis);
             var valueAxis = new LinearAxis() { MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, Title = "Value" };
