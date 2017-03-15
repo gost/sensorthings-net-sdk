@@ -47,6 +47,8 @@ Description: Consumes MQTT SensorThings messages
 
 Source: https://github.com/Geodan/sensorthings-net-sdk/tree/master/src/samples/MqttSampleApplication
 
+![alt tag](mqttsample.png)
+
 3] RealtimeOxyPlotSampleApplication
 
 Description:Display a realtime OxyPlot graph based on MQTT SensorThings messages (WPF sample)
