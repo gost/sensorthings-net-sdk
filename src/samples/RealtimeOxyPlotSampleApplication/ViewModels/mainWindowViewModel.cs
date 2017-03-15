@@ -3,10 +3,10 @@ using Newtonsoft.Json;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using OxyPlot.Wpf;
 using SensorThings.Client;
 using SensorThings.Core;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using uPLibrary.Networking.M2Mqtt;
@@ -19,17 +19,20 @@ namespace OxyPlotDemo.ViewModels
         private static string serverurl = "http://gost.geodan.nl/v1.0";
         private static int datastreamid = 58;
         private static string server;
+        private static string topic;
         private PlotModel plotModel;
+        private PlotView plotview;
 
-        public MainWindowModel()
+        public MainWindowModel(PlotView plotview)
         {
+            this.plotview = plotview;
             server = new Uri(serverurl).Host;
+            topic = $"Datastreams({datastreamid})/Observations";
             plotModel = new PlotModel();
             SetUpModel();
             LoadData();
             ConnectToMqtt();
         }
-
 
         public PlotModel PlotModel
         {
@@ -39,22 +42,21 @@ namespace OxyPlotDemo.ViewModels
 
         private void ConnectToMqtt()
         {
-            var client = new MqttClient(server);
-            byte code = client.Connect(Guid.NewGuid().ToString());
+            var mqttclient = new MqttClient(server);
+            byte code = mqttclient.Connect(Guid.NewGuid().ToString());
 
-            ushort msgId = client.Subscribe(new string[] { "Datastreams(58)/Observations" },
+            ushort msgId = mqttclient.Subscribe(new string[] { topic },
                     new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
-
+            mqttclient.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
         }
 
         private void LoadData()
         {
             var client = new SensorThingsClient(serverurl);
-            var datastream = client.GetDatastream(58);
+            var datastream = client.GetDatastream(datastreamid);
             var observations = datastream.GetObservations();
 
-            var lineSerie = new LineSeries
+            var lineSerie = new OxyPlot.Series.LineSeries
             {
                 StrokeThickness = 2,
                 MarkerSize = 3,
@@ -69,7 +71,7 @@ namespace OxyPlotDemo.ViewModels
             foreach (var observation in obs)
             {
                 var lPhenomenonTime = observation.PhenomenonTime.ToLocalTime();
-                lineSerie.Points.Add(new DataPoint(DateTimeAxis.ToDouble(lPhenomenonTime), (double)observation.Result));
+                lineSerie.Points.Add(new DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime), (double)observation.Result));
             }
             plotModel.Series.Add(lineSerie);
         }
@@ -82,12 +84,12 @@ namespace OxyPlotDemo.ViewModels
             plotModel.LegendBackground = OxyColor.FromAColor(200, OxyColors.White);
             plotModel.LegendBorder = OxyColors.Black;
             plotModel.Title = "SensorThings API Sample Graph";
-            var dtaxis = new DateTimeAxis();
+            var dtaxis = new OxyPlot.Axes.DateTimeAxis();
             dtaxis.Position = AxisPosition.Bottom;
             dtaxis.Title = "Date";
             dtaxis.TitleFormatString = "yy/mm/dd HH:mm";
             plotModel.Axes.Add(dtaxis);
-            var valueAxis = new LinearAxis() { MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, Title = "Value" };
+            var valueAxis = new OxyPlot.Axes.LinearAxis() { MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, Title = "Value" };
             valueAxis.Position = AxisPosition.Left;
             plotModel.Axes.Add(valueAxis);
         }
@@ -96,12 +98,12 @@ namespace OxyPlotDemo.ViewModels
         {
             var str = Encoding.Default.GetString(e.Message);
             var observation = JsonConvert.DeserializeObject<Observation>(str);
-            var lineSerie = plotModel.Series[0] as LineSeries;
+            var lineSerie = plotModel.Series[0] as OxyPlot.Series.LineSeries;
             var xaxis = plotModel.Axes.First();
             var maxx = xaxis.ActualMaximum;
 
             var lPhenomenonTime = observation.PhenomenonTime.ToLocalTime();
-            var newmaxx = DateTimeAxis.ToDouble(lPhenomenonTime);
+            var newmaxx = OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime);
             lineSerie.Points.Add(new DataPoint(newmaxx, (double)observation.Result));
 
             if (newmaxx > maxx)
@@ -110,7 +112,7 @@ namespace OxyPlotDemo.ViewModels
                 xaxis.Pan(-step);
             }
 
-            plotModel.InvalidatePlot(true);
+            plotview.InvalidatePlot();
             Console.WriteLine("New Observation published: " + lPhenomenonTime + ", " + observation.Result);
         }
     }

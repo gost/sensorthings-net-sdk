@@ -9,9 +9,9 @@ namespace GraphWpfApplication
 
         public MainWindow()
         {
-            viewModel = new MainWindowModel();
-            DataContext = viewModel;
             InitializeComponent();
+            viewModel = new MainWindowModel(Plot1);
+            DataContext = viewModel;
         }
     }
 }
