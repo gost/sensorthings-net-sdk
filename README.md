@@ -32,6 +32,27 @@ var locations = thing.GetLocations();
 
 ```
 
+### Sample applications
+
+1] Console application
+
+Description: Makes connection to SensorThings server and writes available datastreams to the console
+
+Source: https://github.com/Geodan/sensorthings-net-sdk/tree/master/src/samples/ConsoleSampleApplication
+
+2] MqttSampleApplication
+
+Description: Consumes MQTT SensorThings messages
+
+Source: https://github.com/Geodan/sensorthings-net-sdk/tree/master/src/samples/MqttSampleApplication
+
+3] RealtimeOxyPlotSampleApplication
+
+Description:Display a realtime OxyPlot graph based on MQTT SensorThings messages
+
+Source: https://github.com/Geodan/sensorthings-net-sdk/tree/master/src/samples/RealtimeOxyPlotSampleApplication
+
+
 ### Dependencies
 
 .NETStandard 1.1
