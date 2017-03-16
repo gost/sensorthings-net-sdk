@@ -1,4 +1,5 @@
-﻿using SensorThings.Client;
+﻿using Newtonsoft.Json.Linq;
+using SensorThings.Client;
 using SensorThings.Core;
 using System;
 
@@ -30,6 +31,21 @@ namespace ConsoleSampleApplication
             var datastream = client.GetDatastream(58);
             var observations = datastream.GetObservations();
             Console.WriteLine("Number if observations: " + observations.Count);
+
+            Console.WriteLine("Sample with locations");
+            var locations = client.GetLocationCollection();
+
+            // Get location without using GeoJSON.NET (works only for points)
+            var firstlocation = locations.Items[0];
+            var feature = (JObject)firstlocation.Feature;
+            var lon = feature.First.First.First.Value<double>();
+            var lat = feature.First.First.Last.Value<double>();
+            Console.WriteLine($"Location: {lon},{lat}");
+
+            // if using GeoJSON.NET use something like:
+            // var p = JsonConvert.DeserializeObject<Point>(feature.ToString());
+            //  var ipoint = (GeographicPosition)p.Coordinates;
+            // Console.WriteLine("Location: " + ipoint.Longitude + ", " + ipoint.Latitude);
 
             Console.ReadKey();
         }
