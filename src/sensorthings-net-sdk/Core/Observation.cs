@@ -23,5 +23,8 @@ namespace SensorThings.Core
         {
             return Http.GetJson<FeatureOfInterest>(FeatureOfInterestNavigationLink);
         }
+
+        // [JsonIgnore]
+        public Datastream Datastream { get; set; }
     }
 }

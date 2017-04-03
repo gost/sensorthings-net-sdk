@@ -15,6 +15,15 @@ namespace ConsoleSampleApplication
 
             var client = new SensorThingsClient(server);
 
+            Console.WriteLine("Create observation for datastream 18");
+            var datastream = new Datastream();
+            datastream.Id = 18;
+            var observation = new Observation();
+            observation.Datastream = datastream;
+            observation.PhenomenonTime = DateTime.Now;
+            observation.Result = 100;
+            var returnedObservation = client.CreateObservation(observation);
+
             Console.WriteLine("Retrieve all paged datastreams...");
             var page = client.GetDatastreamCollection();
             var pagenumber = 1;
@@ -28,7 +37,7 @@ namespace ConsoleSampleApplication
             Console.WriteLine("End retrieving datastreams...");
             Console.WriteLine("Number of pages: " + pagenumber);
 
-            var datastream = client.GetDatastream(58);
+            datastream = client.GetDatastream(58);
             var observations = datastream.GetObservations();
             Console.WriteLine("Number if observations: " + observations.Count);
 

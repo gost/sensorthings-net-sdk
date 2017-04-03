@@ -130,5 +130,12 @@ namespace SensorThings.Client
             var things = Http.GetJson<SensorThingsCollection<Thing>>(url);
             return things;
         }
+
+        public Observation CreateObservation(Observation observation)
+        {
+            var url = homedoc.GetUrlByEntityName("Observations");
+            var responseObservation = Http.PostObservation<Observation>(url, observation);
+            return responseObservation;
+        }
     }
 }
