@@ -51,11 +51,16 @@ Source: https://github.com/Geodan/sensorthings-net-sdk/tree/master/src/samples/M
 
 3] RealtimeOxyPlotSampleApplication
 
-Description:Display a realtime OxyPlot graph based on MQTT SensorThings messages (WPF sample)
+Description: Display a realtime OxyPlot (http://www.oxyplot.org/) graph based on MQTT SensorThings messages (WPF sample)
 
 Source: https://github.com/Geodan/sensorthings-net-sdk/tree/master/src/samples/RealtimeOxyPlotSampleApplication
 
 ![alt tag](realtime.png)
+
+4] SensorThingsRealtimeLiveChartsSample
+
+Description: Display a realtime LiveCharts (https://www.lvcharts.net/) graph based on MQTT SensorThings messages (WPF sample)
+
 
 ### Dependencies
 
