@@ -12,8 +12,7 @@ namespace SensorThings.Core
         public string DatastreamNavigationLink { get; set; }
         [JsonProperty("FeatureOfInterest@iot.navigationLink")]
         public string FeatureOfInterestNavigationLink { get; set; }
-        // For now disable ResultTime, re-enable later on...
-        // public DateTime? ResultTime { get; set; }
+        public DateTime? ResultTime { get; set; }
 
         public Datastream GetDatastream()
         {

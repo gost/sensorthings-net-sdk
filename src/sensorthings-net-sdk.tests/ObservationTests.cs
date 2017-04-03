@@ -44,11 +44,8 @@ namespace sensorthings_net_sdk.tests
             var observations = client.GetObservationCollection();
 
             // assert
-            // If new observations are added this next test will fail....
-            // Assert.IsTrue(observations.Count == 735595);
             Assert.IsTrue(observations.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations?$top=100&$skip=100");
             Assert.IsTrue(observations.Items.Count == 100);
-            Assert.IsTrue(observations.Items[0].Id == 760789);
         }
     }
 }

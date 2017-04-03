@@ -21,14 +21,12 @@ namespace sensorthings_net_sdk.tests
             // act
             var foi = client.GetFeatureOfInterest();
             var observations = foi.GetObservations();
-            var nextPageObservations = observations.GetNextPage();
 
             // assert
             Assert.IsTrue(foi.Id > 0);
             // todo: How to parse the GeoJSON returned?
             // Assert.IsTrue(foi.Feature.ToString() == @"{{"coordinates": [103.84844899177551,1.3790908801131481],"type": "Point"}}");
-            Assert.IsTrue(observations.Count > 0);
-            Assert.IsTrue(nextPageObservations.Count > 0);
+            Assert.IsTrue(observations.Count >= 0);
         }
 
         [Test]
