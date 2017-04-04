@@ -31,6 +31,14 @@ var sensor = datastream.GetSensor();
 var thing = datastream.GetThing();
 var locations = thing.GetLocations();
 
+// create observation sample:
+var datastream = new Datastream();
+datastream.Id = 18;
+var observation = new Observation();
+observation.Datastream = datastream;
+observation.PhenomenonTime = DateTime.Now;
+observation.Result = 100;
+var returnedObservation = client.CreateObservation(observation);
 ```
 
 ### Sample applications
