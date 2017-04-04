@@ -16,10 +16,10 @@ namespace SensorThings.Client
             return items;
         }
 
-        public static T PostObservation<T>(string url, Observation observation)
+        public static T PostJson<T>(string url, T entity)
         {
             var client = new HttpClient();
-            var serialized = JsonConvert.SerializeObject(observation);
+            var serialized = JsonConvert.SerializeObject(entity);
             var buffer = System.Text.Encoding.UTF8.GetBytes(serialized);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
