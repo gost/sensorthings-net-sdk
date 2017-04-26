@@ -47,13 +47,13 @@ var returnedObservation = client.CreateObservation(observation);
 
 Description: Makes connection to SensorThings server and writes available datastreams to the console
 
-Source: https://github.com/Geodan/sensorthings-net-sdk/tree/master/src/samples/ConsoleSampleApplication
+Source: https://github.com/gost/sensorthings-net-sdk/tree/master/src/samples/ConsoleSampleApplication
 
 2] MqttSampleApplication
 
 Description: Consumes MQTT SensorThings messages
 
-Source: https://github.com/Geodan/sensorthings-net-sdk/tree/master/src/samples/MqttSampleApplication
+Source: https://github.com/gost/sensorthings-net-sdk/tree/master/src/samples/MqttSampleApplication
 
 ![alt tag](mqttsample.png)
 
@@ -61,7 +61,7 @@ Source: https://github.com/Geodan/sensorthings-net-sdk/tree/master/src/samples/M
 
 Description: Display a realtime OxyPlot (http://www.oxyplot.org/) graph based on MQTT SensorThings messages (WPF sample)
 
-Source: https://github.com/Geodan/sensorthings-net-sdk/tree/master/src/samples/RealtimeOxyPlotSampleApplication
+Source: https://github.com/gost/sensorthings-net-sdk/tree/master/src/samples/RealtimeOxyPlotSampleApplication
 
 ![alt tag](realtime.png)
 
