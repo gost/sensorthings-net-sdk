@@ -70,8 +70,12 @@ namespace OxyPlotDemo.ViewModels
             var obs = observations.Items.OrderBy(m => m.PhenomenonTime);
             foreach (var observation in obs)
             {
-                var lPhenomenonTime = observation.PhenomenonTime.ToLocalTime();
-                lineSerie.Points.Add(new DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime), (double)observation.Result));
+                if(observation.PhenomenonTime != null)
+                {
+                    var time = observation.PhenomenonTime.GetValueOrDefault();
+                    var lPhenomenonTime = time.ToLocalTime();
+                    lineSerie.Points.Add(new DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime), (double)observation.Result));
+                }
             }
             plotModel.Series.Add(lineSerie);
         }
@@ -102,18 +106,22 @@ namespace OxyPlotDemo.ViewModels
             var xaxis = plotModel.Axes.First();
             var maxx = xaxis.ActualMaximum;
 
-            var lPhenomenonTime = observation.PhenomenonTime.ToLocalTime();
-            var newmaxx = OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime);
-            lineSerie.Points.Add(new DataPoint(newmaxx, (double)observation.Result));
-
-            if (newmaxx > maxx)
+            if (observation.PhenomenonTime != null)
             {
-                var step = (newmaxx - maxx) / xaxis.Scale;
-                xaxis.Pan(-step);
+                var time = observation.PhenomenonTime.GetValueOrDefault();
+                var lPhenomenonTime = time.ToLocalTime();
+                var newmaxx = OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime);
+                lineSerie.Points.Add(new DataPoint(newmaxx, (double)observation.Result));
+                if (newmaxx > maxx)
+                {
+                    var step = (newmaxx - maxx) / xaxis.Scale;
+                    xaxis.Pan(-step);
+                }
+
+                plotview.InvalidatePlot();
+                Console.WriteLine("New Observation published: " + lPhenomenonTime + ", " + observation.Result);
             }
 
-            plotview.InvalidatePlot();
-            Console.WriteLine("New Observation published: " + lPhenomenonTime + ", " + observation.Result);
         }
     }
 }
