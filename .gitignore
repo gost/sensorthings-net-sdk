@@ -1,3 +1,5 @@
+*.ncrunchsolution
+*.ncrunchproject
 .vs/
 mapbox-vector-tile.v2.ncrunchsolution
 .idea/
