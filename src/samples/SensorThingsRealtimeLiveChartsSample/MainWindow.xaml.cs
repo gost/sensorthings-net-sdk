@@ -20,8 +20,8 @@ namespace SensorThingsRealtimeLiveChartsSample
         public Func<double, string> YFormatter { get; set; }
         public Func<double, string> XFormatter { get; set; }
 
-        private static string serverurl = "http://gost.geodan.nl/v1.0";
-        private static int datastreamid = 58;
+        private static string serverurl = "http://black-pearl:8080/v1.0";
+        private static int datastreamid = 11;
         private static string server;
         private static string topic;
         private double minval;
@@ -85,7 +85,8 @@ namespace SensorThingsRealtimeLiveChartsSample
             foreach (var observation in obs)
             {
                 var lPhenomenonTime = observation.PhenomenonTime.ToLocalTime();
-                var newpoint = new DateTimePoint(lPhenomenonTime, (double)observation.Result);
+                var res = Convert.ToDouble(observation.Result);
+                var newpoint = new DateTimePoint(lPhenomenonTime, res);
                 SeriesCollection[0].Values.Add(newpoint);
             }
 

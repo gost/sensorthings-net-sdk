@@ -16,8 +16,8 @@ namespace OxyPlotDemo.ViewModels
 {
     public class MainWindowModel
     {
-        private static string serverurl = "http://gost.geodan.nl/v1.0";
-        private static int datastreamid = 58;
+        private static string serverurl = "http://black-pearl:8080/v1.0";
+        private static int datastreamid = 11;
         private static string server;
         private static string topic;
         private PlotModel plotModel;
@@ -72,9 +72,10 @@ namespace OxyPlotDemo.ViewModels
             {
                 if(observation.PhenomenonTime != null)
                 {
-                    var time = observation.PhenomenonTime.GetValueOrDefault();
+                    var time = observation.PhenomenonTime;
                     var lPhenomenonTime = time.ToLocalTime();
-                    lineSerie.Points.Add(new DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime), (double)observation.Result));
+                    var res = Convert.ToDouble(observation.Result);
+                    lineSerie.Points.Add(new DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime), res));
                 }
             }
             plotModel.Series.Add(lineSerie);
@@ -108,7 +109,7 @@ namespace OxyPlotDemo.ViewModels
 
             if (observation.PhenomenonTime != null)
             {
-                var time = observation.PhenomenonTime.GetValueOrDefault();
+                var time = observation.PhenomenonTime;
                 var lPhenomenonTime = time.ToLocalTime();
                 var newmaxx = OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime);
                 lineSerie.Points.Add(new DataPoint(newmaxx, (double)observation.Result));

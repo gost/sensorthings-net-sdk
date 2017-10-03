@@ -23,10 +23,11 @@ namespace MqttSampleApplication
         static void Main(string[] args)
         {
             Console.WriteLine("Sample of MQTT and SensorThings SDK");
-            var client = new MqttClient("gost.geodan.nl");
+            //var client = new MqttClient("gost.geodan.nl");
+            var client = new MqttClient("black-pearl");
             byte code = client.Connect(Guid.NewGuid().ToString());
 
-            ushort msgId = client.Subscribe(new string[] { "Datastreams(17)/Observations" },
+            ushort msgId = client.Subscribe(new string[] { "Datastreams(11)/Observations" },
                     new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
             client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
         }

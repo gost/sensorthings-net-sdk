@@ -10,9 +10,7 @@ namespace ConsoleSampleApplication
         static void Main(string[] args)
         {
             Console.WriteLine("Sample console app for SensorThings API client");
-            // var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
-            var server = "http://gost.geodan.nl/v1.0/";
-
+            var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
             var client = new SensorThingsClient(server);
 
             Console.WriteLine("Create observation for datastream 18");
@@ -22,7 +20,8 @@ namespace ConsoleSampleApplication
             observation.Datastream = datastream;
             observation.PhenomenonTime = DateTime.Now;
             observation.Result = 100;
-            var returnedObservation = client.CreateObservation(observation);
+            // do not create observations for now
+            // var returnedObservation = client.CreateObservation(observation);
 
             Console.WriteLine("Retrieve all paged datastreams...");
             var page = client.GetDatastreamCollection();
@@ -37,7 +36,7 @@ namespace ConsoleSampleApplication
             Console.WriteLine("End retrieving datastreams...");
             Console.WriteLine("Number of pages: " + pagenumber);
 
-            datastream = client.GetDatastream(58);
+            datastream = client.GetDatastream(1103497);
             var observations = datastream.GetObservations();
             Console.WriteLine("Number if observations: " + observations.Count);
 
@@ -56,6 +55,7 @@ namespace ConsoleSampleApplication
             //  var ipoint = (GeographicPosition)p.Coordinates;
             // Console.WriteLine("Location: " + ipoint.Longitude + ", " + ipoint.Latitude);
 
+            Console.WriteLine("Program ends... Press a key to continue.");
             Console.ReadKey();
         }
 
