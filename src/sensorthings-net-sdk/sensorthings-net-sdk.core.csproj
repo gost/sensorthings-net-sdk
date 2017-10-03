@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="project.json" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="client\Http.cs" />
     <Compile Include="client\SensorThingsClient.cs" />
     <Compile Include="Core\AbstractEntity.cs" />

@@ -54,9 +54,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\sensorthings-net-sdk\sensorthings-net-sdk.core.csproj">
-      <Project>{5f9ae393-23c9-4ef6-bd2f-c92098dd62d2}</Project>
-      <Name>sensorthings-net-sdk.core</Name>
+    <ProjectReference Include="..\..\sensorthings-net-sdk\sensorthings-net-sdk.csproj">
+      <Project>{6ffb3dc0-8edf-4a12-a78c-f78c64f8a9f2}</Project>
+      <Name>sensorthings-net-sdk</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

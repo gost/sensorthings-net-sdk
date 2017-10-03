@@ -68,7 +68,7 @@ namespace SensorThingsRealtimeLiveChartsSample
         {
             var str = Encoding.Default.GetString(e.Message);
             var observation = JsonConvert.DeserializeObject<Observation>(str);
-            var lPhenomenonTime = observation.PhenomenonTime.ToLocalTime();
+            var lPhenomenonTime = observation.PhenomenonTime.Value.ToLocalTime();
             var newpoint = new DateTimePoint(lPhenomenonTime, (double)observation.Result);
             Dispatcher.Invoke(() =>
             {
@@ -84,7 +84,7 @@ namespace SensorThingsRealtimeLiveChartsSample
             var obs = observations.Items.OrderBy(m => m.PhenomenonTime);
             foreach (var observation in obs)
             {
-                var lPhenomenonTime = observation.PhenomenonTime.ToLocalTime();
+                var lPhenomenonTime = observation.PhenomenonTime.Value.ToLocalTime();
                 var res = Convert.ToDouble(observation.Result);
                 var newpoint = new DateTimePoint(lPhenomenonTime, res);
                 SeriesCollection[0].Values.Add(newpoint);

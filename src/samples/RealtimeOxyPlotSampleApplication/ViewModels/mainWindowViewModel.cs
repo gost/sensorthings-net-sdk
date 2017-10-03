@@ -72,7 +72,7 @@ namespace OxyPlotDemo.ViewModels
             {
                 if(observation.PhenomenonTime != null)
                 {
-                    var time = observation.PhenomenonTime;
+                    var time = observation.PhenomenonTime.Value;
                     var lPhenomenonTime = time.ToLocalTime();
                     var res = Convert.ToDouble(observation.Result);
                     lineSerie.Points.Add(new DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime), res));
@@ -109,7 +109,7 @@ namespace OxyPlotDemo.ViewModels
 
             if (observation.PhenomenonTime != null)
             {
-                var time = observation.PhenomenonTime;
+                var time = observation.PhenomenonTime.Value;
                 var lPhenomenonTime = time.ToLocalTime();
                 var newmaxx = OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime);
                 lineSerie.Points.Add(new DataPoint(newmaxx, (double)observation.Result));
