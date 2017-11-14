@@ -14,7 +14,7 @@ Implemented:
 ## Install
 
 ```
-package-install Geodan.SensorThings.SDK
+$ install-package Geodan.SensorThings.SDK
 ```
 
 ### Sample code
