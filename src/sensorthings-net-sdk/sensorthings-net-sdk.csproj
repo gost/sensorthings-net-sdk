@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.1</TargetFramework>
     <AssemblyName>sensorthings-net-sdk</AssemblyName>
-    <PackageId>sensorthings-net-sdk</PackageId>
+    <PackageId>Geodan.SensorThings.SDK</PackageId>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -14,8 +14,9 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.2</Version>
+    <Version>0.2.1</Version>
     <PackageReleaseNotes />
+    <Authors>Bert Temme</Authors>
   </PropertyGroup>
 
   <ItemGroup>

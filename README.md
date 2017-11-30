@@ -14,6 +14,7 @@ Implemented:
 ## Install
 
 ```
+<<<<<<< HEAD
 $ package-install Geodan.SensorThings.SDK
 ```
 
@@ -21,6 +22,9 @@ Push new version:
 
 ```
 $ nuget push Geodan.SensorThings.SDK.0.2.0.nupkg -Source https://www.nuget.org/api/v2/package
+=======
+$ install-package Geodan.SensorThings.SDK
+>>>>>>> 7528c57568dfe90e761f0fd7b7f832963e5bbb77
 ```
 
 ### Sample code
@@ -31,7 +35,7 @@ var client = new SensorThingsClient(server);
 var datastream = client.GetDatastream(760827);
 var observations = datastream.GetObservations();
 var nextpage_observations = observations.GetNextPage();
-var foi = observations[0].GetFeatureOfInterest();
+var foi = observations.Items[0].GetFeatureOfInterest();
 var observedProperty = datastream.GetObservedProperty();
 var sensor = datastream.GetSensor();
 var thing = datastream.GetThing();
