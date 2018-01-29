@@ -10,18 +10,20 @@ namespace ConsoleSampleApplication
         static void Main(string[] args)
         {
             Console.WriteLine("Sample console app for SensorThings API client");
-            var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
+            // var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
+            var server = "https://gost.geodan.nl/v1.0";
+
             var client = new SensorThingsClient(server);
 
             Console.WriteLine("Create observation for datastream 18");
             var datastream = new Datastream();
-            datastream.Id = 18;
+            datastream.Id = 263;
             var observation = new Observation();
             observation.Datastream = datastream;
             observation.PhenomenonTime = DateTime.Now;
             observation.Result = 100;
             // do not create observations for now
-            // var returnedObservation = client.CreateObservation(observation);
+            var returnedObservation = client.CreateObservation(observation);
 
             Console.WriteLine("Retrieve all paged datastreams...");
             var page = client.GetDatastreamCollection();

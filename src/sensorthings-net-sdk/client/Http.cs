@@ -18,7 +18,12 @@ namespace SensorThings.Client
         public static T PostJson<T>(string url, T entity)
         {
             var client = new HttpClient();
-            var serialized = JsonConvert.SerializeObject(entity);
+            var serialized = JsonConvert.SerializeObject(entity, Formatting.None,
+                            new JsonSerializerSettings
+                            {
+                                NullValueHandling = NullValueHandling.Ignore,
+                                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+                            });
             var buffer = System.Text.Encoding.UTF8.GetBytes(serialized);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
