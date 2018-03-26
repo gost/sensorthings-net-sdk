@@ -19,15 +19,15 @@ namespace sensorthings_net_sdk.tests
         public void GetDatastreamTest()
         {
             // act
-            var datastream = client.GetDatastream(760827);
-            var observations = datastream.GetObservations();
-            var observedProperty = datastream.GetObservedProperty();
-            var sensor = datastream.GetSensor();
-            var thing = datastream.GetThing();
+            var datastream = client.GetDatastream("760827").Result;
+            var observations = datastream.GetObservations().Result;
+            var observedProperty = datastream.GetObservedProperty().Result;
+            var sensor = datastream.GetSensor().Result;
+            var thing = datastream.GetThing().Result;
 
 
             // assert
-            Assert.IsTrue(datastream.Id == 760827);
+            Assert.IsTrue(datastream.Id == "760827");
             Assert.IsTrue(datastream.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams(760827)");
             Assert.IsTrue(datastream.Description == "Data stream description");
             Assert.IsTrue(datastream.Name == "NYP_DATASTREM_4321");
@@ -41,15 +41,15 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(datastream.ThingNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Datastreams(760827)/Thing");
             Assert.IsTrue(observations.Count > 0);
             Assert.IsTrue(observedProperty.Description == "acceleration of sensor");
-            Assert.IsTrue(sensor.Id == 760611);
-            Assert.IsTrue(thing.Id == 760737);
+            Assert.IsTrue(sensor.Id == "760611");
+            Assert.IsTrue(thing.Id == "760737");
         }
 
         [Test]
         public void GetDatastreamsTest()
         {
             // act
-            var datastreams = client.GetDatastreamCollection();
+            var datastreams = client.GetDatastreamCollection().Result;
 
             // assert
             Assert.IsTrue(datastreams.Count>0);

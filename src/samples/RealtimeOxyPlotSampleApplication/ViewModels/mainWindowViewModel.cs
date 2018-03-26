@@ -9,6 +9,8 @@ using SensorThings.Core;
 using System;
 using System.Linq;
 using System.Text;
+using System.Windows;
+using System.Windows.Threading;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
@@ -16,8 +18,8 @@ namespace OxyPlotDemo.ViewModels
 {
     public class MainWindowModel
     {
-        private static string serverurl = "http://black-pearl:8080/v1.0";
-        private static int datastreamid = 11;
+        private static string serverurl = "https://gost.geodan.nl/v1.0";
+        private static string datastreamid = "11";
         private static string server;
         private static string topic;
         private PlotModel plotModel;
@@ -50,11 +52,11 @@ namespace OxyPlotDemo.ViewModels
             mqttclient.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
         }
 
-        private void LoadData()
+        private async void LoadData()
         {
             var client = new SensorThingsClient(serverurl);
-            var datastream = client.GetDatastream(datastreamid);
-            var observations = datastream.GetObservations();
+            var datastream = await client.GetDatastream(datastreamid);
+            var observations = await datastream.GetObservations();
 
             var lineSerie = new OxyPlot.Series.LineSeries
             {
@@ -78,7 +80,9 @@ namespace OxyPlotDemo.ViewModels
                     lineSerie.Points.Add(new DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime), res));
                 }
             }
+
             plotModel.Series.Add(lineSerie);
+            plotview.InvalidatePlot();
         }
         private void SetUpModel()
         {
@@ -93,7 +97,7 @@ namespace OxyPlotDemo.ViewModels
             dtaxis.Position = AxisPosition.Bottom;
             dtaxis.Title = "Date";
             dtaxis.TitleFormatString = "yy/mm/dd HH:mm";
-            plotModel.Axes.Add(dtaxis);
+            plotModel.Axes.Add(dtaxis);            
             var valueAxis = new OxyPlot.Axes.LinearAxis() { MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, Title = "Value" };
             valueAxis.Position = AxisPosition.Left;
             plotModel.Axes.Add(valueAxis);

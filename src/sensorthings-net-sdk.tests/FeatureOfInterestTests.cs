@@ -19,11 +19,11 @@ namespace sensorthings_net_sdk.tests
         public void GetFeatureOfInterestTest()
         {
             // act
-            var foi = client.GetFeatureOfInterest();
-            var observations = foi.GetObservations();
+            var foi = client.GetFeatureOfInterest("1840970").Result;
+            var observations = foi.GetObservations().Result;
 
             // assert
-            Assert.IsTrue(foi.Id > 0);
+            Assert.IsFalse(string.IsNullOrEmpty(foi.Id));
             // todo: How to parse the GeoJSON returned?
             // Assert.IsTrue(foi.Feature.ToString() == @"{{"coordinates": [103.84844899177551,1.3790908801131481],"type": "Point"}}");
             Assert.IsTrue(observations.Count >= 0);
@@ -33,7 +33,7 @@ namespace sensorthings_net_sdk.tests
         public void GetFeatureOfInterestCollectionTest()
         {
             // act
-            var fois = client.GetFeatureOfInterestCollection();
+            var fois = client.GetFeatureOfInterestCollection().Result;
 
             // assert
             Assert.IsTrue(fois.Count > 0);

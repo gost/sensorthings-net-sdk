@@ -19,18 +19,18 @@ namespace sensorthings_net_sdk.tests
         public void GetObservedPropertyTest()
         {
             // act
-            var observedProperty = client.GetObservedProperty();
-            var datastreams = observedProperty.GetDatastreams();
+            var observedProperty = client.GetObservedProperty("1893289").Result;
+            var datastreams = observedProperty.GetDatastreams().Result;
 
             // assert
-            Assert.IsTrue(observedProperty.Id > 0);
+            Assert.IsFalse(string.IsNullOrEmpty(observedProperty.Id));
         }
 
         [Test]
         public void GetObservedPropertyCollectionTest()
         {
             // act
-            var observedProperties = client.GetObservedPropertyCollection();
+            var observedProperties = client.GetObservedPropertyCollection().Result;
 
             // assert
             Assert.IsTrue(observedProperties.Count>0);

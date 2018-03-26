@@ -20,13 +20,13 @@ namespace sensorthings_net_sdk.tests
         public void GetThingTest()
         {
             // act
-            var thing = client.GetThing(760792);
-            var datastreams = thing.GetDatastreams();
-            var historicalLocations = thing.GetHistoricalLocations();
-            var locations = thing.GetLocations();
+            var thing = client.GetThing("760792").Result;
+            var datastreams = thing.GetDatastreams().Result;
+            var historicalLocations = thing.GetHistoricalLocations().Result;
+            var locations = thing.GetLocations().Result;
 
             // assert
-            Assert.IsTrue(thing.Id == 760792);
+            Assert.IsTrue(thing.Id == "760792");
             Assert.IsTrue(thing.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)");
             Assert.IsTrue(thing.Description == "This is a CCTV camera mounted at the Front Entrance from AMK Avenue 8");
             Assert.IsTrue(thing.Name == "CCTV @ NYP Campus - Main Entrance");
@@ -44,7 +44,7 @@ namespace sensorthings_net_sdk.tests
         public void GetThingsTest()
         {
             // act
-            var things = client.GetThingCollection();
+            var things = client.GetThingCollection().Result;
 
             // assert
             Assert.IsTrue(things.Count >0);

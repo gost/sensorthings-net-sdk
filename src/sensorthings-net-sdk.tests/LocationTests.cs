@@ -19,10 +19,10 @@ namespace sensorthings_net_sdk.tests
         public void GetLocationTest()
         {
             // act
-            var location = client.GetLocation(760795);
+            var location = client.GetLocation("760795").Result;
 
             // assert
-            Assert.IsTrue(location.Id == 760795);
+            Assert.IsTrue(location.Id == "760795");
             Assert.IsTrue(location.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Locations(760795)");
             Assert.IsTrue(location.Description == "The NYP location");
             Assert.IsTrue(location.Name == "NYP_LOCATION_4321");
@@ -36,7 +36,7 @@ namespace sensorthings_net_sdk.tests
         public void GetLocationCollectionTest()
         {
             // act
-            var locations = client.GetLocationCollection();
+            var locations = client.GetLocationCollection().Result;
 
             // assert
             Assert.IsTrue(locations.Count > 0 );
@@ -48,16 +48,16 @@ namespace sensorthings_net_sdk.tests
         public void TestRelatedItems()
         {
             // arrange
-            var location = client.GetLocation(760795);
+            var location = client.GetLocation("760795").Result;
 
             // act
-            var historicalLocations = location.GetHistoricalLocations();
-            var things = location.GetThings();
+            var historicalLocations = location.GetHistoricalLocations().Result;
+            var things = location.GetThings().Result;
 
             // assert
             Assert.IsTrue(historicalLocations.Count == 1);
             Assert.IsTrue(things.Count == 1);
-            Assert.IsTrue(things.Items[0].Id == 760740);
+            Assert.IsTrue(things.Items[0].Id == "760740");
         }
     }
 }

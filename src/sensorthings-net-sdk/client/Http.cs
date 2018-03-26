@@ -1,21 +1,22 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace SensorThings.Client
 {
     public static class Http
     {
-        public static T GetJson<T>(string url)
+        public static async Task<T> GetJson<T>(string url)
         {
             var client = new HttpClient();
-            var response = client.GetAsync(url).Result;
-            string strJson = response.Content.ReadAsStringAsync().Result;
+            var response = await client.GetAsync(url);
+            var strJson = await response.Content.ReadAsStringAsync();
             var items = JsonConvert.DeserializeObject<T>(strJson);
             return items;
         }
 
-        public static T PostJson<T>(string url, T entity)
+        public static async Task<T> PostJson<T>(string url, T entity)
         {
             var client = new HttpClient();
             var serialized = JsonConvert.SerializeObject(entity, Formatting.None,
@@ -27,8 +28,8 @@ namespace SensorThings.Client
             var buffer = System.Text.Encoding.UTF8.GetBytes(serialized);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var responseMessage = client.PostAsync(url, byteContent).Result;
-            var response = responseMessage.Content.ReadAsStringAsync().Result;
+            var responseMessage = await client.PostAsync(url, byteContent);
+            var response = await responseMessage.Content.ReadAsStringAsync();
             var item = JsonConvert.DeserializeObject<T>(response);
             return item;
         }

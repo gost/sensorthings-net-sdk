@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SensorThings.Client;
 using System;
+using System.Threading.Tasks;
 
 namespace SensorThings.Core
 {
@@ -14,14 +15,14 @@ namespace SensorThings.Core
         public string FeatureOfInterestNavigationLink { get; set; }
         public DateTime? ResultTime { get; set; }
 
-        public Datastream GetDatastream()
+        public async Task<Datastream> GetDatastream()
         {
-            return Http.GetJson<Datastream>(DatastreamNavigationLink);
+            return await Http.GetJson<Datastream>(DatastreamNavigationLink);
         }
 
-        public FeatureOfInterest GetFeatureOfInterest()
+        public async Task<FeatureOfInterest> GetFeatureOfInterest()
         {
-            return Http.GetJson<FeatureOfInterest>(FeatureOfInterestNavigationLink);
+            return await Http.GetJson<FeatureOfInterest>(FeatureOfInterestNavigationLink);
         }
 
         // [JsonIgnore]

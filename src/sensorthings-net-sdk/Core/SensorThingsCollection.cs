@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using SensorThings.Client;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SensorThings.Core
 {
     public class SensorThingsCollection<T>
     {
-        // Todo: On scratchpad there is property @iot.count, on gost just count
         [JsonProperty("@iot.count")]
         public int Count { get; set; }
         [JsonProperty("@iot.nextLink")]
@@ -14,9 +14,14 @@ namespace SensorThings.Core
         [JsonProperty("value")]
         public IReadOnlyList<T> Items { get; set; }
 
-        public SensorThingsCollection<T> GetNextPage()
+        public bool HasNextPage()
         {
-            return Http.GetJson<SensorThingsCollection<T>>(NextLink);
+            return !string.IsNullOrEmpty(NextLink);
+        }
+
+        public async Task<SensorThingsCollection<T>> GetNextPage()
+        {
+            return HasNextPage() ? null : await Http.GetJson<SensorThingsCollection<T>>(NextLink);
         }
     }
 }

@@ -19,11 +19,11 @@ namespace sensorthings_net_sdk.tests
         public void GetSensorTest()
         {
             // act
-            var sensor = client.GetSensor(760645);
-            var datastreams = sensor.GetDatastreams();
+            var sensor = client.GetSensor("760645").Result;
+            var datastreams = sensor.GetDatastreams().Result;
 
             // assert
-            Assert.IsTrue(sensor.Id == 760645);
+            Assert.IsTrue(sensor.Id == "760645");
             Assert.IsTrue(sensor.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Sensors(760645)");
             Assert.IsTrue(sensor.Description == "SHT3x-DIS is the next generation of Sensirion’s temperature and humidity sensors. I");
             Assert.IsTrue(sensor.Name == "SHT31_XX2");
@@ -38,7 +38,7 @@ namespace sensorthings_net_sdk.tests
         public void GetSensorsTest()
         {
             // act
-            var sensors = client.GetSensorCollection();
+            var sensors = client.GetSensorCollection().Result;
 
             // assert
             Assert.IsTrue(sensors.Count > 0);

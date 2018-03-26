@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SensorThings.Client;
 
 namespace SensorThings.Core
@@ -12,9 +13,9 @@ namespace SensorThings.Core
         [JsonProperty("Observations@iot.navigationLink")]
         public string ObservationsNavigationLink { get; set; }
 
-        public SensorThingsCollection<Observation> GetObservations()
+        public async Task<SensorThingsCollection<Observation>> GetObservations()
         {
-            return Http.GetJson<SensorThingsCollection<Observation>>(ObservationsNavigationLink);
+            return await Http.GetJson<SensorThingsCollection<Observation>>(ObservationsNavigationLink);
         }
     }
 }

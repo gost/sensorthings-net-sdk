@@ -16,34 +16,35 @@ namespace ConsoleSampleApplication
             var client = new SensorThingsClient(server);
 
             Console.WriteLine("Create observation for datastream 18");
-            var datastream = new Datastream();
-            datastream.Id = 263;
-            var observation = new Observation();
-            observation.Datastream = datastream;
-            observation.PhenomenonTime = DateTime.Now;
-            observation.Result = 100;
+            var datastream = new Datastream {Id = "263"};
+            var observation = new Observation
+            {
+                Datastream = datastream,
+                PhenomenonTime = DateTime.Now,
+                Result = 100
+            };
             // do not create observations for now
-            var returnedObservation = client.CreateObservation(observation);
+            var returnedObservation = client.CreateObservation(observation).Result;
 
             Console.WriteLine("Retrieve all paged datastreams...");
-            var page = client.GetDatastreamCollection();
+            var page = client.GetDatastreamCollection().Result;
             var pagenumber = 1;
             while (page != null)
             {
                 Console.WriteLine("---------------------------------------");
                 WritePage(page);
-                page = page.NextLink != null ? page.GetNextPage() : null;
+                page = page.GetNextPage().Result;
                 pagenumber++;
             }
             Console.WriteLine("End retrieving datastreams...");
             Console.WriteLine("Number of pages: " + pagenumber);
 
-            datastream = client.GetDatastream(1103497);
-            var observations = datastream.GetObservations();
+            datastream = client.GetDatastream("263").Result;
+            var observations = datastream.GetObservations().Result;
             Console.WriteLine("Number if observations: " + observations.Count);
 
             Console.WriteLine("Sample with locations");
-            var locations = client.GetLocationCollection();
+            var locations = client.GetLocationCollection().Result;
 
             // Get location without using GeoJSON.NET (works only for points)
             var firstlocation = locations.Items[0];

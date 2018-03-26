@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SensorThings.Client;
 
 namespace SensorThings.Core
@@ -14,9 +15,9 @@ namespace SensorThings.Core
         public string Metadata { get; set; }
         public string EncodingType { get; set; }
 
-        public SensorThingsCollection<Datastream> GetDatastreams()
+        public async Task<SensorThingsCollection<Datastream>> GetDatastreams()
         {
-            return Http.GetJson<SensorThingsCollection<Datastream>>(DatastreamsNavigationLink);
+            return await Http.GetJson<SensorThingsCollection<Datastream>>(DatastreamsNavigationLink);
         }
     }
 }
