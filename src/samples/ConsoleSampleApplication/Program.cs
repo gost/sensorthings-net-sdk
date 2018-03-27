@@ -27,24 +27,32 @@ namespace ConsoleSampleApplication
             var returnedObservation = client.CreateObservation(observation).Result;
 
             Console.WriteLine("Retrieve all paged datastreams...");
-            var page = client.GetDatastreamCollection().Result;
+            var response = client.GetDatastreamCollection().Result;
+            var page = response.Result;
+
             var pagenumber = 1;
             while (page != null)
             {
                 Console.WriteLine("---------------------------------------");
-                WritePage(page);
-                page = page.GetNextPage().Result;
+                WritePage(response.Result);
+                var pageResponse = page.GetNextPage().Result;
+                page = pageResponse?.Result;
+
                 pagenumber++;
             }
             Console.WriteLine("End retrieving datastreams...");
             Console.WriteLine("Number of pages: " + pagenumber);
 
-            datastream = client.GetDatastream("263").Result;
-            var observations = datastream.GetObservations().Result;
+            var datastreamResponse = client.GetDatastream("263").Result;
+            datastream = datastreamResponse.Result;
+            var observationsResponse = datastream.GetObservations(client).Result;
+            var observations = observationsResponse.Result;
+
             Console.WriteLine("Number if observations: " + observations.Count);
 
             Console.WriteLine("Sample with locations");
-            var locations = client.GetLocationCollection().Result;
+            var locationsResponse = client.GetLocationCollection().Result;
+            var locations = locationsResponse.Result;
 
             // Get location without using GeoJSON.NET (works only for points)
             var firstlocation = locations.Items[0];

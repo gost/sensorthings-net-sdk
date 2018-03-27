@@ -20,9 +20,14 @@ namespace sensorthings_net_sdk.tests
         public void GetObservationTest()
         {
             // act
-            var observation = client.GetObservation("760789").Result;
-            var datastream = observation.GetDatastream().Result;
-            var foi = observation.GetFeatureOfInterest().Result;
+            var response = client.GetObservation("760789").Result;
+            var observation = response.Result;
+
+            var datastreamResponse = observation.GetDatastream(client).Result;
+            var datastream = datastreamResponse.Result;
+
+            var foiResponse = observation.GetFeatureOfInterest(client).Result;
+            var foi = foiResponse.Result;
 
             // assert
             Assert.IsTrue(observation.Id == "760789");
@@ -41,7 +46,8 @@ namespace sensorthings_net_sdk.tests
         public void GetObservationCollectionTest()
         {
             // act
-            var observations = client.GetObservationCollection().Result;
+            var response = client.GetObservationCollection().Result;
+            var observations = response.Result;
 
             // assert
             Assert.IsTrue(observations.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations?$top=100&$skip=100");

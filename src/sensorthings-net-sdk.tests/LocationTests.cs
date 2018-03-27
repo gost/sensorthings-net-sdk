@@ -19,7 +19,8 @@ namespace sensorthings_net_sdk.tests
         public void GetLocationTest()
         {
             // act
-            var location = client.GetLocation("760795").Result;
+            var response = client.GetLocation("760795").Result;
+            var location = response.Result;
 
             // assert
             Assert.IsTrue(location.Id == "760795");
@@ -36,7 +37,8 @@ namespace sensorthings_net_sdk.tests
         public void GetLocationCollectionTest()
         {
             // act
-            var locations = client.GetLocationCollection().Result;
+            var response = client.GetLocationCollection().Result;
+            var locations = response.Result;
 
             // assert
             Assert.IsTrue(locations.Count > 0 );
@@ -48,11 +50,15 @@ namespace sensorthings_net_sdk.tests
         public void TestRelatedItems()
         {
             // arrange
-            var location = client.GetLocation("760795").Result;
+            var response = client.GetLocation("760795").Result;
+            var location = response.Result;
 
             // act
-            var historicalLocations = location.GetHistoricalLocations().Result;
-            var things = location.GetThings().Result;
+            var historicalLocationsResponse = location.GetHistoricalLocations(client).Result;
+            var historicalLocations = historicalLocationsResponse.Result;
+
+            var thingsResponse = location.GetThings(client).Result;
+            var things = thingsResponse.Result;
 
             // assert
             Assert.IsTrue(historicalLocations.Count == 1);

@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using SensorThings.Client;
-using System;
 
 namespace sensorthings_net_sdk.tests
 {
@@ -20,10 +19,15 @@ namespace sensorthings_net_sdk.tests
         public void GetThingTest()
         {
             // act
-            var thing = client.GetThing("760792").Result;
-            var datastreams = thing.GetDatastreams().Result;
-            var historicalLocations = thing.GetHistoricalLocations().Result;
-            var locations = thing.GetLocations().Result;
+            var response = client.GetThing("760792").Result;
+            var thing = response.Result;
+
+            var datastreamsResponse = thing.GetDatastreams(client).Result;
+            var datastreams = datastreamsResponse.Result;
+            var historicalLocationsResponse = thing.GetHistoricalLocations(client).Result;
+            var historicalLocations = historicalLocationsResponse.Result;
+            var locationsresponse = thing.GetLocations(client).Result;
+            var locations = locationsresponse.Result;
 
             // assert
             Assert.IsTrue(thing.Id == "760792");
@@ -44,7 +48,8 @@ namespace sensorthings_net_sdk.tests
         public void GetThingsTest()
         {
             // act
-            var things = client.GetThingCollection().Result;
+            var response = client.GetThingCollection().Result;
+            var things = response.Result;
 
             // assert
             Assert.IsTrue(things.Count >0);

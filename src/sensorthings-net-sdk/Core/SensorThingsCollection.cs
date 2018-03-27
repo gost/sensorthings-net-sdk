@@ -2,6 +2,7 @@
 using SensorThings.Client;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using sensorthings.Core;
 
 namespace SensorThings.Core
 {
@@ -9,8 +10,10 @@ namespace SensorThings.Core
     {
         [JsonProperty("@iot.count")]
         public int Count { get; set; }
+
         [JsonProperty("@iot.nextLink")]
         public string NextLink { get; set; }
+
         [JsonProperty("value")]
         public IReadOnlyList<T> Items { get; set; }
 
@@ -19,7 +22,7 @@ namespace SensorThings.Core
             return !string.IsNullOrEmpty(NextLink);
         }
 
-        public async Task<SensorThingsCollection<T>> GetNextPage()
+        public async Task<Response<SensorThingsCollection<T>>> GetNextPage()
         {
             return HasNextPage() ? null : await Http.GetJson<SensorThingsCollection<T>>(NextLink);
         }

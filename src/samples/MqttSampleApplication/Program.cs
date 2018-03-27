@@ -20,6 +20,7 @@ namespace MqttSampleApplication
             }' "http://gost.geodan.nl/v1.0/Observations"
             In the client_MqttMsgPublishReceived event the JSON response is converted to am Observation object
          */
+         
         static void Main(string[] args)
         {
             Console.WriteLine("Sample of MQTT and SensorThings SDK");
@@ -29,15 +30,15 @@ namespace MqttSampleApplication
 
             ushort msgId = client.Subscribe(new string[] { "Datastreams(11)/Observations" },
                     new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
-            client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
+            client.MqttMsgPublishReceived += ClientMqttMsgPublishReceived;
         }
 
-        private static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
+        private static void ClientMqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
             var str = Encoding.Default.GetString(e.Message);
             var observation = JsonConvert.DeserializeObject<Observation>(str);
             // example: navigate to other entities (Things, Datastreams)
-            var datastream = observation.GetDatastream();
+            var datastream = observation.GetDatastream(null);
             Console.WriteLine("Datastream: " + datastream.Id); 
             Console.WriteLine("New Observation published: " + observation.Result);
         }

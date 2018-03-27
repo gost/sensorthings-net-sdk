@@ -19,8 +19,10 @@ namespace sensorthings_net_sdk.tests
         public void GetSensorTest()
         {
             // act
-            var sensor = client.GetSensor("760645").Result;
-            var datastreams = sensor.GetDatastreams().Result;
+            var response = client.GetSensor("760645").Result;
+            var sensor = response.Result;
+            var datastreamsResponse = sensor.GetDatastreams(client).Result;
+            var datastreams = datastreamsResponse.Result;
 
             // assert
             Assert.IsTrue(sensor.Id == "760645");
@@ -38,7 +40,8 @@ namespace sensorthings_net_sdk.tests
         public void GetSensorsTest()
         {
             // act
-            var sensors = client.GetSensorCollection().Result;
+            var response = client.GetSensorCollection().Result;
+            var sensors = response.Result;
 
             // assert
             Assert.IsTrue(sensors.Count > 0);

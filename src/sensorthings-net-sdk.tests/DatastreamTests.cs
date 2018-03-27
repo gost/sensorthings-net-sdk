@@ -19,11 +19,11 @@ namespace sensorthings_net_sdk.tests
         public void GetDatastreamTest()
         {
             // act
-            var datastream = client.GetDatastream("760827").Result;
-            var observations = datastream.GetObservations().Result;
-            var observedProperty = datastream.GetObservedProperty().Result;
-            var sensor = datastream.GetSensor().Result;
-            var thing = datastream.GetThing().Result;
+            var datastream = client.GetDatastream("760827").Result.Result;
+            var observations = datastream.GetObservations(client).Result.Result;
+            var observedProperty = datastream.GetObservedProperty(client).Result.Result;
+            var sensor = datastream.GetSensor(client).Result.Result;
+            var thing = datastream.GetThing(client).Result.Result;
 
 
             // assert
@@ -49,7 +49,8 @@ namespace sensorthings_net_sdk.tests
         public void GetDatastreamsTest()
         {
             // act
-            var datastreams = client.GetDatastreamCollection().Result;
+            var response = client.GetDatastreamCollection().Result;
+            var datastreams = response.Result;
 
             // assert
             Assert.IsTrue(datastreams.Count>0);

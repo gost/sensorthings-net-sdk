@@ -20,9 +20,14 @@ namespace sensorthings_net_sdk.tests
         public void GetHistoricalLocationTest()
         {
             // act
-            var historicalLocation = client.GetHistoricalLocation("761098").Result;
-            var locations = historicalLocation.GetLocations().Result;
-            var thing = historicalLocation.GetThing().Result;
+            var response = client.GetHistoricalLocation("761098").Result;
+            var historicalLocation = response.Result;
+
+            var locationsResponse = historicalLocation.GetLocations(client).Result;
+            var locations = locationsResponse.Result;
+
+            var thingResponse = historicalLocation.GetThing(client).Result;
+            var thing = thingResponse.Result;
 
             // assert
             Assert.IsTrue(historicalLocation.Id == "761098");
@@ -39,7 +44,8 @@ namespace sensorthings_net_sdk.tests
         public void GetHistoricalLocationCollectionTest()
         {
             // act
-            var historicalLocations = client.GetHistoricalLocationsCollection().Result;
+            var response = client.GetHistoricalLocationsCollection().Result;
+            var historicalLocations = response.Result;
 
             // assert
             // If new observations are added this next test will fail....

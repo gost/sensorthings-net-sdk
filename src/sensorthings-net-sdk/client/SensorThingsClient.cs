@@ -1,4 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using sensorthings;
+using sensorthings.Core;
+using sensorthings.Extensions;
+using sensorthings.ODATA;
 using SensorThings.Core;
 
 namespace SensorThings.Client
@@ -12,131 +17,222 @@ namespace SensorThings.Client
         public SensorThingsClient(string server)
         {
             Server = server;
-            Task.Run(async () => _homedoc = await Http.GetJson<HomeDocument>(Server)).Wait();
+            Task.Run(async () =>
+            {
+                var response = await Http.GetJson<HomeDocument>(Server);
+                if (!response.Success)
+                {
+                    throw new Exception("Unable to get home document");
+                }
+
+                return _homedoc = response.Result;
+            }).Wait();
         }
 
-        public async Task<Thing> GetThing(string id)
+        public async Task<Response<Thing>> GetThing(string id, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("Things") + $"({id})";
-            var thing = await Http.GetJson<Thing>(url);
-            return thing;
+            return await Get<Thing>(EntityType.Thing, id, odata);
         }
 
-        public async Task<SensorThingsCollection<Thing>> GetThingCollection()
+        public async Task<Response<Thing>> GetThingByDatastream(string id, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("Things");
-            var things = await Http.GetJson<SensorThingsCollection<Thing>>(url);
-            return things;
+            return await Get<Thing>(EntityType.Thing, EntityType.Datastream, id, odata);
         }
 
-        public async Task<Location> GetLocation(string id)
+        public async Task<Response<Thing>> GetThingByHistoricalLocation(string id, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("Locations") + $"({id})";
-            var location = await Http.GetJson<Location>(url);
-            return location;
+            return await Get<Thing>(EntityType.Thing, EntityType.HistoricalLocation, id, odata);
         }
 
-        public async Task<SensorThingsCollection<Location>> GetLocationCollection()
+        public async Task<Response<SensorThingsCollection<Thing>>> GetThingCollection(OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("Locations");
-            var locations = await Http.GetJson<SensorThingsCollection<Location>>(url);
-            return locations;
+            return await Get<SensorThingsCollection<Thing>>(EntityType.Thing, odata);
         }
 
-        public async Task<HistoricalLocation> GetHistoricalLocation(string id)
+        public async Task<Response<SensorThingsCollection<Thing>>> GetThingCollectionByLocation(string id, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("HistoricalLocations") + $"({id})";
-            var historicalLocation = await Http.GetJson<HistoricalLocation>(url);
-            return historicalLocation;
+            return await Get<SensorThingsCollection<Thing>>(EntityType.Thing, EntityType.Location, id, odata);
         }
 
-        public async Task<SensorThingsCollection<HistoricalLocation>> GetHistoricalLocationsCollection()
+        public async Task<Response<Location>> GetLocation(string id, OdataQuery odata = null)
+        { 
+            return await Get<Location>(EntityType.Location, id, odata);
+        }
+
+        public async Task<Response<SensorThingsCollection<Location>>> GetLocationCollection(OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("HistoricalLocations");
-            var historicalLocations = await Http.GetJson<SensorThingsCollection<HistoricalLocation>>(url);
-            return historicalLocations;
+            return await Get<SensorThingsCollection<Location>>(EntityType.Location, odata);
         }
 
-        public async Task<Datastream> GetDatastream(string id)
+        public async Task<Response<SensorThingsCollection<Location>>> GetLocationCollectionByHistoricalLocation(string id, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("Datastreams") + $"({id})";
-            var datastream = await Http.GetJson<Datastream>(url);
-            return datastream;
+            return await Get<SensorThingsCollection<Location>>(EntityType.Location, EntityType.HistoricalLocation, id, odata);
         }
 
-        public async Task<SensorThingsCollection<Datastream>> GetDatastreamCollection(string url)
+        public async Task<Response<SensorThingsCollection<Location>>> GetLocationCollectionByThing(string id, OdataQuery odata = null)
         {
-            var datastreams = await Http.GetJson<SensorThingsCollection<Datastream>>(url);
-            return datastreams;
+            return await Get<SensorThingsCollection<Location>>(EntityType.Location, EntityType.Thing, id, odata);
         }
 
-        public async Task<SensorThingsCollection<Datastream>> GetDatastreamCollection()
+        public async Task<Response<HistoricalLocation>> GetHistoricalLocation(string id, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("Datastreams");
-            return await GetDatastreamCollection(url);
+            return await Get<HistoricalLocation>(EntityType.HistoricalLocation, id, odata);
         }
 
-        public async Task<Sensor> GetSensor(string id)
+        public async Task<Response<SensorThingsCollection<HistoricalLocation>>> GetHistoricalLocationsCollection(OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("Sensors") + $"({id})";
-            var sensor = await Http.GetJson<Sensor>(url);
-            return sensor;
+            return await Get<SensorThingsCollection<HistoricalLocation>>(EntityType.HistoricalLocation, odata);            
         }
 
-        public async Task<SensorThingsCollection<Sensor>> GetSensorCollection()
+        public async Task<Response<SensorThingsCollection<HistoricalLocation>>> GetHistoricalLocationsCollectionByLocation(string id, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("Sensors");
-            var sensors = await Http.GetJson<SensorThingsCollection<Sensor>>(url);
-            return sensors;
+            return await Get<SensorThingsCollection<HistoricalLocation>>(EntityType.HistoricalLocation, EntityType.Location, id, odata);
         }
 
-        public async Task<ObservedProperty> GetObservedProperty(string id)
+        public async Task<Response<SensorThingsCollection<HistoricalLocation>>> GetHistoricalLocationsCollectionByThing(string id, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("ObservedProperties") + $"({id})";
-            var observedProperty = await Http.GetJson<ObservedProperty>(url);
-            return observedProperty;
+            return await Get<SensorThingsCollection<HistoricalLocation>>(EntityType.HistoricalLocation, EntityType.Thing, id, odata);
         }
 
-        public async Task<SensorThingsCollection<ObservedProperty>> GetObservedPropertyCollection()
+        public async Task<Response<Datastream>> GetDatastream(string id, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("ObservedProperties");
-            var observedProperties = await Http.GetJson<SensorThingsCollection<ObservedProperty>>(url);
-            return observedProperties;
+            return await Get<Datastream>(EntityType.Datastream, id, odata);
         }
 
-        public async Task<Observation> GetObservation(string id)
+        public async Task<Response<Datastream>> GetDatastreamByObservation(string id, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("Observations") + $"({id})";
-            var observation = await Http.GetJson<Observation>(url);
-            return observation;
+            return await Get<Datastream>(EntityType.Datastream, EntityType.Observation, id, odata);
         }
 
-        public async Task<SensorThingsCollection<Observation>> GetObservationCollection()
+        public async Task<Response<SensorThingsCollection<Datastream>>> GetDatastreamCollection(OdataQuery odata = null)
+        {
+            return await Get<SensorThingsCollection<Datastream>>(EntityType.Datastream, odata);
+        }
+
+        public async Task<Response<SensorThingsCollection<Datastream>>> GetDatastreamCollectionByObservedProperty(string id, OdataQuery odata = null)
+        {
+            return await Get<SensorThingsCollection<Datastream>>(EntityType.Datastream, EntityType.ObservedProperty, id, odata);
+        }
+
+        public async Task<Response<SensorThingsCollection<Datastream>>> GetDatastreamCollectionBySensor(string id, OdataQuery odata = null)
+        {
+            return await Get<SensorThingsCollection<Datastream>>(EntityType.Datastream, EntityType.ObservedProperty, id, odata);
+        }
+
+        public async Task<Response<SensorThingsCollection<Datastream>>> GetDatastreamCollectionByThing(string id, OdataQuery odata = null)
+        {
+            return await Get<SensorThingsCollection<Datastream>>(EntityType.Datastream, EntityType.Thing, id, odata);
+        }
+
+        public async Task<Response<Sensor>> GetSensor(string id, OdataQuery odata = null)
+        {
+            return await Get<Sensor>(EntityType.Sensor, id, odata);
+        }
+
+        public async Task<Response<SensorThingsCollection<Sensor>>> GetSensorCollection(OdataQuery odata = null)
+        {
+            return await Get<SensorThingsCollection<Sensor>>(EntityType.Sensor, odata);
+        }
+
+        public async Task<Response<Sensor>> GetSensorByDatastream(string id, OdataQuery odata = null)
+        {
+            return await Get<Sensor>(EntityType.Sensor,EntityType.Datastream, id, odata);
+        }
+
+        public async Task<Response<ObservedProperty>> GetObservedProperty(string id, OdataQuery odata = null)
+        {
+            return await Get<ObservedProperty>(EntityType.ObservedProperty, id, odata);
+        }
+
+        public async Task<Response<SensorThingsCollection<ObservedProperty>>> GetObservedPropertyCollection(OdataQuery odata = null)
+        {
+            return await Get<SensorThingsCollection<ObservedProperty>>(EntityType.ObservedProperty, odata);
+        }
+
+        public async Task<Response<ObservedProperty>> GetObservedPropertyByDatastream(string id, OdataQuery odata = null)
+        {
+            return await Get<ObservedProperty>(EntityType.ObservedProperty, EntityType.Datastream, id, odata);
+        }
+
+        public async Task<Response<Observation>> GetObservation(string id, OdataQuery odata = null)
+        {
+            return await Get<Observation>(EntityType.Observation, id, odata);
+        }
+
+        public async Task<Response<SensorThingsCollection<Observation>>> GetObservationCollection(OdataQuery odata = null)
+        {
+            return await Get<SensorThingsCollection<Observation>>(EntityType.Observation, odata);
+        }
+
+        public async Task<Response<SensorThingsCollection<Observation>>> GetObservationCollectionByFeatureOfInterest(string id, OdataQuery odata = null)
+        {
+            return await Get<SensorThingsCollection<Observation>>(EntityType.Observation, EntityType.FeatureOfInterest, id, odata);
+        }
+
+        public async Task<Response<SensorThingsCollection<Observation>>> GetObservationCollectionByDatastream(string id, OdataQuery odata = null)
+        {
+            return await Get<SensorThingsCollection<Observation>>(EntityType.Observation, EntityType.Datastream, id, odata);
+        }
+
+        public async Task<Response<FeatureOfInterest>> GetFeatureOfInterest(string id, OdataQuery odata = null)
+        {
+            return await Get<FeatureOfInterest>(EntityType.FeatureOfInterest, id, odata);
+        }
+
+        public async Task<Response<FeatureOfInterest>> GetFeatureOfInterestByObservation(string id, OdataQuery odata = null)
+        {
+            return await Get<FeatureOfInterest>(EntityType.FeatureOfInterest, EntityType.Observation, id, odata);
+        }
+
+        public async Task<Response<SensorThingsCollection<FeatureOfInterest>>> GetFeatureOfInterestCollection(OdataQuery odata = null)
+        {
+            return await Get<SensorThingsCollection<FeatureOfInterest>>(EntityType.FeatureOfInterest, odata);
+        }
+
+        public async Task<Response<Observation>> CreateObservation(Observation observation)
         {
             var url = _homedoc.GetUrlByEntityName("Observations");
-            var observations = await Http.GetJson<SensorThingsCollection<Observation>>(url);
-            return observations;
+            return await Http.PostJson<Observation>(url, observation);
         }
 
-        public async Task<FeatureOfInterest> GetFeatureOfInterest(string id)
+        private async Task<Response<T>> Get<T>(EntityType get, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("FeaturesOfInterest") + $"({id})";
-            var foi = await Http.GetJson<FeatureOfInterest>(url);
-            return foi;
+            return await Get<T>(get, EntityType.None, null, odata);
         }
 
-        public async Task<SensorThingsCollection<FeatureOfInterest>> GetFeatureOfInterestCollection()
+        private async Task<Response<T>> Get<T>(EntityType get, string id, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("FeaturesOfInterest");
-            var fois = await Http.GetJson<SensorThingsCollection<FeatureOfInterest>>(url);
-            return fois;
+            return await Get<T>(get, EntityType.None, id, odata);
         }
 
-        public async Task<Observation> CreateObservation(Observation observation)
+        private async Task<Response<T>> Get<T>(EntityType get, EntityType by, string id, OdataQuery odata = null)
         {
-            var url = _homedoc.GetUrlByEntityName("Observations");
-            var responseObservation = await Http.PostJson<Observation>(url, observation);
-            return responseObservation;
+            if (by != EntityType.None && string.IsNullOrEmpty(id))
+            {
+                throw new Exception("ID is required");
+            }
+
+            string url;
+            var idString = string.IsNullOrEmpty(id) ? "" : $"({id})";
+
+            if (by == EntityType.None)
+            {
+                url = $"{_homedoc.GetUrlByEntityName(get.GetString(true))}{idString}";
+            }
+            else
+            {
+                if (EntityMapping.GetByMapping.ContainsKey(get) && EntityMapping.GetByMapping[get].ContainsKey(by))
+                {
+                    url = $"{_homedoc.GetUrlByEntityName(by.GetString(true))}{idString}/{EntityMapping.GetByMapping[get][by]}";
+                }
+                else
+                {
+                    throw new Exception("Path does not exist");
+                }
+            }
+
+            url = odata != null ? odata.AppendOdataQueryToUrl(url) : url;
+            return await Http.GetJson<T>(url);
         }
     }
 }

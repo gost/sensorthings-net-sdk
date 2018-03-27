@@ -19,8 +19,11 @@ namespace sensorthings_net_sdk.tests
         public void GetFeatureOfInterestTest()
         {
             // act
-            var foi = client.GetFeatureOfInterest("1840970").Result;
-            var observations = foi.GetObservations().Result;
+            var response = client.GetFeatureOfInterest("1840970").Result;
+            var foi = response.Result;
+
+            var observationsResponse = foi.GetObservations(client).Result;
+            var observations = observationsResponse.Result;
 
             // assert
             Assert.IsFalse(string.IsNullOrEmpty(foi.Id));
@@ -33,7 +36,8 @@ namespace sensorthings_net_sdk.tests
         public void GetFeatureOfInterestCollectionTest()
         {
             // act
-            var fois = client.GetFeatureOfInterestCollection().Result;
+            var response = client.GetFeatureOfInterestCollection().Result;
+            var fois = response.Result;
 
             // assert
             Assert.IsTrue(fois.Count > 0);

@@ -78,8 +78,10 @@ namespace SensorThingsRealtimeLiveChartsSample
         private async void LoadData()
         {
             var client = new SensorThingsClient(serverurl);
-            var datastream = await client.GetDatastream(datastreamid);
-            var observations = await datastream.GetObservations();
+            var response = await client.GetDatastream(datastreamid);
+            var datastream = response.Result;
+            var observationsResponse = await datastream.GetObservations(client);
+            var observations = observationsResponse.Result;
             var obs = observations.Items.OrderBy(m => m.PhenomenonTime);
 
             foreach (var observation in obs)
