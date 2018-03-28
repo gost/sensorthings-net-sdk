@@ -4,14 +4,15 @@ using System.Threading.Tasks;
 using sensorthings.Core;
 using sensorthings.ODATA;
 using System;
+using sensorthings.Converters;
 
 namespace SensorThings.Core
 {
     public class Observation : AbstractEntity
     {
-        private string _phenomenonTime;
-        private string _resultTime;
-        private string _validTime;
+        private DateTimeRange _phenomenonTime;
+        private DateTimeRange _resultTime;
+        private DateTimeRange _validTime;
         private object _resultQuality;
         private object _result;
         private object _parameters;
@@ -21,21 +22,24 @@ namespace SensorThings.Core
         private FeatureOfInterest _featureOfInterest;
 
         [JsonProperty("phenomenonTime")]
-        public string PhenomenonTime
+        [JsonConverter(typeof(DateTimeRangeConverter))]
+        public DateTimeRange PhenomenonTime
         {
             get => _phenomenonTime;
             set => SetProperty(ref _phenomenonTime, value);
         }
 
         [JsonProperty("resultTime")]
-        public string ResultTime
+        [JsonConverter(typeof(DateTimeRangeConverter))]
+        public DateTimeRange ResultTime
         {
             get => _resultTime;
             set => SetProperty(ref _resultTime, value);
         }
 
         [JsonProperty("validTime")]
-        public string ValidTime
+        [JsonConverter(typeof(DateTimeRangeConverter))]
+        public DateTimeRange ValidTime
         {
             get => _validTime;
             set => SetProperty(ref _validTime, value);
@@ -112,7 +116,7 @@ namespace SensorThings.Core
 
         public DateTime? GetPhenomenonTime(bool local = false)
         {
-            var dt = DateTime.Parse(PhenomenonTime, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            var dt = PhenomenonTime.Start.Value;
             return local ? dt.ToLocalTime() : dt;            
         }
     }

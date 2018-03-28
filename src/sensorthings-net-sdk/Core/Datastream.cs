@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using sensorthings.Converters;
 using sensorthings.Core;
 using sensorthings.ODATA;
 using SensorThings.Client;
@@ -13,6 +15,9 @@ namespace SensorThings.Core
         private string _description;
         private string _observationType;
         private UnitOfMeasurement _unitOfMeasurement;
+        private object _observedArea;
+        private DateTimeRange _phenomenonTime;
+        private DateTimeRange _resultTime;
         private string _observationsNavigationLink;
         private string _observedPropertyNavigationLink;
         private string _sensorNavigationLink;
@@ -48,6 +53,29 @@ namespace SensorThings.Core
         {
             get => _unitOfMeasurement;
             set => SetProperty(ref _unitOfMeasurement, value);
+        }
+
+        [JsonProperty("observedArea")]
+        public object ObservedArea
+        {
+            get => _observedArea;
+            set => SetProperty(ref _observedArea, value);
+        }
+
+        [JsonProperty("phenomenonTime")]
+        [JsonConverter(typeof(DateTimeRangeConverter))]
+        public DateTimeRange PhenomenonTime
+        {
+            get => _phenomenonTime;
+            set => SetProperty(ref _phenomenonTime, value);
+        }
+
+        [JsonProperty("resultTime")]
+        [JsonConverter(typeof(DateTimeRangeConverter))]
+        public DateTimeRange ResultTime
+        {
+            get => _resultTime;
+            set => SetProperty(ref _resultTime, value);
         }
 
         [JsonProperty("Observations@iot.navigationLink")]

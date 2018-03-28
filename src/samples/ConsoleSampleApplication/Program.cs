@@ -2,6 +2,7 @@
 using SensorThings.Client;
 using SensorThings.Core;
 using System;
+using sensorthings.Core;
 
 namespace ConsoleSampleApplication
 {
@@ -20,7 +21,7 @@ namespace ConsoleSampleApplication
             var observation = new Observation
             {
                 Datastream = datastream,
-                PhenomenonTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffZ"),
+                PhenomenonTime = new DateTimeRange(DateTime.UtcNow),
                 Result = 100
             };
             // do not create observations for now

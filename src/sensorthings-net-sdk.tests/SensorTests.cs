@@ -30,7 +30,7 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(sensor.Description == "SHT3x-DIS is the next generation of Sensirion’s temperature and humidity sensors. I");
             Assert.IsTrue(sensor.Name == "SHT31_XX2");
             Assert.IsTrue(sensor.EncodingType == "application/pdf");
-            Assert.IsTrue(sensor.Metadata == "http://cdn.sparkfun.com/datasheets/Sensors/Weather/RHT03.pdf");
+            Assert.IsTrue(sensor.Metadata.ToString() == "http://cdn.sparkfun.com/datasheets/Sensors/Weather/RHT03.pdf");
             Assert.IsTrue(sensor.DatastreamsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Sensors(760645)/Datastreams");
             Assert.IsTrue(datastreams.Count > 0);
 
