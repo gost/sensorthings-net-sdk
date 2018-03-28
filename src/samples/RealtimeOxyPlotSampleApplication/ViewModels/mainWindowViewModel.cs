@@ -84,10 +84,9 @@ namespace OxyPlotDemo.ViewModels
             {
                 if(observation.PhenomenonTime != null)
                 {
-                    var time = observation.PhenomenonTime.Value;
-                    var lPhenomenonTime = time.ToLocalTime();
+                    var time = observation.GetPhenomenonTime(true);                    
                     var res = Convert.ToDouble(observation.Result);
-                    lineSerie.Points.Add(new DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime), res));
+                    lineSerie.Points.Add(new DataPoint(OxyPlot.Axes.DateTimeAxis.ToDouble(time), res));
                 }
             }
 
@@ -125,9 +124,8 @@ namespace OxyPlotDemo.ViewModels
 
             if (observation.PhenomenonTime != null)
             {
-                var time = observation.PhenomenonTime.Value;
-                var lPhenomenonTime = time.ToLocalTime();
-                var newmaxx = OxyPlot.Axes.DateTimeAxis.ToDouble(lPhenomenonTime);
+                var time = observation.GetPhenomenonTime(true).Value;                
+                var newmaxx = OxyPlot.Axes.DateTimeAxis.ToDouble(time);
                 lineSerie.Points.Add(new DataPoint(newmaxx, (double)observation.Result));
                 if (newmaxx > maxx)
                 {
@@ -136,7 +134,7 @@ namespace OxyPlotDemo.ViewModels
                 }
 
                 plotview.InvalidatePlot();
-                Console.WriteLine("New Observation published: " + lPhenomenonTime + ", " + observation.Result);
+                Console.WriteLine("New Observation published: " + time + ", " + observation.Result);
             }
 
         }

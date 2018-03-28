@@ -34,7 +34,6 @@ namespace sensorthings_net_sdk.tests
             Assert.IsTrue(thing.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)");
             Assert.IsTrue(thing.Description == "This is a CCTV camera mounted at the Front Entrance from AMK Avenue 8");
             Assert.IsTrue(thing.Name == "CCTV @ NYP Campus - Main Entrance");
-            Assert.IsTrue(thing.Properties.Count == 0);
             Assert.IsTrue(thing.DatastreamsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)/Datastreams");
             Assert.IsTrue(thing.HistoricalLocationsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)/HistoricalLocations");
             Assert.IsTrue(thing.LocationsNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)/Locations");

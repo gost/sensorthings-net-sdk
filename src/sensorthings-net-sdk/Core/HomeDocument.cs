@@ -8,9 +8,9 @@ namespace SensorThings.Core
         [JsonProperty("value")]
         public Entity[] Entities { get; set; }
 
-        public string GetUrlByEntityName(string Name)
+        public string GetUrlByEntityName(string name)
         {
-            var url = (from i in Entities where i.Name == Name select i.Url).FirstOrDefault();
+            var url = (from i in Entities where i.Name == name select i.Url).FirstOrDefault();
             return url;
         }
     }

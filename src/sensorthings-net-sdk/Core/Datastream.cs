@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using sensorthings.Core;
 using sensorthings.ODATA;
@@ -8,41 +9,102 @@ namespace SensorThings.Core
 {
     public class Datastream : AbstractEntity
     {
+        private string _name;
+        private string _description;
+        private string _observationType;
+        private UnitOfMeasurement _unitOfMeasurement;
+        private string _observationsNavigationLink;
+        private string _observedPropertyNavigationLink;
+        private string _sensorNavigationLink;
+        private string _thingNavigationLink;
+        private Thing _thing;
+        private Sensor _sensor;
+        private ObservableCollection<Observation> _observations;
+        private ObservedProperty _observedProperty;
+
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
 
         [JsonProperty("description")]
-        public string Description { get; set; }
+        public string Description
+        {
+            get => _description;
+            set => SetProperty(ref _description, value);
+        }
 
         [JsonProperty("observationType")]
-        public string ObservationType { get; set; }
+        public string ObservationType
+        {
+            get => _observationType;
+            set => SetProperty(ref _observationType, value);
+        }
 
         [JsonProperty("unitOfMeasurement")]
-        public UnitOfMeasurement UnitOfMeasurement {get;set;}
+        public UnitOfMeasurement UnitOfMeasurement
+        {
+            get => _unitOfMeasurement;
+            set => SetProperty(ref _unitOfMeasurement, value);
+        }
 
         [JsonProperty("Observations@iot.navigationLink")]
-        public string ObservationsNavigationLink { get; set; }
+        public string ObservationsNavigationLink
+        {
+            get => _observationsNavigationLink;
+            set => SetProperty(ref _observationsNavigationLink, value);
+        }
 
         [JsonProperty("ObservedProperty@iot.navigationLink")]
-        public string ObservedPropertyNavigationLink { get; set; }
+        public string ObservedPropertyNavigationLink
+        {
+            get => _observedPropertyNavigationLink;
+            set => SetProperty(ref _observedPropertyNavigationLink, value);
+        }
 
         [JsonProperty("Sensor@iot.navigationLink")]
-        public string SensorNavigationLink { get; set; }
+        public string SensorNavigationLink
+        {
+            get => _sensorNavigationLink;
+            set => SetProperty(ref _sensorNavigationLink, value);
+        }
 
         [JsonProperty("Thing@iot.navigationLink")]
-        public string ThingNavigationLink { get; set; }
+        public string ThingNavigationLink
+        {
+            get => _thingNavigationLink;
+            set => SetProperty(ref _thingNavigationLink, value);
+        }
 
         [JsonProperty("Thing")]
-        public Thing Thing { get; set; }
+        public Thing Thing
+        {
+            get => _thing;
+            set => SetProperty(ref _thing, value);
+        }
 
         [JsonProperty("Sensor")]
-        public Sensor Sensor { get; set; }
+        public Sensor Sensor
+        {
+            get => _sensor;
+            set => SetProperty(ref _sensor, value);
+        }
 
         [JsonProperty("Observations")]
-        public Observation[] Observations{ get; set; }
+        public ObservableCollection<Observation> Observations
+        {
+            get => _observations;
+            set => SetProperty(ref _observations, value);
+        }
 
         [JsonProperty("ObservedProperty")]
-        public ObservedProperty ObservedProperty { get; set; }        
+        public ObservedProperty ObservedProperty
+        {
+            get => _observedProperty;
+            set => SetProperty(ref _observedProperty, value);
+        }
 
         public async Task<Response<SensorThingsCollection<Observation>>> GetObservations(SensorThingsClient client, OdataQuery odata = null)
         {

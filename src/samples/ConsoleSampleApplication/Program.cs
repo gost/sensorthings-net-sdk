@@ -20,7 +20,7 @@ namespace ConsoleSampleApplication
             var observation = new Observation
             {
                 Datastream = datastream,
-                PhenomenonTime = DateTime.Now,
+                PhenomenonTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffZ"),
                 Result = 100
             };
             // do not create observations for now
