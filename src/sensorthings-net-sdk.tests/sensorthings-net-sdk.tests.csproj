@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatastreamTests.cs" />
+    <Compile Include="DateTimeRangeTest.cs" />
     <Compile Include="FeatureOfInterestTests.cs" />
     <Compile Include="HistoricalLocationTests.cs" />
     <Compile Include="LocationTests.cs" />

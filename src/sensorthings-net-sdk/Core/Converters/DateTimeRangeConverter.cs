@@ -13,6 +13,11 @@ namespace sensorthings.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            if (reader.TokenType == JsonToken.Null)
+            {
+                return null;
+            }
+
             if (reader.TokenType != JsonToken.Date && reader.TokenType != JsonToken.String)
             {
                 throw new Exception($"Unexpected token parsing date. Expected String or Date, got {reader.TokenType}.");

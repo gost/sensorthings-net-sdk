@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using sensorthings.Core;
 using SensorThings.Client;
 
 namespace sensorthings_net_sdk.tests
