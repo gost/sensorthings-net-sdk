@@ -79,7 +79,7 @@ namespace OxyPlotDemo.ViewModels
                 Smooth = false,
             };
 
-            var obs = datastream.Observations.OrderBy(m => m.PhenomenonTime);
+            var obs = datastream.Observations.OrderBy(m => m.PhenomenonTime.Start);
             foreach (var observation in obs)
             {
                 if(observation.PhenomenonTime != null)

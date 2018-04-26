@@ -23,30 +23,6 @@ Push new version:
 $ nuget push Geodan.SensorThings.SDK.0.2.0.nupkg -Source https://www.nuget.org/api/v2/package
 ```
 
-### Sample code
-
-```c#
-var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
-var client = new SensorThingsClient(server);
-var datastream = client.GetDatastream(760827);
-var observations = datastream.GetObservations();
-var nextpage_observations = observations.GetNextPage();
-var foi = observations.Items[0].GetFeatureOfInterest();
-var observedProperty = datastream.GetObservedProperty();
-var sensor = datastream.GetSensor();
-var thing = datastream.GetThing();
-var locations = thing.GetLocations();
-
-// create observation sample:
-var datastream = new Datastream();
-datastream.Id = 18;
-var observation = new Observation();
-observation.Datastream = datastream;
-observation.PhenomenonTime = DateTime.Now;
-observation.Result = 100;
-var returnedObservation = client.CreateObservation(observation);
-```
-
 ### Sample applications
 
 1] Console application
@@ -55,7 +31,13 @@ Description: Makes connection to SensorThings server and writes available datast
 
 Source: https://github.com/gost/sensorthings-net-sdk/tree/master/src/samples/ConsoleSampleApplication
 
-2] MqttSampleApplication
+2] Console application ODATA
+
+Description:  Get Datastreams where name contains temperature including Sensor and ObservedProperty and the 5 latest observations with a result of 15 or higher. Select only id and name for datastreams and id, result and phenomenonTime for the observations
+
+Source: https://github.com/gost/sensorthings-net-sdk/tree/master/src/samples/OdataSampleApplication
+
+3] MqttSampleApplication
 
 Description: Consumes MQTT SensorThings messages
 
@@ -63,7 +45,7 @@ Source: https://github.com/gost/sensorthings-net-sdk/tree/master/src/samples/Mqt
 
 ![alt tag](mqttsample.png)
 
-3] RealtimeOxyPlotSampleApplication
+4] RealtimeOxyPlotSampleApplication
 
 Description: Display a realtime OxyPlot (http://www.oxyplot.org/) graph based on MQTT SensorThings messages (WPF sample)
 
@@ -71,7 +53,7 @@ Source: https://github.com/gost/sensorthings-net-sdk/tree/master/src/samples/Rea
 
 ![alt tag](realtime.png)
 
-4] SensorThingsRealtimeLiveChartsSample
+5] SensorThingsRealtimeLiveChartsSample
 
 Description: Display a realtime LiveCharts (https://www.lvcharts.net/) graph based on MQTT SensorThings messages (WPF sample)
 
@@ -96,4 +78,4 @@ System.Net.Http: (>=4.1.0)
 
 - HTTP POST/PUT/DELETE
 
-- OData query support
+- Improve OData query support
