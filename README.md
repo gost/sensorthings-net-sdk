@@ -29,7 +29,7 @@ $ install-package Geodan.SensorThings.SDK
 
 ### Sample code
 
-```
+```c#
 var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
 var client = new SensorThingsClient(server);
 var datastream = client.GetDatastream(760827);
