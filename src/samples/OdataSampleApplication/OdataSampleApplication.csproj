@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\sensorthings-net-sdk\sensorthings-net-sdk.csproj" />
+    <ProjectReference Include="..\..\sensorthings-net-sdk\sensorthings-net-sdk.csproj" />
   </ItemGroup>
 
 </Project>
