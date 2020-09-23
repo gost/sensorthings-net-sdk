@@ -42,7 +42,7 @@ namespace SensorThings.Core
 
         public async Task<Response<SensorThingsCollection<T>>> GetNextPage()
         {
-            return HasNextPage() ? null : await Http.GetJson<SensorThingsCollection<T>>(NextLink);
+            return HasNextPage() ? await Http.GetJson<SensorThingsCollection<T>>(NextLink): null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

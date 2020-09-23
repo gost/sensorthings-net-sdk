@@ -21,25 +21,19 @@ namespace sensorthings_net_sdk.tests
         public void GetObservationTest()
         {
             // act
-            var response = client.GetObservation("760789").Result;
+            var response = client.GetObservation("2706628").Result;
             var observation = response.Result;
 
             var datastreamResponse = observation.GetDatastream(client).Result;
-            var datastream = datastreamResponse.Result;
 
             var foiResponse = observation.GetFeatureOfInterest(client).Result;
-            var foi = foiResponse.Result;
 
             // assert
-            Assert.IsTrue(observation.Id == "760789");
-            Assert.IsTrue(observation.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations(760789)");
-            // Phenomenon time should be 2020-01-25T19:00:00.000Z in Iso8601
-            Assert.IsTrue((string)observation.Result == "99");
-            // Assert.IsTrue(observation.ResultTime == null);
-            Assert.IsTrue(observation.DatastreamNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations(760789)/Datastream");
-            Assert.IsTrue(observation.FeatureOfInterestNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations(760789)/FeatureOfInterest");
-            Assert.IsTrue(datastream.Id == "760660");
-            Assert.IsTrue(foi.Id == "760746");
+            Assert.IsTrue(observation.Id == "2706628");
+            Assert.IsTrue(observation.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations(2706628)");
+            Assert.IsTrue((string)observation.Result == "22");
+            Assert.IsTrue(observation.DatastreamNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations(2706628)/Datastream");
+            Assert.IsTrue(observation.FeatureOfInterestNavigationLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations(2706628)/FeatureOfInterest");
         }
 
         [Test]
