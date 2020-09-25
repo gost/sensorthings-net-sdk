@@ -12,7 +12,7 @@ namespace SensorThings.Core
     {
         private string _name;
         private string _description;
-        private object _properties;
+        private IDictionary<string, object> _properties;
         private string _datastreamsNavigationLink;
         private string _historicalLocationNavigationLink;
         private string _locationsNavigationLink;
@@ -35,7 +35,7 @@ namespace SensorThings.Core
         }
 
         [JsonProperty("properties")]
-        public object Properties
+        public IDictionary<string, object> Properties
         {
             get => _properties;
             set => SetProperty(ref _properties, value);
