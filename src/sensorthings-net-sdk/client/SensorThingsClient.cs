@@ -8,8 +8,7 @@ using SensorThings.Core;
 
 namespace SensorThings.Client
 {
-    public class SensorThingsClient
-    {
+    public class SensorThingsClient : ISensorThingsClient {
         private HomeDocument _homedoc;
 
         public string Server { get; set; }
