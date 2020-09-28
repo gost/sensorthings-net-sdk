@@ -1,9 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.1</TargetFramework>
-    <AssemblyName>sensorthings-net-sdk</AssemblyName>
+    <RootNamespace>sensorthings_net_sdk</RootNamespace>
     <PackageId>Geodan.SensorThings.SDK</PackageId>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Version>0.2.3</Version>
+    <PackageReleaseNotes />
+    <Authors>Bert Temme</Authors>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>    
+    
+    <AssemblyName>sensorthings-net-sdk</AssemblyName>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -13,10 +20,6 @@
     <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.2.3</Version>
-    <PackageReleaseNotes />
-    <Authors>Bert Temme</Authors>
   </PropertyGroup>
 
   <ItemGroup>
