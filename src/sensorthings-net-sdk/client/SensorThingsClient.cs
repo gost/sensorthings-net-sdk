@@ -13,12 +13,9 @@ namespace SensorThings.Client
     public class SensorThingsClient : ISensorThingsClient {
         private HomeDocument _homedoc;
 
-        public string Server { get; set; }
-
         public SensorThingsClient(string server) {
-            Server = server;
             Task.Run(async () => {
-                    var response = await Http.GetJson<HomeDocument>(Server);
+                    var response = await Http.GetJson<HomeDocument>(server);
                     if (!response.Success) {
                         throw new Exception("Unable to get home document");
                     }
