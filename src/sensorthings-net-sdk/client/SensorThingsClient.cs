@@ -38,7 +38,7 @@ namespace SensorThings.Client
         }
 
         public async Task<Response<SensorThingsCollection<Thing>>> GetThingCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Thing>>(typeof(Thing), null, null, odata);
+            return await Get<SensorThingsCollection<Thing>>(typeof(Thing), null, odata);
         }
 
         public async Task<Response<SensorThingsCollection<Thing>>> GetThingCollectionByLocation(
@@ -51,7 +51,7 @@ namespace SensorThings.Client
         }
 
         public async Task<Response<SensorThingsCollection<Location>>> GetLocationCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Location>>(typeof(Location), odata);
+            return await Get<SensorThingsCollection<Location>>(typeof(Location), null, odata);
         }
 
         public async Task<Response<SensorThingsCollection<Location>>>
@@ -70,7 +70,7 @@ namespace SensorThings.Client
 
         public async Task<Response<SensorThingsCollection<HistoricalLocation>>>
             GetHistoricalLocationsCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<HistoricalLocation>>(typeof(HistoricalLocation), odata);
+            return await Get<SensorThingsCollection<HistoricalLocation>>(typeof(HistoricalLocation), null, odata);
         }
 
         public async Task<Response<SensorThingsCollection<HistoricalLocation>>>
@@ -95,7 +95,7 @@ namespace SensorThings.Client
 
         public async Task<Response<SensorThingsCollection<Datastream>>>
             GetDatastreamCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Datastream>>(typeof(Datastream), odata);
+            return await Get<SensorThingsCollection<Datastream>>(typeof(Datastream), null, odata);
         }
 
         public async Task<Response<SensorThingsCollection<Datastream>>>
@@ -120,7 +120,7 @@ namespace SensorThings.Client
         }
 
         public async Task<Response<SensorThingsCollection<Sensor>>> GetSensorCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Sensor>>(typeof(Sensor), odata);
+            return await Get<SensorThingsCollection<Sensor>>(typeof(Sensor), null, odata);
         }
 
         public async Task<Response<Sensor>> GetSensorByDatastream(string id, OdataQuery odata = null) {
@@ -133,7 +133,7 @@ namespace SensorThings.Client
 
         public async Task<Response<SensorThingsCollection<ObservedProperty>>>
             GetObservedPropertyCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<ObservedProperty>>(typeof(ObservedProperty), odata);
+            return await Get<SensorThingsCollection<ObservedProperty>>(typeof(ObservedProperty), null, odata);
         }
 
         public async Task<Response<ObservedProperty>> GetObservedPropertyByDatastream(
@@ -147,7 +147,7 @@ namespace SensorThings.Client
 
         public async Task<Response<SensorThingsCollection<Observation>>>
             GetObservationCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Observation>>(typeof(Observation), odata);
+            return await Get<SensorThingsCollection<Observation>>(typeof(Observation), null, odata);
         }
 
         public async Task<Response<SensorThingsCollection<Observation>>>
@@ -172,7 +172,7 @@ namespace SensorThings.Client
 
         public async Task<Response<SensorThingsCollection<FeatureOfInterest>>>
             GetFeatureOfInterestCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<FeatureOfInterest>>(typeof(FeatureOfInterest), odata);
+            return await Get<SensorThingsCollection<FeatureOfInterest>>(typeof(FeatureOfInterest), null, odata);
         }
 
         public async Task<Response<Observation>> CreateObservation(Observation observation) {
@@ -180,27 +180,20 @@ namespace SensorThings.Client
             return await Http.PostJson<Observation>(url, observation);
         }
 
-        private async Task<Response<T>> Get<T>(Type get, OdataQuery odata = null) {
-            return await Get<T>(get, null, null, odata);
-        }
-
-        private async Task<Response<T>> Get<T>(Type get, string id = null, OdataQuery odata = null) {
-            return await Get<T>(get, null, id, odata);
-        }
-
-        private async Task<Response<T>> Get<T>(Type get, Type by = null, string id = null, OdataQuery odata = null) {
-            if (by != null && string.IsNullOrEmpty(id)) {
-                throw new Exception("ID is required");
-            }
-
-            string url;
+        private async Task<Response<T>> Get<T>(Type get, string id, OdataQuery odata) {
             var idString = string.IsNullOrEmpty(id) ? "" : $"({id})";
 
-            if (by == null) {
-                url = $"{_homedoc.GetUrlByEntityName(get.GetString(true))}{idString}";
-            } else {
-                url = $"{_homedoc.GetUrlByEntityName(by.GetString(true))}{idString}/{get.GetString(by)}";
+            var url = $"{_homedoc.GetUrlByEntityName(get.GetString(true))}{idString}";
+            url = odata != null ? odata.AppendOdataQueryToUrl(url) : url;
+
+            return await Http.GetJson<T>(url);
+        }
+
+        private async Task<Response<T>> Get<T>(Type get, Type by, string id, OdataQuery odata) {
+            if (string.IsNullOrEmpty(id)) {
+                throw new ArgumentException("ID is required", nameof(id));
             }
+            var url = $"{_homedoc.GetUrlByEntityName(by.GetString(true))}({id})/{get.GetString(by)}";
             url = odata != null ? odata.AppendOdataQueryToUrl(url) : url;
 
             return await Http.GetJson<T>(url);
