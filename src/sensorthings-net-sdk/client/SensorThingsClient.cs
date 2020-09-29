@@ -8,8 +8,7 @@ using SensorThings.Core;
 using sensorthings.Extensions;
 using sensorthings.ODATA;
 
-namespace SensorThings.Client
-{
+namespace SensorThings.Client {
     public class SensorThingsClient : ISensorThingsClient {
         private HomeDocument _homedoc;
 
@@ -26,7 +25,7 @@ namespace SensorThings.Client
         }
 
         public async Task<Response<Thing>> GetThing(string id, OdataQuery odata = null) {
-            return await Get<Thing>(typeof(Thing), null, id, odata);
+            return await Get<Thing>(typeof(Thing), id, odata);
         }
 
         public async Task<Response<Thing>> GetThingByDatastream(string id, OdataQuery odata = null) {
@@ -190,6 +189,9 @@ namespace SensorThings.Client
         }
 
         private async Task<Response<T>> Get<T>(Type get, Type by, string id, OdataQuery odata) {
+            if (by == null) {
+                throw new ArgumentNullException(nameof(by));
+            }
             if (string.IsNullOrEmpty(id)) {
                 throw new ArgumentException("ID is required", nameof(id));
             }
