@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 using SensorThings.Core;
 
-namespace sensorthings.Extensions
-{
-    public static class EntityTypeExtensions
-    {
+namespace sensorthings.Extensions {
+    public static class EntityTypeExtensions {
         private static readonly IDictionary<string, bool> Map =
             new Dictionary<string, bool> {
                 { $"{nameof(Thing)}/{nameof(HistoricalLocation)}", false },
@@ -31,7 +29,17 @@ namespace sensorthings.Extensions
             if (!type.IsSubclassOf(typeof(AbstractEntity))) {
                 return "";
             }
-            return collection ? $"{type.Name}s" : type.Name;
+            if (!collection) {
+                return type.Name;
+            }
+            switch (type.Name) {
+                case nameof(ObservedProperty):
+                    return "ObservedProperties";
+                case nameof(FeatureOfInterest):
+                    return "FeaturesOfInterest";
+                default:
+                    return $"{type.Name}s";
+            }
         }
 
         public static string GetString(this Type get, Type by) {
