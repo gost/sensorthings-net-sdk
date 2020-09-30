@@ -182,7 +182,7 @@ namespace SensorThings.Client {
         private async Task<Response<T>> Get<T>(Type get, string id, OdataQuery odata) {
             var idString = string.IsNullOrEmpty(id) ? "" : $"({id})";
 
-            var url = $"{_homedoc.GetUrlByEntityName(get.GetString(true))}{idString}";
+            var url = $"{_homedoc.GetUrlByEntityName(get.GetString())}{idString}";
             url = odata != null ? odata.AppendOdataQueryToUrl(url) : url;
 
             return await Http.GetJson<T>(url);
@@ -195,7 +195,7 @@ namespace SensorThings.Client {
             if (string.IsNullOrEmpty(id)) {
                 throw new ArgumentException("ID is required", nameof(id));
             }
-            var url = $"{_homedoc.GetUrlByEntityName(by.GetString(true))}({id})/{get.GetString(by)}";
+            var url = $"{_homedoc.GetUrlByEntityName(by.GetString())}({id})/{get.GetString(by)}";
             url = odata != null ? odata.AppendOdataQueryToUrl(url) : url;
 
             return await Http.GetJson<T>(url);

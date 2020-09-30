@@ -25,12 +25,9 @@ namespace sensorthings.Extensions {
                 { $"{nameof(FeatureOfInterest)}/{nameof(Observation)}", false },
             };
 
-        public static string GetString(this Type type, bool collection) {
+        public static string GetString(this Type type) {
             if (!type.IsSubclassOf(typeof(AbstractEntity))) {
                 return "";
-            }
-            if (!collection) {
-                return type.Name;
             }
             switch (type.Name) {
                 case nameof(ObservedProperty):
@@ -47,7 +44,7 @@ namespace sensorthings.Extensions {
             if (!Map.ContainsKey(key)) {
                 throw new ArgumentException("Path does not exist");
             }
-            return get.GetString(Map["key"]);
+            return Map["key"] ? GetString(get) : get.Name;
         }
     }
 }
