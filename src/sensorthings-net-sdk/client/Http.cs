@@ -24,6 +24,7 @@ namespace SensorThings.Client
                                 NullValueHandling = NullValueHandling.Ignore,
                                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
                             });
+            // var content = StringContent(serialized, Encoding.UTF8, "application/json")
             var buffer = System.Text.Encoding.UTF8.GetBytes(serialized);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");

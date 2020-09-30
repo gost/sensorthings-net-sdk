@@ -174,9 +174,13 @@ namespace SensorThings.Client {
             return await Get<SensorThingsCollection<FeatureOfInterest>>(typeof(FeatureOfInterest), null, odata);
         }
 
-        public async Task<Response<Observation>> CreateObservation(Observation observation) {
-            var url = _homedoc.GetUrlByEntityName("Observations");
-            return await Http.PostJson<Observation>(url, observation);
+        public async Task<Response<T>> Create<T>(T entity) where T : AbstractEntity {
+            if (entity == null) {
+                throw new ArgumentNullException(nameof(entity));
+            }
+            var url = _homedoc.GetUrlByEntityName(entity.GetType().GetString());
+
+            return await Http.PostJson(url, entity);
         }
 
         private async Task<Response<T>> Get<T>(Type get, string id, OdataQuery odata) {
