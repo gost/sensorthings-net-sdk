@@ -180,6 +180,8 @@ namespace SensorThings.Client {
             }
             var url = _homedoc.GetUrlByEntityName(entity.GetType().GetString());
 
+            // workaround: creting the object the Id should be ignored at all
+            entity.Id = null;
             return await Http.PostJson(url, entity);
         }
 
