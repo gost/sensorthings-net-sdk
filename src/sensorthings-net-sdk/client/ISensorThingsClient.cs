@@ -40,6 +40,10 @@ namespace SensorThings.Client {
         Task<Response<FeatureOfInterest>> GetFeatureOfInterest(string id, OdataQuery odata = null);
         Task<Response<FeatureOfInterest>> GetFeatureOfInterestByObservation(string id, OdataQuery odata = null);
         Task<Response<SensorThingsCollection<FeatureOfInterest>>> GetFeatureOfInterestCollection(OdataQuery odata = null);
+        // CRUD functions for entities
         Task<Response<T>> Create<T>(T entity) where T : AbstractEntity;
+        Task<Response<T>> Read<T>(T entity) where T : AbstractEntity;
+        Task<Response<T>> Update<T>(T entity) where T : AbstractEntity;
+        Task<Response<T>> Delete<T>(T entity) where T : AbstractEntity;
     }
 }

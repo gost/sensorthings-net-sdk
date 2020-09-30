@@ -178,17 +178,35 @@ namespace SensorThings.Client {
             if (entity == null) {
                 throw new ArgumentNullException(nameof(entity));
             }
-            var url = _homedoc.GetUrlByEntityName(entity.GetType().GetString());
-
             // workaround: creting the object the Id should be ignored at all
             entity.Id = null;
-            return await Http.PostJson(url, entity);
+            
+            return await Http.PostJson(GetEntityUrl(entity.GetType()), entity);
+        }
+
+        public async Task<Response<T>> Read<T>(T entity) where T : AbstractEntity {
+            if (entity == null) {
+                throw new ArgumentNullException(nameof(entity));
+            }
+            return await Get<T>(entity.GetType(), entity.Id, null);
+        }
+
+        public async Task<Response<T>> Update<T>(T entity) where T : AbstractEntity {
+            if (entity == null) {
+                throw new ArgumentNullException(nameof(entity));
+            }
+            return await Http.PatchJson(GetEntityUrl(entity.GetType()), entity);
+        }
+
+        public async Task<Response<T>> Delete<T>(T entity) where T : AbstractEntity {
+            if (entity == null) {
+                throw new ArgumentNullException(nameof(entity));
+            }
+            return await Http.DeleteJson<T>(GetEntityUrl(entity.GetType()));
         }
 
         private async Task<Response<T>> Get<T>(Type get, string id, OdataQuery odata) {
-            var idString = string.IsNullOrEmpty(id) ? "" : $"({id})";
-
-            var url = $"{_homedoc.GetUrlByEntityName(get.GetString())}{idString}";
+            var url = GetEntityUrl(get, id);
             url = odata != null ? odata.AppendOdataQueryToUrl(url) : url;
 
             return await Http.GetJson<T>(url);
@@ -201,10 +219,16 @@ namespace SensorThings.Client {
             if (string.IsNullOrEmpty(id)) {
                 throw new ArgumentException("ID is required", nameof(id));
             }
-            var url = $"{_homedoc.GetUrlByEntityName(by.GetString())}({id})/{get.GetString(by)}";
+            var url = $"{GetEntityUrl(by, id)}/{get.GetString(by)}";
             url = odata != null ? odata.AppendOdataQueryToUrl(url) : url;
 
             return await Http.GetJson<T>(url);
+        }
+
+        private string GetEntityUrl(Type type, string id = null) {
+            var idString = string.IsNullOrEmpty(id) ? "" : $"({id})";
+
+            return $"{_homedoc.GetUrlByEntityName(type.GetString())}{idString}";
         }
     }
 }
