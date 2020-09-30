@@ -33,7 +33,7 @@ namespace SensorThings.Client {
             var serialized = JsonConvert.SerializeObject(entity, Settings);
             var content = new StringContent(serialized, Encoding.UTF8, "application/json");
 
-            return await ExecuteAndCreateResponse<T>(Client.PutAsync(url, content), HttpStatusCode.OK);
+            return await ExecuteAndCreateResponse<T>(Client.PatchAsync(url, content), HttpStatusCode.OK);
         }
 
         public static async Task<Response<T>> DeleteJson<T>(string url) {
