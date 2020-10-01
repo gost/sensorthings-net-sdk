@@ -1,7 +1,7 @@
 # sensorthings-net-sdk
 
 [![NuGet Status](http://img.shields.io/nuget/v/Geodan.SensorThings.SDK.svg?style=flat)](https://www.nuget.org/packages/Geodan.SensorThings.SDK/)
-[![Build status](https://ci.appveyor.com/api/projects/status/fwnnxu7dp4ffykag?svg=true)](https://ci.appveyor.com/project/bertt/sensorthings-net-sdk)
+![Build status](https://github.com/gost/sensorthings-net-sdk/workflows/.NET%20Core/badge.svg)
 
 The Geodan SensorThings .NET SDK makes it easy to add OGC SensorThings support to your .NET application.
 
