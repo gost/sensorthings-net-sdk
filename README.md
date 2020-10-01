@@ -5,7 +5,7 @@
 
 The Geodan SensorThings .NET SDK makes it easy to add OGC SensorThings support to your .NET application.
 
-This library is using .NET Standard 1.1
+This library is using .NET Standard 2.0
 
 Implemented:
 
@@ -20,7 +20,7 @@ $ package-install Geodan.SensorThings.SDK
 Push new version:
 
 ```
-$ nuget push Geodan.SensorThings.SDK.0.2.0.nupkg -Source https://www.nuget.org/api/v2/package
+$ nuget push Geodan.SensorThings.SDK.0.2.3.nupkg -Source https://www.nuget.org/api/v2/package
 ```
 
 ### Sample applications
@@ -60,7 +60,7 @@ Description: Display a realtime LiveCharts (https://www.lvcharts.net/) graph bas
 
 ### Dependencies
 
-.NETStandard 1.1
+.NETStandard 2.0
 
 System.Collections (>= 4.3.0)
 
