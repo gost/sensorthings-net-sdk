@@ -11,8 +11,7 @@ namespace ConsoleSampleApplication
         static void Main(string[] args)
         {
             Console.WriteLine("Sample console app for SensorThings API client");
-            // var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
-            var server = "https://gost.geodan.nl/v1.0";
+            var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
 
             var client = new SensorThingsClient(server);
 
