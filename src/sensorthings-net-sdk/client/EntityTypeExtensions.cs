@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using SensorThings.Core;
 
 namespace sensorthings.Extensions {
-    public static class EntityTypeExtensions {
+    internal static class EntityTypeExtensions {
         private static readonly IDictionary<string, bool> Map =
             new Dictionary<string, bool> {
                 { $"{nameof(Thing)}/{nameof(HistoricalLocation)}", false },
