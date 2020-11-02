@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using sensorthings.Core;
-
 using SensorThings.Core;
-
-using sensorthings.Extensions;
-using sensorthings.ODATA;
+using SensorThings.Extensions;
+using SensorThings.ODATA;
 
 namespace SensorThings.Client {
     public class SensorThingsClient : ISensorThingsClient {
@@ -176,7 +173,7 @@ namespace SensorThings.Client {
 
         public async Task<Response<Observation>> CreateObservation(Observation observation) {
             var url = _homedoc.GetUrlByEntityName("Observations");
-            return await Http.PostJson<Observation>(url, observation);
+            return await Http.PostJson(url, observation);
         }
 
         private async Task<Response<T>> Get<T>(Type get, string id, OdataQuery odata) {

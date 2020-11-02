@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace sensorthings.ODATA
+namespace SensorThings.ODATA
 {
     public class OdataQuery
     {

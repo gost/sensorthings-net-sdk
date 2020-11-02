@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using SensorThings.Core;
 
-namespace sensorthings.Extensions {
+namespace SensorThings.Extensions {
     internal static class EntityTypeExtensions {
         private static readonly IDictionary<string, bool> Map =
             new Dictionary<string, bool> {

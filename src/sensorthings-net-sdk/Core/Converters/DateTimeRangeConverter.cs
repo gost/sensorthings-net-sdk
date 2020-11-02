@@ -1,8 +1,10 @@
 ﻿using System;
-using Newtonsoft.Json;
-using sensorthings.Core;
 
-namespace sensorthings.Converters
+using Newtonsoft.Json;
+
+using SensorThings.Core;
+
+namespace SensorThings.Converters
 {
     public class DateTimeRangeConverter : JsonConverter
     {

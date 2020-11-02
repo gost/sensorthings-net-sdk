@@ -1,7 +1,8 @@
 ﻿using System;
-using sensorthings.ODATA;
 
-namespace sensorthings.extensions
+using SensorThings.ODATA;
+
+namespace SensorThings.extensions
 {
     public static class OrderTypeExtensions
     {

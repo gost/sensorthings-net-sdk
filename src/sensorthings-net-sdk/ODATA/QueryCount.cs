@@ -1,4 +1,4 @@
-﻿namespace sensorthings.ODATA
+﻿namespace SensorThings.ODATA
 {
     public class QueryCount : AbstractQuery<bool>
     {

@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
-using SensorThings.Client;
+﻿using System;
 using System.Threading.Tasks;
-using sensorthings.Core;
-using sensorthings.ODATA;
-using System;
-using sensorthings.Converters;
+
+using Newtonsoft.Json;
+
+using SensorThings.Client;
+using SensorThings.Converters;
+using SensorThings.ODATA;
 
 namespace SensorThings.Core
 {
