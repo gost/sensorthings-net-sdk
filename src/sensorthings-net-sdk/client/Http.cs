@@ -35,9 +35,10 @@ namespace SensorThings.Client
         {
             var responseMessage = await request;
             var responseString = await responseMessage.Content.ReadAsStringAsync();
+            var location = responseMessage.Headers?.Location ?? responseMessage.RequestMessage.RequestUri;
             return responseMessage.StatusCode == expectedStatus ?
-                Response<T>.CreateSuccessful(JsonConvert.DeserializeObject<T>(responseString), responseMessage.StatusCode) :
-                Response<T>.CreateUnsuccessful(responseString, responseMessage.StatusCode);
+                Response<T>.CreateSuccessful(location, JsonConvert.DeserializeObject<T>(responseString), responseMessage.StatusCode) :
+                Response<T>.CreateUnsuccessful(location, responseString, responseMessage.StatusCode);
         }
     }
 }
