@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using SensorThings.extensions;
+using SensorThings.Extensions;
 
 namespace SensorThings.ODATA
 {

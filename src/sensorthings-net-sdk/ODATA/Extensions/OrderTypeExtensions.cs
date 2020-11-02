@@ -2,7 +2,7 @@
 
 using SensorThings.ODATA;
 
-namespace SensorThings.extensions
+namespace SensorThings.Extensions
 {
     public static class OrderTypeExtensions
     {
