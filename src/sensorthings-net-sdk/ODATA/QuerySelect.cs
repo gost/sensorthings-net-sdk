@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace SensorThings.ODATA
+namespace SensorThings.OData
 {
     public class QuerySelect : AbstractQuery<string[]>
     {

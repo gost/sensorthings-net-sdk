@@ -2,7 +2,7 @@
 
 using SensorThings.Extensions;
 
-namespace SensorThings.ODATA
+namespace SensorThings.OData
 {
     public class QueryOrderBy : AbstractQuery<Dictionary<string, OrderType>>
     {

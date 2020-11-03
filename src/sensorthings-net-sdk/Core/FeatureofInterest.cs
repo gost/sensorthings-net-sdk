@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 using SensorThings.Client;
-using SensorThings.ODATA;
+using SensorThings.OData;
 
 namespace SensorThings.Core
 {

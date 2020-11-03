@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 
 using SensorThings.Core;
-using SensorThings.ODATA;
+using SensorThings.OData;
 
 namespace SensorThings.Client {
     public interface ISensorThingsClient {

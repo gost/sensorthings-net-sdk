@@ -1,6 +1,6 @@
 ﻿using System;
 
-using SensorThings.ODATA;
+using SensorThings.OData;
 
 namespace SensorThings.Extensions
 {

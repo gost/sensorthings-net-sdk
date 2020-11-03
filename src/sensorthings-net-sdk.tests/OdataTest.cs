@@ -3,7 +3,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
-using SensorThings.ODATA;
+using SensorThings.OData;
 
 namespace sensorthings_net_sdk.tests
 {

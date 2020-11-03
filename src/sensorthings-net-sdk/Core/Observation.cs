@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 using SensorThings.Client;
 using SensorThings.Converters;
-using SensorThings.ODATA;
+using SensorThings.OData;
 
 namespace SensorThings.Core
 {

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using SensorThings.Core;
 using SensorThings.Extensions;
-using SensorThings.ODATA;
+using SensorThings.OData;
 
 namespace SensorThings.Client {
     public class SensorThingsClient : ISensorThingsClient {
