@@ -38,7 +38,7 @@ namespace MqttSampleApplication
             var str = Encoding.Default.GetString(e.Message);
             var observation = JsonConvert.DeserializeObject<Observation>(str);
             // example: navigate to other entities (Things, Datastreams)
-            var datastream = observation.GetDatastream(null);
+            var datastream = observation.GetDatastream();
             Console.WriteLine("Datastream: " + datastream.Id); 
             Console.WriteLine("New Observation published: " + observation.Result);
         }
