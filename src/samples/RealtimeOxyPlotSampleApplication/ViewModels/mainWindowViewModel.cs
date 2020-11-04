@@ -2,16 +2,13 @@
 using Newtonsoft.Json;
 using OxyPlot;
 using OxyPlot.Axes;
-using OxyPlot.Series;
 using OxyPlot.Wpf;
 using SensorThings.Client;
 using SensorThings.Core;
 using System;
 using System.Linq;
 using System.Text;
-using System.Windows;
-using System.Windows.Threading;
-using sensorthings.ODATA;
+using SensorThings.OData;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 

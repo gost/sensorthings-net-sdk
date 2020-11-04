@@ -1,4 +1,4 @@
-﻿using sensorthings.ODATA;
+﻿using SensorThings.OData;
 using SensorThings.Client;
 using System;
 using System.Collections.Generic;
