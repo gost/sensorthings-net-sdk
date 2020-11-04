@@ -15,7 +15,7 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.4.0</Version>
-    <PackageReleaseNotes />
+    <PackageReleaseNotes>breaking change: changing namespaces +</PackageReleaseNotes>
     <Authors>Bert Temme</Authors>
   </PropertyGroup>
 

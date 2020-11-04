@@ -79,3 +79,7 @@ System.Net.Http: (>=4.1.0)
 - HTTP POST/PUT/DELETE
 
 - Improve OData query support
+
+## History
+
+2020-11-04: Release 0.4
