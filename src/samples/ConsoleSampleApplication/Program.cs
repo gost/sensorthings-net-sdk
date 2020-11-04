@@ -1,14 +1,15 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+
+using Newtonsoft.Json.Linq;
+
 using SensorThings.Client;
 using SensorThings.Core;
-using System;
-using sensorthings.Core;
 
 namespace ConsoleSampleApplication
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("Sample console app for SensorThings API client");
             var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
@@ -24,7 +25,7 @@ namespace ConsoleSampleApplication
                 Result = 100
             };
             // do not create observations for now
-            var returnedObservation = client.CreateObservation(observation).Result;
+            _ = client.CreateObservation(observation).Result;
 
             Console.WriteLine("Retrieve all paged datastreams...");
             var response = client.GetDatastreamCollection().Result;

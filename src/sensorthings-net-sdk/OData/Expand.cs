@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace sensorthings.ODATA
+namespace SensorThings.OData
 {
     public class Expand
     {

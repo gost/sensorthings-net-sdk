@@ -1,9 +1,12 @@
 ﻿using System.Net;
-using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
-using sensorthings.Core;
+
+using Newtonsoft.Json;
+
+using SensorThings.Core;
 
 namespace SensorThings.Client
 {
@@ -24,7 +27,7 @@ namespace SensorThings.Client
                                 NullValueHandling = NullValueHandling.Ignore,
                                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
                             });
-            var buffer = System.Text.Encoding.UTF8.GetBytes(serialized);
+            var buffer = Encoding.UTF8.GetBytes(serialized);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 

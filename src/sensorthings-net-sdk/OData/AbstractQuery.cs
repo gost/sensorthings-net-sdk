@@ -1,4 +1,4 @@
-﻿namespace sensorthings.ODATA
+﻿namespace SensorThings.OData
 {
     public abstract class AbstractQuery<T> : IQuery
     {

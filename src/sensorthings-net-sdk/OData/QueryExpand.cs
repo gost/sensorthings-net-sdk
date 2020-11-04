@@ -1,4 +1,4 @@
-﻿namespace sensorthings.ODATA
+﻿namespace SensorThings.OData
 {
     public class QueryExpand : AbstractQuery<Expand[]>
     {

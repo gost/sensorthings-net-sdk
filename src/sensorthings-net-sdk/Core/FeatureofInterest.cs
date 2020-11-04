@@ -1,9 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+
 using Newtonsoft.Json;
-using sensorthings.Core;
-using sensorthings.ODATA;
+
 using SensorThings.Client;
+using SensorThings.OData;
 
 namespace SensorThings.Core
 {

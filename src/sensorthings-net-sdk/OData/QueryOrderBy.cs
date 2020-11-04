@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using sensorthings.extensions;
 
-namespace sensorthings.ODATA
+using SensorThings.Extensions;
+
+namespace SensorThings.OData
 {
     public class QueryOrderBy : AbstractQuery<Dictionary<string, OrderType>>
     {

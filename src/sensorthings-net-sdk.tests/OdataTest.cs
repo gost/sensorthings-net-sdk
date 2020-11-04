@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using NUnit.Framework;
-using sensorthings.ODATA;
+
+using SensorThings.OData;
 
 namespace sensorthings_net_sdk.tests
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace sensorthings.ODATA
+namespace SensorThings.OData
 {
     public class OdataQuery
     {
@@ -14,7 +14,7 @@ namespace sensorthings.ODATA
         public QueryCount QueryCount { get; set; }
 
         /// <summary>
-        /// GetOdataQueryStrings returns all available and constructed ODATA
+        /// GetOdataQueryStrings returns all available and constructed OData
         /// query strings for example:
         /// string[]{"$expand=Datastreams($select=name),Datastreams/Observations($select=result,phenomenonTime;$top=1)", "$top=10", "$skip=0"}
         /// </summary>
@@ -36,7 +36,7 @@ namespace sensorthings.ODATA
 
         /// <summary>
         /// AppendOdataQueryToUrl takes the base url and adds the 
-        /// available ODATA queries to the url
+        /// available OData queries to the url
         /// </summary>
         /// <param name="baseUrl"></param>
         /// <returns></returns>

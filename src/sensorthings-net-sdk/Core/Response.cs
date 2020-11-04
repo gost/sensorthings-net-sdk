@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace sensorthings.Core
+namespace SensorThings.Core
 {
     public class Response<T>
     {

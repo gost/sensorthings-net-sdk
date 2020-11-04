@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using sensorthings.Core;
+
 using SensorThings.Core;
 
 namespace sensorthings_net_sdk.tests

@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace sensorthings.Core
+namespace SensorThings.Core
 {
     [JsonConverter(typeof(StringEnumConverter))]
     public enum ObservationType
