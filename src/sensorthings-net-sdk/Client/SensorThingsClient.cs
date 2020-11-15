@@ -1,201 +1,176 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using SensorThings.Core;
-using SensorThings.Extensions;
 using SensorThings.OData;
 
 namespace SensorThings.Client {
     public class SensorThingsClient : ISensorThingsClient {
-        private HomeDocument _homedoc;
+        private readonly ISensorThingsEntityHandler _entityHandler;
 
-        public SensorThingsClient(string server) {
-            Task.Run(async () => {
-                    var response = await Http.GetJson<HomeDocument>(server);
-                    if (!response.Success) {
-                        throw new Exception("Unable to get home document");
-                    }
-
-                    return _homedoc = response.Result;
-                })
-                .Wait();
-        }
+        public SensorThingsClient(string server) { _entityHandler = new SensorThingsEntityHandler(server); }
 
         public async Task<Response<Thing>> GetThing(string id, OdataQuery odata = null) {
-            return await Get<Thing>(typeof(Thing), id, odata);
+            return await GetEntity<Thing>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<Thing>> GetThingByDatastream(string id, OdataQuery odata = null) {
-            return await Get<Thing>(typeof(Thing), typeof(Datastream), id, odata);
+            return await GetEntityBy<Thing, Datastream>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<Thing>> GetThingByHistoricalLocation(string id, OdataQuery odata = null) {
-            return await Get<Thing>(typeof(Thing), typeof(HistoricalLocation), id, odata);
+            return await GetEntityBy<Thing, HistoricalLocation>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Thing>>> GetThingCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Thing>>(typeof(Thing), null, odata);
+            return await GetEntities<Thing>(odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Thing>>> GetThingCollectionByLocation(
             string id, OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Thing>>(typeof(Thing), typeof(Location), id, odata);
+            return await GetEntitiesBy<Thing, Location>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<Location>> GetLocation(string id, OdataQuery odata = null) {
-            return await Get<Location>(typeof(Location), id, odata);
+            return await GetEntity<Location>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Location>>> GetLocationCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Location>>(typeof(Location), null, odata);
+            return await GetEntities<Location>(odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Location>>>
             GetLocationCollectionByHistoricalLocation(string id, OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Location>>(typeof(Location), typeof(HistoricalLocation), id, odata);
+            return await GetEntitiesBy<Location, HistoricalLocation>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Location>>> GetLocationCollectionByThing(
             string id, OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Location>>(typeof(Location), typeof(Thing), id, odata);
+            return await GetEntitiesBy<Location, Thing>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<HistoricalLocation>> GetHistoricalLocation(string id, OdataQuery odata = null) {
-            return await Get<HistoricalLocation>(typeof(HistoricalLocation), id, odata);
+            return await GetEntity<HistoricalLocation>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<HistoricalLocation>>>
             GetHistoricalLocationsCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<HistoricalLocation>>(typeof(HistoricalLocation), null, odata);
+            return await GetEntities<HistoricalLocation>(odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<HistoricalLocation>>>
             GetHistoricalLocationsCollectionByLocation(string id, OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<HistoricalLocation>>(typeof(HistoricalLocation), typeof(Location),
-                id, odata);
+            return await GetEntitiesBy<HistoricalLocation, Location>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<HistoricalLocation>>>
             GetHistoricalLocationsCollectionByThing(string id, OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<HistoricalLocation>>(typeof(HistoricalLocation), typeof(Thing), id,
-                odata);
+            return await GetEntitiesBy<HistoricalLocation, Thing>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<Datastream>> GetDatastream(string id, OdataQuery odata = null) {
-            return await Get<Datastream>(typeof(Datastream), id, odata);
+            return await GetEntity<Datastream>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<Datastream>> GetDatastreamByObservation(string id, OdataQuery odata = null) {
-            return await Get<Datastream>(typeof(Datastream), typeof(Observation), id, odata);
+            return await GetEntityBy<Datastream, Observation>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Datastream>>>
             GetDatastreamCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Datastream>>(typeof(Datastream), null, odata);
+            return await GetEntities<Datastream>(odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Datastream>>>
             GetDatastreamCollectionByObservedProperty(string id, OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Datastream>>(typeof(Datastream), typeof(ObservedProperty), id,
-                odata);
+            return await GetEntitiesBy<Datastream, ObservedProperty>(id, odata)
+                .ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Datastream>>>
             GetDatastreamCollectionBySensor(string id, OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Datastream>>(typeof(Datastream), typeof(ObservedProperty), id,
-                odata);
+            return await GetEntitiesBy<Datastream, Sensor>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Datastream>>>
             GetDatastreamCollectionByThing(string id, OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Datastream>>(typeof(Datastream), typeof(Thing), id, odata);
+            return await GetEntitiesBy<Datastream, Thing>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<Sensor>> GetSensor(string id, OdataQuery odata = null) {
-            return await Get<Sensor>(typeof(Sensor), id, odata);
+            return await GetEntity<Sensor>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Sensor>>> GetSensorCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Sensor>>(typeof(Sensor), null, odata);
+            return await GetEntities<Sensor>(odata).ConfigureAwait(false);
         }
 
         public async Task<Response<Sensor>> GetSensorByDatastream(string id, OdataQuery odata = null) {
-            return await Get<Sensor>(typeof(Sensor), typeof(Datastream), id, odata);
+            return await GetEntityBy<Sensor, Datastream>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<ObservedProperty>> GetObservedProperty(string id, OdataQuery odata = null) {
-            return await Get<ObservedProperty>(typeof(ObservedProperty), id, odata);
+            return await GetEntity<ObservedProperty>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<ObservedProperty>>>
             GetObservedPropertyCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<ObservedProperty>>(typeof(ObservedProperty), null, odata);
+            return await GetEntities<ObservedProperty>(odata).ConfigureAwait(false);
         }
 
         public async Task<Response<ObservedProperty>> GetObservedPropertyByDatastream(
             string id, OdataQuery odata = null) {
-            return await Get<ObservedProperty>(typeof(ObservedProperty), typeof(Datastream), id, odata);
+            return await GetEntityBy<ObservedProperty, Datastream>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<Observation>> GetObservation(string id, OdataQuery odata = null) {
-            return await Get<Observation>(typeof(Observation), id, odata);
+            return await GetEntity<Observation>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Observation>>>
             GetObservationCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Observation>>(typeof(Observation), null, odata);
+            return await GetEntities<Observation>(odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Observation>>>
             GetObservationCollectionByFeatureOfInterest(string id, OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Observation>>(typeof(Observation), typeof(FeatureOfInterest), id,
-                odata);
+            return await GetEntitiesBy<Observation, FeatureOfInterest>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<Observation>>>
             GetObservationCollectionByDatastream(string id, OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<Observation>>(typeof(Observation), typeof(Datastream), id, odata);
+            return await GetEntitiesBy<Observation, Datastream>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<FeatureOfInterest>> GetFeatureOfInterest(string id, OdataQuery odata = null) {
-            return await Get<FeatureOfInterest>(typeof(FeatureOfInterest), id, odata);
+            return await GetEntity<FeatureOfInterest>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<FeatureOfInterest>> GetFeatureOfInterestByObservation(
             string id, OdataQuery odata = null) {
-            return await Get<FeatureOfInterest>(typeof(FeatureOfInterest), typeof(Observation), id, odata);
+            return await GetEntityBy<FeatureOfInterest, Observation>(id, odata).ConfigureAwait(false);
         }
 
         public async Task<Response<SensorThingsCollection<FeatureOfInterest>>>
             GetFeatureOfInterestCollection(OdataQuery odata = null) {
-            return await Get<SensorThingsCollection<FeatureOfInterest>>(typeof(FeatureOfInterest), null, odata);
+            return await GetEntities<FeatureOfInterest>(odata).ConfigureAwait(false);
         }
 
-        public async Task<Response<Observation>> CreateObservation(Observation observation) {
-            var url = _homedoc.GetUrlByEntityName("Observations");
-            return await Http.PostJson(url, observation);
-        }
+        private async Task<Response<T>> GetEntity<T>(string id, OdataQuery odata)
+            where T : AbstractEntity =>
+            await _entityHandler.GetEntity<T>(id, odata).ConfigureAwait(false);
 
-        private async Task<Response<T>> Get<T>(Type get, string id, OdataQuery odata) {
-            var idString = string.IsNullOrEmpty(id) ? "" : $"({id})";
+        private async Task<Response<T>> GetEntityBy<T, T2>(string byId, OdataQuery odata)
+            where T : AbstractEntity
+            where T2 : AbstractEntity, new() =>
+            await _entityHandler.GetEntity<T, T2>(new T2 { Id = byId }, odata).ConfigureAwait(false);
 
-            var url = $"{_homedoc.GetUrlByEntityName(get.GetString(true))}{idString}";
-            url = odata != null ? odata.AppendOdataQueryToUrl(url) : url;
+        private async Task<Response<SensorThingsCollection<T>>> GetEntities<T>(OdataQuery odata)
+            where T : AbstractEntity =>
+            await _entityHandler.GetEntities<T>(odata).ConfigureAwait(false);
 
-            return await Http.GetJson<T>(url);
-        }
-
-        private async Task<Response<T>> Get<T>(Type get, Type by, string id, OdataQuery odata) {
-            if (by == null) {
-                throw new ArgumentNullException(nameof(by));
-            }
-            if (string.IsNullOrEmpty(id)) {
-                throw new ArgumentException("ID is required", nameof(id));
-            }
-            var url = $"{_homedoc.GetUrlByEntityName(by.GetString(true))}({id})/{get.GetString(by)}";
-            url = odata != null ? odata.AppendOdataQueryToUrl(url) : url;
-
-            return await Http.GetJson<T>(url);
-        }
+        private async Task<Response<SensorThingsCollection<T>>> GetEntitiesBy<T, T2>(string byId, OdataQuery odata)
+            where T : AbstractEntity
+            where T2 : AbstractEntity, new() =>
+            await _entityHandler.GetEntities<T, T2>(new T2 { Id = byId }, odata).ConfigureAwait(false);
     }
 }
