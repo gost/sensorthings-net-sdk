@@ -61,8 +61,8 @@ namespace SensorThings.Client {
 
         private static async Task<Response<T>> ExecuteAndCreateResponse<T>(
             Task<HttpResponseMessage> request, HttpStatusCode expectedStatus) {
-            var responseMessage = await request;
-            var responseString = await responseMessage.Content.ReadAsStringAsync();
+            var responseMessage = await request.ConfigureAwait(false);
+            var responseString = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
             var location = responseMessage.Headers?.Location ?? responseMessage.RequestMessage.RequestUri;
             return responseMessage.StatusCode == expectedStatus
                 ? Response<T>.CreateSuccessful(location, JsonConvert.DeserializeObject<T>(responseString),

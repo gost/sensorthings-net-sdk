@@ -13,7 +13,6 @@ namespace SensorThings.Client {
 
         public SensorThingsEntityHandler(string baseUrl) { this._baseUrl = baseUrl; }
 
-        // TODO - return Id of new object (note: Response has the Header 'Location' by Spec)
         public async Task<T> CreateEntity<T>(T entity)
             where T : AbstractEntity {
             _ = entity ?? throw new ArgumentNullException(nameof(entity));
@@ -22,7 +21,6 @@ namespace SensorThings.Client {
             return await CreateEntity(url, entity).ConfigureAwait(false);
         }
 
-        // TODO - return Id of new object (note: Response has the Header 'Location' by Spec)
         public async Task<T> CreateEntity<T, T2>(T entity, T2 by)
             where T : AbstractEntity
             where T2 : AbstractEntity {
@@ -149,7 +147,7 @@ namespace SensorThings.Client {
             // workaround: creating the object the Id should be ignored at all
             entity.Id = null;
             var respose = await Http.PostJson(url, entity).ConfigureAwait(false);
-            return respose.Result;
+            return respose.Result ?? await GetEntity<T>(respose.Location).ConfigureAwait(false);
         }
 
         private async Task<T> GetEntity<T>(Uri url)
