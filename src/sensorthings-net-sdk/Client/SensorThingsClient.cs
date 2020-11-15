@@ -5,7 +5,7 @@ using SensorThings.OData;
 
 namespace SensorThings.Client {
     public class SensorThingsClient : ISensorThingsClient {
-        private readonly ISensorThingsEntityHandler _entityHandler;
+        private readonly SensorThingsEntityHandler _entityHandler;
 
         public SensorThingsClient(string server) { _entityHandler = new SensorThingsEntityHandler(server); }
 
@@ -156,21 +156,21 @@ namespace SensorThings.Client {
         }
 
         private async Task<Response<T>> GetEntity<T>(string id, OdataQuery odata)
-            where T : AbstractEntity =>
-            await _entityHandler.GetEntity<T>(id, odata).ConfigureAwait(false);
-
+            where T : AbstractEntity => await _entityHandler.GetEntityResponse<T>(id, odata).ConfigureAwait(false);
+ 
+        
         private async Task<Response<T>> GetEntityBy<T, T2>(string byId, OdataQuery odata)
             where T : AbstractEntity
             where T2 : AbstractEntity, new() =>
-            await _entityHandler.GetEntity<T, T2>(new T2 { Id = byId }, odata).ConfigureAwait(false);
+            await _entityHandler.GetEntityResponse<T, T2>(new T2 { Id = byId }, odata).ConfigureAwait(false);
 
         private async Task<Response<SensorThingsCollection<T>>> GetEntities<T>(OdataQuery odata)
             where T : AbstractEntity =>
-            await _entityHandler.GetEntities<T>(odata).ConfigureAwait(false);
+            await _entityHandler.GetEntitiesResponse<T>(odata).ConfigureAwait(false);
 
         private async Task<Response<SensorThingsCollection<T>>> GetEntitiesBy<T, T2>(string byId, OdataQuery odata)
             where T : AbstractEntity
             where T2 : AbstractEntity, new() =>
-            await _entityHandler.GetEntities<T, T2>(new T2 { Id = byId }, odata).ConfigureAwait(false);
+            await _entityHandler.GetEntitiesResponse<T, T2>(new T2 { Id = byId }, odata).ConfigureAwait(false);
     }
 }
