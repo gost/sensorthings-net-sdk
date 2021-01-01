@@ -12,7 +12,7 @@ namespace SensorThings.Core
     public class Observation : AbstractEntity
     {
         private DateTimeRange _phenomenonTime;
-        private DateTimeRange _resultTime;
+        private DateTime? _resultTime;
         private DateTimeRange _validTime;
         private object _resultQuality;
         private object _result;
@@ -31,8 +31,7 @@ namespace SensorThings.Core
         }
 
         [JsonProperty("resultTime")]
-        [JsonConverter(typeof(DateTimeRangeConverter))]
-        public DateTimeRange ResultTime
+        public DateTime? ResultTime
         {
             get => _resultTime;
             set => SetProperty(ref _resultTime, value);
