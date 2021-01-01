@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json;
@@ -16,7 +17,7 @@ namespace SensorThings.Core
         private DateTimeRange _validTime;
         private object _resultQuality;
         private object _result;
-        private object _parameters;
+        private IDictionary<string, object> _parameters;
         private string _datastreamNavigationLink;
         private string _featureOfInterestNavigationLink;
         private Datastream _datastream;
@@ -60,7 +61,7 @@ namespace SensorThings.Core
         }
 
         [JsonProperty("parameters")]
-        public object Parameters
+        public IDictionary<string, object> Parameters
         {
             get => _parameters;
             set => SetProperty(ref _parameters, value);
