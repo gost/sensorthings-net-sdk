@@ -4,14 +4,17 @@ using System.Threading.Tasks;
 using System.Web;
 
 using SensorThings.Core;
-using SensorThings.Extensions;
 using SensorThings.OData;
 
 namespace SensorThings.Client {
     public class SensorThingsEntityHandler : ISensorThingsEntityHandler {
         private readonly string _baseUrl;
 
-        public SensorThingsEntityHandler(string baseUrl) { this._baseUrl = baseUrl; }
+        public SensorThingsEntityHandler(string baseUrl) {
+            _ = baseUrl ?? throw new ArgumentNullException(nameof(baseUrl), "Variable must not be null");
+            _ = new Uri(baseUrl); // check if URL is valid
+            _baseUrl = baseUrl;
+        }
 
         public async Task<T> CreateEntity<T>(T entity)
             where T : AbstractEntity {
@@ -21,13 +24,13 @@ namespace SensorThings.Client {
             return await CreateEntity(url, entity).ConfigureAwait(false);
         }
 
-        public async Task<T> CreateEntity<T, T2>(T entity, T2 by)
+        public async Task<T> CreateEntity<T, T2>(T2 by, T entity)
             where T : AbstractEntity
             where T2 : AbstractEntity {
-            _ = entity ?? throw new ArgumentNullException(nameof(entity));
             _ = by ?? throw new ArgumentNullException(nameof(by));
+            _ = entity ?? throw new ArgumentNullException(nameof(entity));
 
-            var url = GetEntityUrl<T, T2>(by, true, null);
+            var url = GetEntityUrl<T, T2>(by, null);
             return await CreateEntity(url, entity).ConfigureAwait(false);
         }
 
@@ -43,17 +46,18 @@ namespace SensorThings.Client {
             where T : AbstractEntity {
             _ = odata ?? throw new ArgumentNullException(nameof(odata));
 
-            var url = GetEntityUrl<T>(odata);
-            return await GetEntity<T>(url).ConfigureAwait(false);
+            var collection = await SearchEntities<T>(odata.TopN(1)).ConfigureAwait(false);
+            return collection.Items?.FirstOrDefault();
         }
 
-        public async Task<T> SearchEntity<T, T2>(T2 by, OdataQuery odata)
+        public async Task<T> SearchEntity<T, T2>(T2 by, OdataQuery odata = null)
             where T : AbstractEntity
             where T2 : AbstractEntity {
             _ = by ?? throw new ArgumentNullException(nameof(by));
 
-            var url = GetEntityUrl<T, T2>(by, false, odata);
-            return await GetEntity<T>(url).ConfigureAwait(false);
+            var query = odata ?? QueryHelper.Empty();
+            var collection = await SearchEntities<T, T2>(by, query.TopN(1)).ConfigureAwait(false);
+            return collection.Items?.FirstOrDefault();
         }
 
         public async Task<SensorThingsCollection<T>> SearchEntities<T>(OdataQuery odata = null)
@@ -67,47 +71,29 @@ namespace SensorThings.Client {
             where T2 : AbstractEntity {
             _ = by ?? throw new ArgumentNullException(nameof(by));
 
-            var url = GetEntityUrl<T, T2>(by, true, odata);
+            var url = GetEntityUrl<T, T2>(by, odata);
             return await GetEntities<T>(url).ConfigureAwait(false);
         }
 
-        public async Task<bool> UpdateEntity<T>(T entity)
+        public async Task UpdateEntity<T>(T entity)
             where T : AbstractEntity {
             _ = entity ?? throw new ArgumentNullException(nameof(entity));
+            _ = entity.Id ?? throw new ArgumentException("No valid entity - Id must NOT be null!", nameof(entity));
 
-            var url = GetEntityUrl<T>(null);
-            return await UpdateEntity(url, entity).ConfigureAwait(false);
+            var url = GetEntityUrl<T>(entity.Id, null);
+            await UpdateEntity(url, entity).ConfigureAwait(false);
         }
 
-        public async Task<bool> UpdateEntity<T, T2>(T entity, T2 by)
-            where T : AbstractEntity
-            where T2 : AbstractEntity {
-            _ = entity ?? throw new ArgumentNullException(nameof(entity));
-            _ = by ?? throw new ArgumentNullException(nameof(by));
-
-            var url = GetEntityUrl<T, T2>(by, true, null);
-            return await UpdateEntity(url, entity).ConfigureAwait(false);
-        }
-
-        public async Task<bool> DeleteEntity<T>(string id)
+        public async Task DeleteEntity<T>(string id)
             where T : AbstractEntity {
             _ = id ?? throw new ArgumentNullException(nameof(id));
 
             var url = GetEntityUrl<T>(id, null);
-            return await DeleteEntity<T>(url).ConfigureAwait(false);
-        }
-
-        public async Task<bool> DeleteEntity<T, T2>(string id, T2 by)
-            where T : AbstractEntity
-            where T2 : AbstractEntity {
-            _ = by ?? throw new ArgumentNullException(nameof(by));
-
-            var url = GetEntityUrl<T, T2>(by, true, null);
-            return await DeleteEntity<T>(url).ConfigureAwait(false);
+            await DeleteEntity<T>(url).ConfigureAwait(false);
         }
 
         [Obsolete("Use GetEntity(id, query).")]
-        public async Task<Response<T>> GetEntityResponse<T>(string id, OdataQuery odata)
+        internal async Task<Response<T>> GetEntityResponse<T>(string id, OdataQuery odata)
             where T : AbstractEntity {
             _ = id ?? throw new ArgumentNullException(nameof(id));
 
@@ -115,30 +101,37 @@ namespace SensorThings.Client {
             return await Http.GetJson<T>(url).ConfigureAwait(false);
         }
 
-        [Obsolete("Use FindEntity(by, query).")]
-        public async Task<Response<T>> GetEntityResponse<T, T2>(T2 by, OdataQuery odata)
+        [Obsolete("Use SearchEntity(by, query).")]
+        internal async Task<Response<T>> GetEntityResponse<T, T2>(T2 by, OdataQuery odata)
             where T : AbstractEntity
             where T2 : AbstractEntity {
             _ = by ?? throw new ArgumentNullException(nameof(by));
 
-            var url = GetEntityUrl<T, T2>(by, false, odata);
-            return await Http.GetJson<T>(url).ConfigureAwait(false);
+            Response<SensorThingsCollection<T>> collectionResponse =
+                await GetEntitiesResponse<T, T2>(by, odata).ConfigureAwait(false);
+
+            return collectionResponse.Success
+                ? Response<T>.CreateSuccessful(collectionResponse.Location,
+                    collectionResponse.Result?.Items?.FirstOrDefault(), collectionResponse.HttpStatusCode)
+                : Response<T>.CreateUnsuccessful(collectionResponse.Location, collectionResponse.ServiceError,
+                    collectionResponse.HttpStatusCode);
         }
 
-        [Obsolete("Use FindEntities(query).")]
-        public async Task<Response<SensorThingsCollection<T>>> GetEntitiesResponse<T>(OdataQuery odata = null)
+        [Obsolete("Use SearchEntities(query).")]
+        internal async Task<Response<SensorThingsCollection<T>>> GetEntitiesResponse<T>(OdataQuery odata = null)
             where T : AbstractEntity {
             var url = GetEntityUrl<T>(odata);
             return await Http.GetJson<SensorThingsCollection<T>>(url).ConfigureAwait(false);
         }
 
-        [Obsolete("Use FindEntities(by, query).")]
-        public async Task<Response<SensorThingsCollection<T>>> GetEntitiesResponse<T, T2>(T2 by, OdataQuery odata = null)
+        [Obsolete("Use SearchEntities(by, query).")]
+        internal async Task<Response<SensorThingsCollection<T>>> GetEntitiesResponse<T, T2>(
+            T2 by, OdataQuery odata = null)
             where T : AbstractEntity
             where T2 : AbstractEntity {
             _ = by ?? throw new ArgumentNullException(nameof(by));
-            
-            var url = GetEntityUrl<T, T2>(by, true, odata);
+
+            var url = GetEntityUrl<T, T2>(by, odata);
             return await Http.GetJson<SensorThingsCollection<T>>(url).ConfigureAwait(false);
         }
 
@@ -147,6 +140,11 @@ namespace SensorThings.Client {
             // workaround: creating the object the Id should be ignored at all
             entity.Id = null;
             var respose = await Http.PostJson(url, entity).ConfigureAwait(false);
+            
+            if (!respose.Success) {
+                throw new InvalidOperationException(
+                    $"Cannot create entity for '{url}' because {respose.ServiceError}");
+            }
             return respose.Result ?? await GetEntity<T>(respose.Location).ConfigureAwait(false);
         }
 
@@ -162,34 +160,57 @@ namespace SensorThings.Client {
             return respose.Result;
         }
 
-        private async Task<bool> UpdateEntity<T>(Uri url, T entity)
+        private async Task UpdateEntity<T>(Uri url, T entity)
             where T : AbstractEntity {
             var respose = await Http.PatchJson(url, entity).ConfigureAwait(false);
-            return respose.Success;
+            
+            if (!respose.Success) {
+                throw new InvalidOperationException(
+                    $"Cannot update entity for '{url}' because {respose.ServiceError}");
+            }
         }
 
-        private async Task<bool> DeleteEntity<T>(Uri url)
+        private async Task DeleteEntity<T>(Uri url)
             where T : AbstractEntity {
             var respose = await Http.DeleteJson<T>(url).ConfigureAwait(false);
-            return respose.Success;
+            
+            if (!respose.Success) {
+                throw new InvalidOperationException(
+                    $"Cannot delete entity for '{url}' because {respose.ServiceError}");
+            }
         }
 
-        private Uri GetEntityUrl<T>(OdataQuery odata) =>
-            new Uri($"{_baseUrl}/{typeof(T).GetString(true)}{OdataQuery(odata)}");
+        private Uri GetEntityUrl<T>(OdataQuery odata) 
+            where T : AbstractEntity =>
+            new Uri($"{_baseUrl}/{GetPlural<T>()}{OdataQuery(odata)}");
 
-        private Uri GetEntityUrl<T>(string id, OdataQuery odata) =>
-            new Uri($"{_baseUrl}/{typeof(T).GetString(true)}({id}){OdataQuery(odata)}");
+        private Uri GetEntityUrl<T>(string id, OdataQuery odata) 
+            where T : AbstractEntity =>
+            new Uri($"{_baseUrl}/{GetPlural<T>()}({id}){OdataQuery(odata)}");
 
-        private Uri GetEntityUrl<T, T2>(T2 by, bool isPlural, OdataQuery odata)
+        private Uri GetEntityUrl<T, T2>(T2 by, OdataQuery odata)
             where T : AbstractEntity
             where T2 : AbstractEntity =>
             new Uri(
-                $"{_baseUrl}/{typeof(T2).GetString(true)}({by.Id})/{typeof(T).GetString(isPlural)}{OdataQuery(odata)}");
+                $"{_baseUrl}/{GetPlural<T2>()}({by.Id})/{GetPlural<T>()}{OdataQuery(odata)}");
 
-        private static string OdataQuery(OdataQuery odata = null) =>
+        private string GetPlural<T>() 
+            where T : AbstractEntity {
+            var name = typeof(T).Name;
+            switch (name) {
+                case nameof(ObservedProperty):
+                    return "ObservedProperties";
+                case nameof(FeatureOfInterest):
+                    return "FeaturesOfInterest";
+                default:
+                    return $"{name}s";
+            }
+        }
+
+        private string OdataQuery(OdataQuery odata = null) =>
             odata != null ? $"?{OdataQueryString(odata)}" : string.Empty;
 
-        private static string OdataQueryString(OdataQuery odata) =>
+        private string OdataQueryString(OdataQuery odata) =>
             string.Join(
                 "&",
                 odata.GetAllQueries()
@@ -198,7 +219,7 @@ namespace SensorThings.Client {
                     .ToArray());
 
         // regarding to 'https://github.com/FraunhoferIOSB/FROST-Server/issues/299'
-        private static string PatchedValue(IQuery query) =>
+        private string PatchedValue(IQuery query) =>
             HttpUtility.UrlEncode(query.GetQueryValueString());
     }
 }

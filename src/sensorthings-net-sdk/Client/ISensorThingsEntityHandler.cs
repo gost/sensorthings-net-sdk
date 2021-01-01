@@ -5,11 +5,12 @@ using SensorThings.OData;
 
 namespace SensorThings.Client {
     // ReSharper disable UnusedMember.Global
+    // ReSharper disable UnusedMemberInSuper.Global
     public interface ISensorThingsEntityHandler {
         Task<T> CreateEntity<T>(T entity)
             where T : AbstractEntity;
 
-        Task<T> CreateEntity<T, T2>(T entity, T2 by)
+        Task<T> CreateEntity<T, T2>(T2 by, T entity)
             where T : AbstractEntity
             where T2 : AbstractEntity;
 
@@ -19,7 +20,7 @@ namespace SensorThings.Client {
         Task<T> SearchEntity<T>(OdataQuery odata)
             where T : AbstractEntity;
 
-        Task<T> SearchEntity<T, T2>(T2 by, OdataQuery odata)
+        Task<T> SearchEntity<T, T2>(T2 by, OdataQuery odata = null)
             where T : AbstractEntity
             where T2 : AbstractEntity;
 
@@ -30,18 +31,12 @@ namespace SensorThings.Client {
             where T : AbstractEntity
             where T2 : AbstractEntity;
 
-        Task<bool> UpdateEntity<T>(T entity)
+        // note: UpdateBy is not allowed by standard (and framework)
+        Task UpdateEntity<T>(T entity)
             where T : AbstractEntity;
 
-        Task<bool> UpdateEntity<T, T2>(T entity, T2 by)
-            where T : AbstractEntity
-            where T2 : AbstractEntity;
-
-        Task<bool> DeleteEntity<T>(string id)
+        // note: DeleteBy is not allowed by standard (and framework)
+        Task DeleteEntity<T>(string id)
             where T : AbstractEntity;
-
-        Task<bool> DeleteEntity<T, T2>(string id, T2 by)
-            where T : AbstractEntity
-            where T2 : AbstractEntity;
     }
 }
