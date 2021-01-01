@@ -54,8 +54,8 @@ namespace ConsoleSampleApplication
             // Get location without using GeoJSON.NET (works only for points)
             var firstlocation = locations.Items[0];
             var feature = (JObject)firstlocation.Feature;
-            var lon = feature.First.First.First.Value<double>();
-            var lat = feature.First.First.Last.Value<double>();
+            var lon = feature?.First?.First?.First?.Value<double>();
+            var lat = feature?.First?.First?.Last?.Value<double>();
             Console.WriteLine($"Location: {lon},{lat}");
 
             // if using GeoJSON.NET use something like:
