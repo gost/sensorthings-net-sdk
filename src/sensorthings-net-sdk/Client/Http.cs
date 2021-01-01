@@ -1,5 +1,5 @@
 using System;
-using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -33,17 +33,19 @@ namespace SensorThings.Client {
         public static async Task<Response<T>> PostJson<T>(Uri url, T entity) {
             _ = url ?? throw new ArgumentNullException(nameof(url));
 
-            var content = EntityToContent(entity);
-            return await ExecuteAndCreateResponse<T>(Client.PostAsync(url, content), HttpStatusCode.Created)
-                .ConfigureAwait(false);
+            using (var content = EntityToContent(entity)) {
+                return await ExecuteAndCreateResponse<T>(Client.PostAsync(url, content), HttpStatusCode.Created)
+                    .ConfigureAwait(false);
+            }
         }
 
         public static async Task<Response<T>> PatchJson<T>(Uri url, T entity) {
             _ = url ?? throw new ArgumentNullException(nameof(url));
 
-            var content = EntityToContent(entity);
-            return await ExecuteAndCreateResponse<T>(Client.PutAsync(url, content), HttpStatusCode.OK)
-                .ConfigureAwait(false);
+            using (var content = EntityToContent(entity)) {
+                return await ExecuteAndCreateResponse<T>(Client.PutAsync(url, content), HttpStatusCode.OK)
+                    .ConfigureAwait(false);
+            }
         }
 
         public static async Task<Response<T>> DeleteJson<T>(Uri url) {
@@ -51,10 +53,8 @@ namespace SensorThings.Client {
 
             return await ExecuteAndCreateResponse<T>(Client.DeleteAsync(url), HttpStatusCode.OK).ConfigureAwait(false);
         }
-        
-        private static HttpContent EntityToContent<T>(T entity) {
-            Debug.Assert(entity != null, $"{nameof(entity)} != null");
 
+        private static HttpContent EntityToContent<T>(T entity) {
             var serialized = JsonConvert.SerializeObject(entity, Settings);
             return new StringContent(serialized, Encoding.UTF8, "application/json");
         }
@@ -63,11 +63,24 @@ namespace SensorThings.Client {
             Task<HttpResponseMessage> request, HttpStatusCode expectedStatus) {
             var responseMessage = await request.ConfigureAwait(false);
             var responseString = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var location = responseMessage.Headers?.Location ?? responseMessage.RequestMessage.RequestUri;
+            var location = GetEntityLocation(responseMessage);
+
             return responseMessage.StatusCode == expectedStatus
                 ? Response<T>.CreateSuccessful(location, JsonConvert.DeserializeObject<T>(responseString),
                     responseMessage.StatusCode)
                 : Response<T>.CreateUnsuccessful(location, responseString, responseMessage.StatusCode);
+        }
+
+        private static Uri GetEntityLocation(HttpResponseMessage responseMessage) {
+            var requestlocation = responseMessage.RequestMessage.RequestUri;
+            var reponselocation = responseMessage.Headers?.Location;
+            if (reponselocation == null) {
+                return requestlocation;
+            }
+
+            // note: this little trick replaces the last path segment with the given string
+            // and this string is 'EntityName(Id)'.
+            return new Uri(requestlocation, reponselocation.Segments.Last());
         }
     }
 }
