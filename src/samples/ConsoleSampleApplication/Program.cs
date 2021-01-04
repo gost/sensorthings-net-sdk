@@ -14,7 +14,7 @@ namespace ConsoleSampleApplication
             Console.WriteLine("Sample console app for SensorThings API client");
             var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
 
-            var client = new SensorThingsClient(server);
+            var entityHandler = new SensorThingsEntityHandler(server);
 
             Console.WriteLine("Create observation for datastream 18");
             var datastream = new Datastream {Id = "263"};
@@ -25,17 +25,16 @@ namespace ConsoleSampleApplication
                 Result = 100
             };
             // do not create observations for now
-            _ = client.CreateObservation(observation).Result;
+            _ = entityHandler.CreateEntity(observation).Result;
 
             Console.WriteLine("Retrieve all paged datastreams...");
-            var response = client.GetDatastreamCollection().Result;
-            var page = response.Result;
+            var page = entityHandler.SearchEntities<Datastream>().Result;
 
             var pagenumber = 1;
             while (page != null)
             {
                 Console.WriteLine("---------------------------------------");
-                WritePage(response.Result);
+                WritePage(page);
                 var pageResponse = page.GetNextPage().Result;
                 page = pageResponse?.Result;
 
@@ -44,22 +43,19 @@ namespace ConsoleSampleApplication
             Console.WriteLine("End retrieving datastreams...");
             Console.WriteLine("Number of pages: " + pagenumber);
 
-            var datastreamResponse = client.GetDatastream("263").Result;
-            datastream = datastreamResponse.Result;
-            var observationsResponse = datastream.GetObservations(client).Result;
-            var observations = observationsResponse.Result;
+            datastream = entityHandler.GetEntity<Datastream>("263").Result;
+            var observations = entityHandler.SearchEntities<Observation, Datastream>(datastream).Result;
 
             Console.WriteLine("Number if observations: " + observations.Count);
 
             Console.WriteLine("Sample with locations");
-            var locationsResponse = client.GetLocationCollection().Result;
-            var locations = locationsResponse.Result;
+            var locations = entityHandler.SearchEntities<Location>().Result;
 
             // Get location without using GeoJSON.NET (works only for points)
             var firstlocation = locations.Items[0];
             var feature = (JObject)firstlocation.Feature;
-            var lon = feature.First.First.First.Value<double>();
-            var lat = feature.First.First.Last.Value<double>();
+            var lon = feature?.First?.First?.First?.Value<double>();
+            var lat = feature?.First?.First?.Last?.Value<double>();
             Console.WriteLine($"Location: {lon},{lat}");
 
             // if using GeoJSON.NET use something like:

@@ -37,6 +37,5 @@ namespace SensorThings.Client {
         Task<Response<FeatureOfInterest>> GetFeatureOfInterest(string id, OdataQuery odata = null);
         Task<Response<FeatureOfInterest>> GetFeatureOfInterestByObservation(string id, OdataQuery odata = null);
         Task<Response<SensorThingsCollection<FeatureOfInterest>>> GetFeatureOfInterestCollection(OdataQuery odata = null);
-        Task<Response<Observation>> CreateObservation(Observation observation);
     }
 }
