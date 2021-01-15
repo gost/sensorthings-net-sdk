@@ -17,6 +17,7 @@
     <Version>0.4.0</Version>
     <PackageReleaseNotes>breaking change: changing namespaces +</PackageReleaseNotes>
     <Authors>Bert Temme</Authors>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
