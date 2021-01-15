@@ -1,30 +1,32 @@
 ﻿using NUnit.Framework;
 
 using SensorThings.Client;
+using SensorThings.Client.Extensions;
+using SensorThings.Core;
 
 namespace sensorthings_net_sdk.tests
 {
     public class DatastreamTests
     {
         private string server;
-        private SensorThingsClient client;
+        private SensorThingsEntityHandler entityHandler;
 
         [SetUp]
         public void Initialize()
         {
             server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
-            client = new SensorThingsClient(server);
+            entityHandler = new SensorThingsEntityHandler(server);
         }
 
         [Test]
         public void GetDatastreamTest()
         {
             // act
-            var datastream = client.GetDatastream("760827").Result.Result;
-            var observations = datastream.GetObservations(client).Result.Result;
-            var observedProperty = datastream.GetObservedProperty(client).Result.Result;
-            var sensor = datastream.GetSensor(client).Result.Result;
-            var thing = datastream.GetThing(client).Result.Result;
+            var datastream = entityHandler.GetEntity<Datastream>("760827").Result;
+            var observations = datastream.GetObservations(entityHandler).Result;
+            var observedProperty = datastream.GetObservedProperty(entityHandler).Result;
+            var sensor = datastream.GetSensor(entityHandler).Result;
+            var thing = datastream.GetThing(entityHandler).Result;
 
 
             // assert
@@ -50,8 +52,7 @@ namespace sensorthings_net_sdk.tests
         public void GetDatastreamsTest()
         {
             // act
-            var response = client.GetDatastreamCollection().Result;
-            var datastreams = response.Result;
+            var datastreams = entityHandler.SearchEntities<Datastream>().Result;
 
             // assert
             Assert.IsTrue(datastreams.Count>0);

@@ -4,6 +4,7 @@ using System.Text;
 using Newtonsoft.Json;
 
 using SensorThings.Client;
+using SensorThings.Client.Extensions;
 using SensorThings.Core;
 
 using uPLibrary.Networking.M2Mqtt;
@@ -25,7 +26,7 @@ namespace MqttSampleApplication {
         private const string baseurl = "gost.geodan.nl";
         private static readonly string httpurl = $"http://{baseurl}";
 
-        private static readonly SensorThingsClient sensorThingsClient = new SensorThingsClient(httpurl);
+        private static readonly ISensorThingsEntityHandler entityHandler = new SensorThingsEntityHandler(httpurl);
 
         static void Main() {
             Console.WriteLine("Sample of MQTT and SensorThings SDK");
@@ -43,8 +44,7 @@ namespace MqttSampleApplication {
             var observation = JsonConvert.DeserializeObject<Observation>(str);
 
             // example: navigate to other entities (Things, Datastreams)
-            var datastreamResponse = await observation.GetDatastream(sensorThingsClient);
-            var datastream = datastreamResponse.Result;
+            var datastream = await observation.GetDatastream(entityHandler);
             
             Console.WriteLine("Datastream: " + datastream.Id);
             Console.WriteLine("New Observation published: " + observation.Result);

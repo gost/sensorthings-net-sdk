@@ -2,32 +2,30 @@
 using SensorThings.Client;
 using System;
 
+using SensorThings.Client.Extensions;
+using SensorThings.Core;
+
 namespace sensorthings_net_sdk.tests
 {
     public class HistoricalLocationTests
     {
         private string server;
-        private SensorThingsClient client;
+        private SensorThingsEntityHandler entityHandler;
 
         [SetUp]
         public void Initialize()
         {
             server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
-            client = new SensorThingsClient(server);
+            entityHandler = new SensorThingsEntityHandler(server);
         }
 
         [Test]
         public void GetHistoricalLocationTest()
         {
             // act
-            var response = client.GetHistoricalLocation("761098").Result;
-            var historicalLocation = response.Result;
-
-            var locationsResponse = historicalLocation.GetLocations(client).Result;
-            var locations = locationsResponse.Result;
-
-            var thingResponse = historicalLocation.GetThing(client).Result;
-            var thing = thingResponse.Result;
+            var historicalLocation = entityHandler.GetEntity<HistoricalLocation>("761098").Result;
+            var locations = historicalLocation.GetLocations(entityHandler).Result;
+            var thing = historicalLocation.GetThing(entityHandler).Result;
 
             // assert
             Assert.IsTrue(historicalLocation.Id == "761098");
@@ -44,8 +42,7 @@ namespace sensorthings_net_sdk.tests
         public void GetHistoricalLocationCollectionTest()
         {
             // act
-            var response = client.GetHistoricalLocationsCollection().Result;
-            var historicalLocations = response.Result;
+            var historicalLocations = entityHandler.SearchEntities<HistoricalLocation>().Result;
 
             // assert
             // If new observations are added this next test will fail....

@@ -1,10 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 using Newtonsoft.Json;
-
-using SensorThings.Client;
-using SensorThings.OData;
 
 namespace SensorThings.Core
 {
@@ -49,16 +45,6 @@ namespace SensorThings.Core
         {
             get => _datastreams;
             set => SetProperty(ref _datastreams, value);
-        }
-
-        public async Task<Response<SensorThingsCollection<Datastream>>> GetDatastreams(SensorThingsClient client, OdataQuery odata = null)
-        {
-            if (!string.IsNullOrEmpty(DatastreamsNavigationLink))
-            {
-                return await Http.GetJson<SensorThingsCollection<Datastream>>(DatastreamsNavigationLink);
-            }
-
-            return await client.GetDatastreamCollectionByObservedProperty(Id, odata);
         }
     }
 }

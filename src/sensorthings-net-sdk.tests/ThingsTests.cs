@@ -1,42 +1,38 @@
 ﻿using NUnit.Framework;
 
 using SensorThings.Client;
+using SensorThings.Client.Extensions;
+using SensorThings.Core;
 
 namespace sensorthings_net_sdk.tests {
     public class ThingsTests {
         private string server;
-        private SensorThingsClient client;
+        private SensorThingsEntityHandler entityHandler;
 
         [SetUp]
         public void Initialize() {
             server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0";
-            client = new SensorThingsClient(server);
+            entityHandler = new SensorThingsEntityHandler(server);
         }
 
         [Test]
         public void GetThingTest() {
             // act
-            var response = client.GetThing("760792").Result;
-            var thing = response.Result;
+            const string id = "760792";
+            var thing = entityHandler.GetEntity<Thing>(id).Result;
 
-            var datastreamsResponse = thing.GetDatastreams(client).Result;
-            var datastreams = datastreamsResponse.Result;
-            var historicalLocationsResponse = thing.GetHistoricalLocations(client).Result;
-            var historicalLocations = historicalLocationsResponse.Result;
-            var locationsresponse = thing.GetLocations(client).Result;
-            var locations = locationsresponse.Result;
+            var datastreams = thing.GetDatastreams(entityHandler).Result;
+            var historicalLocations = thing.GetHistoricalLocations(entityHandler).Result;
+            var locations = thing.GetLocations(entityHandler).Result;
 
             // assert
-            Assert.IsTrue(thing.Id == "760792");
-            Assert.IsTrue(thing.SelfLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)");
+            Assert.IsTrue(thing.Id == id);
+            Assert.IsTrue(thing.SelfLink == $"{server}/Things({id})");
             Assert.IsTrue(thing.Description == "This is a CCTV camera mounted at the Front Entrance from AMK Avenue 8");
             Assert.IsTrue(thing.Name == "CCTV @ NYP Campus - Main Entrance");
-            Assert.IsTrue(thing.DatastreamsNavigationLink ==
-                          "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)/Datastreams");
-            Assert.IsTrue(thing.HistoricalLocationsNavigationLink ==
-                          "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)/HistoricalLocations");
-            Assert.IsTrue(thing.LocationsNavigationLink ==
-                          "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things(760792)/Locations");
+            Assert.IsTrue(thing.DatastreamsNavigationLink == $"{server}/Things({id})/Datastreams");
+            Assert.IsTrue(thing.HistoricalLocationsNavigationLink == $"{server}/Things({id})/HistoricalLocations");
+            Assert.IsTrue(thing.LocationsNavigationLink == $"{server}/Things({id})/Locations");
             Assert.IsTrue(datastreams.Count == 0);
             Assert.IsTrue(historicalLocations.Count > 0);
             Assert.IsTrue(locations.Count > 0);
@@ -45,13 +41,11 @@ namespace sensorthings_net_sdk.tests {
         [Test]
         public void GetThingsTest() {
             // act
-            var response = client.GetThingCollection().Result;
-            var things = response.Result;
+            var things = entityHandler.SearchEntities<Thing>().Result;
 
             // assert
             Assert.IsTrue(things.Count > 0);
-            Assert.IsTrue(things.NextLink ==
-                          "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Things?$top=100&$skip=100");
+            Assert.IsTrue(things.NextLink == $"{server}/Things?$top=100&$skip=100");
             Assert.IsTrue(things.Items.Count == 100);
         }
     }

@@ -1,11 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 using Newtonsoft.Json;
-
-using SensorThings.Client;
 
 namespace SensorThings.Core
 {
@@ -14,6 +11,8 @@ namespace SensorThings.Core
         private int _count;
         private string _nextLink;
         private ObservableCollection<T> _items;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [JsonProperty("@iot.count")]
         public int Count
@@ -36,18 +35,7 @@ namespace SensorThings.Core
             set => SetProperty(ref _items, value);
         }
 
-        public bool HasNextPage()
-        {
-            return !string.IsNullOrEmpty(NextLink);
-        }
-
-        public async Task<Response<SensorThingsCollection<T>>> GetNextPage()
-        {
-            return HasNextPage() ? await Http.GetJson<SensorThingsCollection<T>>(NextLink): null;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        // ReSharper disable once MemberCanBePrivate.Global
         protected bool SetProperty<TS>(ref TS storage, TS value, [CallerMemberName] string propertyName = null)
         {
             if (Equals(storage, value))
