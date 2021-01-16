@@ -1,14 +1,16 @@
-﻿using Newtonsoft.Json;
-using SensorThings.Core;
-using System;
+﻿using System;
 using System.Text;
+
+using Newtonsoft.Json;
+
+using SensorThings.Client;
+using SensorThings.Core;
+
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
-namespace MqttSampleApplication
-{
-    class Program
-    {
+namespace MqttSampleApplication {
+    class Program {
         /**
          * This sample is using Paho MQTT library to connect with SensorThings (datastream 17)
          * Publish an observation using something like:
@@ -20,26 +22,31 @@ namespace MqttSampleApplication
             }' "http://gost.geodan.nl/v1.0/Observations"
             In the client_MqttMsgPublishReceived event the JSON response is converted to am Observation object
          */
-         
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Sample of MQTT and SensorThings SDK");
-            var client = new MqttClient("gost.geodan.nl");
-            //var client = new MqttClient("black-pearl");
-            byte code = client.Connect(Guid.NewGuid().ToString());
+        private const string baseurl = "gost.geodan.nl";
+        private static readonly string httpurl = $"http://{baseurl}";
 
-            ushort msgId = client.Subscribe(new string[] { "Datastreams(11)/Observations" },
-                    new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE});
+        private static readonly SensorThingsClient sensorThingsClient = new SensorThingsClient(httpurl);
+
+        static void Main() {
+            Console.WriteLine("Sample of MQTT and SensorThings SDK");
+            
+            var client = new MqttClient(baseurl);
+            _ = client.Connect(Guid.NewGuid().ToString());
+            _ = client.Subscribe(new[] { "Datastreams(11)/Observations" },
+                new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+
             client.MqttMsgPublishReceived += ClientMqttMsgPublishReceived;
         }
 
-        private static void ClientMqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
-        {
+        private static async void ClientMqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e) {
             var str = Encoding.Default.GetString(e.Message);
             var observation = JsonConvert.DeserializeObject<Observation>(str);
+
             // example: navigate to other entities (Things, Datastreams)
-            var datastream = observation.GetDatastream();
-            Console.WriteLine("Datastream: " + datastream.Id); 
+            var datastreamResponse = await observation.GetDatastream(sensorThingsClient);
+            var datastream = datastreamResponse.Result;
+            
+            Console.WriteLine("Datastream: " + datastream.Id);
             Console.WriteLine("New Observation published: " + observation.Result);
         }
     }
