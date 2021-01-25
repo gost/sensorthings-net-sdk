@@ -20,7 +20,7 @@ $ package-install Geodan.SensorThings.SDK
 Push new version:
 
 ```
-$ nuget push Geodan.SensorThings.SDK.0.4.1.nupkg -Source https://www.nuget.org/api/v2/package
+$ nuget push Geodan.SensorThings.SDK.0.5.0.nupkg -Source https://www.nuget.org/api/v2/package
 ```
 
 ### Sample applications
