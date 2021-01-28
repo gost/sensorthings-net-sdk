@@ -26,10 +26,6 @@ namespace SensorThings.Client {
             return await ExecuteAndCreateResponse<T>(Client.GetAsync(url), HttpStatusCode.OK).ConfigureAwait(false);
         }
 
-        [Obsolete("GetJson(string) is deprecated, please use GetJson(Uri) instead.")]
-        public static async Task<Response<T>> GetJson<T>(string url) =>
-            await GetJson<T>(new Uri(url)).ConfigureAwait(false);
-
         public static async Task<Response<T>> PostJson<T>(Uri url, T entity) {
             _ = url ?? throw new ArgumentNullException(nameof(url));
 

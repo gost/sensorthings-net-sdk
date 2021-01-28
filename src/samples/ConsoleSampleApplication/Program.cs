@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Newtonsoft.Json.Linq;
 
 using SensorThings.Client;
+using SensorThings.Client.Extensions;
 using SensorThings.Core;
 
 namespace ConsoleSampleApplication
 {
     class Program
     {
-        static void Main()
+        static async Task Main()
         {
             Console.WriteLine("Sample console app for SensorThings API client");
             var server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
@@ -25,7 +27,7 @@ namespace ConsoleSampleApplication
                 Result = 100
             };
             // do not create observations for now
-            _ = entityHandler.CreateEntity(observation).Result;
+            _ = await entityHandler.CreateEntity(observation);
 
             Console.WriteLine("Retrieve all paged datastreams...");
             var page = entityHandler.SearchEntities<Datastream>().Result;
@@ -35,8 +37,7 @@ namespace ConsoleSampleApplication
             {
                 Console.WriteLine("---------------------------------------");
                 WritePage(page);
-                var pageResponse = page.GetNextPage().Result;
-                page = pageResponse?.Result;
+                page = await page.GetNextPage();
 
                 pagenumber++;
             }

@@ -1,11 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
-using SensorThings.Client;
 using SensorThings.Converters;
-using SensorThings.OData;
 
 namespace SensorThings.Core
 {
@@ -132,46 +129,6 @@ namespace SensorThings.Core
         {
             get => _observedProperty;
             set => SetProperty(ref _observedProperty, value);
-        }
-
-        public async Task<Response<SensorThingsCollection<Observation>>> GetObservations(SensorThingsClient client, OdataQuery odata = null)
-        {
-            if (!string.IsNullOrEmpty(ObservationsNavigationLink))
-            {
-                return await Http.GetJson<SensorThingsCollection<Observation>> (ObservationsNavigationLink);
-            }
-
-            return await client.GetObservationCollectionByDatastream(Id, odata);
-        }
-
-        public async Task<Response<ObservedProperty>> GetObservedProperty(SensorThingsClient client, OdataQuery odata = null)
-        {
-            if (!string.IsNullOrEmpty(ObservedPropertyNavigationLink))
-            {
-                return await Http.GetJson<ObservedProperty>(ObservedPropertyNavigationLink);
-            }
-
-            return await client.GetObservedPropertyByDatastream(Id, odata);
-        }
-
-        public async Task<Response<Sensor>> GetSensor(SensorThingsClient client, OdataQuery odata = null)
-        {
-            if (!string.IsNullOrEmpty(SensorNavigationLink))
-            {
-                return await Http.GetJson<Sensor>(SensorNavigationLink);
-            }
-
-            return await client.GetSensorByDatastream(Id, odata);
-        }
-
-        public async Task<Response<Thing>> GetThing(SensorThingsClient client, OdataQuery odata = null)
-        {
-            if (!string.IsNullOrEmpty(ThingNavigationLink))
-            {
-                return await Http.GetJson<Thing>(ThingNavigationLink);
-            }
-
-            return await client.GetThingByDatastream(Id, odata);
         }
     }
 }

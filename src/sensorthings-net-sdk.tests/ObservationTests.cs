@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
+
 using SensorThings.Client;
-using System;
+using SensorThings.Client.Extensions;
 using SensorThings.Core;
 
 namespace sensorthings_net_sdk.tests
@@ -8,25 +9,23 @@ namespace sensorthings_net_sdk.tests
     public class ObservationTests
     {
         private string server;
-        private SensorThingsClient client;
+        private SensorThingsEntityHandler entityHandler;
 
         [SetUp]
         public void Initialize()
         {
             server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
-            client = new SensorThingsClient(server);
+            entityHandler = new SensorThingsEntityHandler(server);
         }
 
         [Test]
+        // ReSharper disable UnusedVariable
         public void GetObservationTest()
         {
             // act
-            var response = client.GetObservation("2706628").Result;
-            var observation = response.Result;
-
-            var datastreamResponse = observation.GetDatastream(client).Result;
-
-            var foiResponse = observation.GetFeatureOfInterest(client).Result;
+            var observation = entityHandler.GetEntity<Observation>("2706628").Result;
+            var datastreamResponse = observation.GetDatastream(entityHandler).Result;
+            var foiResponse = observation.GetFeatureOfInterest(entityHandler).Result;
 
             // assert
             Assert.IsTrue(observation.Id == "2706628");
@@ -40,8 +39,7 @@ namespace sensorthings_net_sdk.tests
         public void GetObservationCollectionTest()
         {
             // act
-            var response = client.GetObservationCollection().Result;
-            var observations = response.Result;
+            var observations = entityHandler.SearchEntities<Observation>().Result;
 
             // assert
             Assert.IsTrue(observations.NextLink == "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/Observations?$top=100&$skip=100");

@@ -1,28 +1,28 @@
 ﻿using NUnit.Framework;
 using SensorThings.Client;
+using SensorThings.Client.Extensions;
+using SensorThings.Core;
 
 namespace sensorthings_net_sdk.tests
 {
     public class SensorTests
     {
         private string server;
-        private SensorThingsClient client;
+        private SensorThingsEntityHandler entityHandler;
 
         [SetUp]
         public void Initialize()
         {
             server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
-            client = new SensorThingsClient(server);
+            entityHandler = new SensorThingsEntityHandler(server);
         }
 
         [Test]
         public void GetSensorTest()
         {
             // act
-            var response = client.GetSensor("760645").Result;
-            var sensor = response.Result;
-            var datastreamsResponse = sensor.GetDatastreams(client).Result;
-            var datastreams = datastreamsResponse.Result;
+            var sensor = entityHandler.GetEntity<Sensor>("760645").Result;
+            var datastreams = sensor.GetDatastreams(entityHandler).Result;
 
             // assert
             Assert.IsTrue(sensor.Id == "760645");
@@ -40,8 +40,7 @@ namespace sensorthings_net_sdk.tests
         public void GetSensorsTest()
         {
             // act
-            var response = client.GetSensorCollection().Result;
-            var sensors = response.Result;
+            var sensors = entityHandler.SearchEntities<Sensor>().Result;
 
             // assert
             Assert.IsTrue(sensors.Count > 0);

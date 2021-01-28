@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 using Newtonsoft.Json;
-
-using SensorThings.Client;
-using SensorThings.OData;
 
 namespace SensorThings.Core
 {
@@ -82,36 +78,6 @@ namespace SensorThings.Core
         {
             get => _locations;
             set => SetProperty(ref _locations, value);
-        }
-
-        public async Task<Response<SensorThingsCollection<Datastream>>> GetDatastreams(SensorThingsClient client, OdataQuery odata = null)
-        {
-            if (!string.IsNullOrEmpty(DatastreamsNavigationLink))
-            {
-                return await Http.GetJson<SensorThingsCollection<Datastream>>(DatastreamsNavigationLink);
-            }
-
-            return await client.GetDatastreamCollectionByThing(Id, odata);
-        }
-
-        public async Task<Response<SensorThingsCollection<HistoricalLocation>>> GetHistoricalLocations(SensorThingsClient client, OdataQuery odata = null)
-        {
-            if (!string.IsNullOrEmpty(HistoricalLocationsNavigationLink))
-            {
-                return await Http.GetJson<SensorThingsCollection<HistoricalLocation>>(HistoricalLocationsNavigationLink);
-            }
-
-            return await client.GetHistoricalLocationsCollectionByThing(Id, odata);
-        }
-
-        public async Task<Response<SensorThingsCollection<Location>>> GetLocations(SensorThingsClient client, OdataQuery odata = null)
-        {
-            if (!string.IsNullOrEmpty(LocationsNavigationLink))
-            {
-                return await Http.GetJson<SensorThingsCollection<Location>>(LocationsNavigationLink);
-            }
-
-            return await client.GetLocationCollectionByThing(Id, odata);
         }
     }
 }

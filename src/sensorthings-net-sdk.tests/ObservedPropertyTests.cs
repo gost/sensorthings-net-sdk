@@ -1,29 +1,29 @@
 ﻿using NUnit.Framework;
 using SensorThings.Client;
+using SensorThings.Client.Extensions;
+using SensorThings.Core;
 
 namespace sensorthings_net_sdk.tests
 {
     public class ObservedPropertyTests
     {
         private string server;
-        private SensorThingsClient client;
+        private SensorThingsEntityHandler entityHandler;
 
         [SetUp]
         public void Initialize()
         {
             server = "http://scratchpad.sensorup.com/OGCSensorThings/v1.0/";
-            client = new SensorThingsClient(server);
+            entityHandler = new SensorThingsEntityHandler(server);
         }
 
         [Test]
+        // ReSharper disable UnusedVariable
         public void GetObservedPropertyTest()
         {
             // act
-            var response = client.GetObservedProperty("1893289").Result;
-            var observedProperty = response.Result;
-
-            var datastreamsResponse = observedProperty.GetDatastreams(client).Result;
-            var datastreams = datastreamsResponse.Result;
+            var observedProperty = entityHandler.GetEntity<ObservedProperty>("1893289").Result;
+            var datastreams = observedProperty.GetDatastreams(entityHandler).Result;
 
             // assert
             Assert.IsFalse(string.IsNullOrEmpty(observedProperty.Id));
@@ -33,8 +33,7 @@ namespace sensorthings_net_sdk.tests
         public void GetObservedPropertyCollectionTest()
         {
             // act
-            var response = client.GetObservedPropertyCollection().Result;
-            var observedProperties = response.Result;
+            var observedProperties = entityHandler.SearchEntities<ObservedProperty>().Result;
 
             // assert
             Assert.IsTrue(observedProperties.Count>0);

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
-using SensorThings.Client;
 using SensorThings.Converters;
-using SensorThings.OData;
 
 namespace SensorThings.Core
 {
@@ -95,30 +92,10 @@ namespace SensorThings.Core
             set => SetProperty(ref _featureOfInterest, value);
         }
 
-        public async Task<Response<Datastream>> GetDatastream(SensorThingsClient client, OdataQuery odata = null)
-        {
-            if (!string.IsNullOrEmpty(DatastreamNavigationLink))
-            {
-                return await Http.GetJson<Datastream>(DatastreamNavigationLink);
-            }
-
-            return await client.GetDatastreamByObservation(Id, odata);
-        }
-
-        public async Task<Response<FeatureOfInterest>> GetFeatureOfInterest(SensorThingsClient client, OdataQuery odata = null)
-        {
-            if (!string.IsNullOrEmpty(FeatureOfInterestNavigationLink))
-            {
-                return await Http.GetJson<FeatureOfInterest>(FeatureOfInterestNavigationLink);
-            }
-
-            return await client.GetFeatureOfInterestByObservation(Id, odata);
-        }
-
         public DateTime? GetPhenomenonTime(bool local = false)
         {
-            var dt = PhenomenonTime.Start.Value;
-            return local ? dt.ToLocalTime() : dt;            
+            var dt = PhenomenonTime?.Start;
+            return local ? dt?.ToLocalTime() : dt;            
         }
     }
 }

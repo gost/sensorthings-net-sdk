@@ -1,10 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 using Newtonsoft.Json;
-
-using SensorThings.Client;
-using SensorThings.OData;
 
 namespace SensorThings.Core
 {
@@ -73,26 +69,6 @@ namespace SensorThings.Core
         {
             get => _historicalLocations;
             set => SetProperty(ref _historicalLocations, value);
-        }
-
-        public async Task<Response<SensorThingsCollection<Thing>>> GetThings(SensorThingsClient client, OdataQuery odata = null)
-        {
-            if (!string.IsNullOrEmpty(ThingsNavigationLink))
-            {
-                return await Http.GetJson<SensorThingsCollection<Thing>>(ThingsNavigationLink);
-            }
-
-            return await client.GetThingCollectionByLocation(Id, odata);
-        }
-
-        public async Task<Response<SensorThingsCollection<HistoricalLocation>>> GetHistoricalLocations(SensorThingsClient client, OdataQuery odata = null)
-        {
-            if (!string.IsNullOrEmpty(HistoricalLocationsNavigationLink))
-            {
-                return await Http.GetJson<SensorThingsCollection<HistoricalLocation>>(HistoricalLocationsNavigationLink);
-            }
-
-            return await client.GetHistoricalLocationsCollectionByLocation(Id, odata);
         }
     }
 }
